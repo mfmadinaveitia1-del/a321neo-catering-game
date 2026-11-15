@@ -329,4 +329,12 @@ sprites.forEach(o=>o.visible=!interior&&!cut);renderer.render(scene,camera)}
 newMission();
 window.__game={renderer,trucks,get state(){return{G,sel,busy,penalty,bonus,finished,elapsed}},view,enterCabin,setCut,goal,cam,DOCKZ,LIFTTOP,PLAN};
 requestAnimationFrame(tick);
+</script><script>
+/* Keep the screen awake while the game is open (Screen Wake Lock API). */
+(()=>{if(!('wakeLock' in navigator))return;let lock=null;
+const req=async()=>{if(lock||document.visibilityState!=='visible')return;
+try{lock=await navigator.wakeLock.request('screen');lock.addEventListener('release',()=>{lock=null})}catch(e){}};
+req();
+['pointerdown','keydown','touchstart'].forEach(ev=>addEventListener(ev,req,{passive:true}));
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')req()});})();
 </script>
