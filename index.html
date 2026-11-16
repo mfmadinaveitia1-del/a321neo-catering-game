@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A321neo • Catering Operations</title><style>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A321XLR · Cabin & Flight Deck Experience</title><style>
 *{box-sizing:border-box}body{margin:0;background:#101b27;color:#eaf1f8;font-family:Inter,"Segoe UI",Arial,sans-serif;overflow:hidden}canvas{display:block;touch-action:none}
 header{position:absolute;top:0;left:0;right:0;padding:18px 26px;display:flex;justify-content:space-between;pointer-events:none;background:linear-gradient(#0d1823e6,transparent)}
 h1{margin:4px 0;font-size:22px;letter-spacing:-.6px}.eyebrow{font-size:10px;letter-spacing:2.5px;color:#60e1c5}
@@ -29,12 +29,44 @@ table{border-collapse:collapse;width:100%;font-size:12px;margin:8px 0}td,th{padd
 .navigator{position:absolute;right:20px;top:96px;width:250px;padding:16px;background:#132332f5;border:1px solid #ffffff25;border-radius:14px;z-index:3}.navigator strong{display:block;margin:8px 0}.jump{display:flex;gap:5px;margin:8px 0}.jump button{flex:1;font-size:11px;padding:8px 4px}.navigator input{width:100%;accent-color:#64e7c4}.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:10px 0}.pad button{font-size:20px;touch-action:none;user-select:none}
 body.inside .panel,body.inside .info{display:none}#missionToggle{position:absolute;left:20px;top:62px;z-index:4;font-size:11px;padding:6px 10px}body.missionOpen .panel{display:block;z-index:4}body.panelHidden:not(.missionOpen) .panel{display:none}
 @media(max-width:750px){header{padding:12px}h1{font-size:17px}.pill,.info,.help{display:none}.panel{left:8px;top:auto;bottom:62px;width:236px;padding:10px;max-height:56vh}.step{padding:2px 0;font-size:11px}.muted{font-size:10px}.tabs{margin:7px 0}.actions{margin-top:7px;gap:5px}.actions button{padding:7px}.toolbar{bottom:8px;gap:3px;padding:5px}.toolbar button{font-size:10px;padding:8px}.notice{top:54px;max-width:92%;width:max-content;font-size:11px}.time{font-size:17px}.navigator{top:auto;bottom:62px;right:8px;width:185px;padding:10px}.navigator p{display:none}.pad button{padding:7px}#missionToggle{left:8px;top:50px}}
+
+/* Reference-inspired interior experience. All artwork is generated locally. */
+:root{color-scheme:dark;--cyan:#89d9ea;--ink:#101b27;--line:#c8e5f31e;--glass:#10202fe8}
+body{background:#101b27;font-family:Inter,"Segoe UI",Arial,sans-serif}
+header{padding:23px 28px;z-index:4;background:linear-gradient(#0b1723f5,#0b172380,transparent);height:108px}
+h1{font-size:23px;letter-spacing:-.7px;font-weight:550;margin-top:7px}.eyebrow{font-size:9px;color:var(--cyan);letter-spacing:2.4px}
+.pill{height:auto;align-self:flex-start;font-size:10px;letter-spacing:1.2px;color:#bdd1df;border-color:var(--line);padding:10px 13px;background:#142434a8}
+button{transition:background .15s,border-color .15s,transform .15s;border-color:var(--line);background:#1a2c3b}button:hover{background:#2d4659;border-color:#89d9ea80}button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}button:disabled{transform:none}
+button.active,.primary{background:#89d9ea;color:#102431;border-color:#89d9ea}.primary:hover{background:#b5e9f4}
+.help{top:79px;right:28px;color:#bfd2df;font-size:10px;letter-spacing:.2px}
+.panel{top:123px;left:24px;max-height:calc(100dvh - 230px);border-color:var(--line);background:var(--glass);backdrop-filter:blur(18px);border-radius:12px}
+.panel h2{font-size:15px}.panel .muted{font-size:11px}.panel .tabs button{font-size:11px}
+.notice{top:auto;bottom:109px;left:50%;max-width:min(650px,62vw);font-size:11px;border-radius:7px;background:#102230e8;border-color:var(--line);padding:9px 16px;pointer-events:none}
+body.inside .notice{bottom:109px}.notice.warn{border-color:#e7a472}
+.navigator{top:119px;right:24px;width:228px;padding:15px;background:var(--glass);border-color:var(--line);backdrop-filter:blur(16px);border-radius:12px;box-shadow:0 12px 45px #0003}
+.navigator{max-height:calc(100dvh - 370px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:#627d8b #152a39}.navigator strong{font-size:13px;margin:9px 0 13px}.navigator .small{font-size:10px}.navigator .pad{margin:8px 0}.navigator .pad button{padding:7px;font-size:17px}.navigator input{accent-color:var(--cyan)}
+.navigator .jump button{font-size:10px}.navigator p{line-height:1.65;margin-bottom:0}
+.toolbar{bottom:24px;padding:6px;border-radius:12px;border-color:var(--line);background:#10202ff2;box-shadow:0 12px 50px #0005;backdrop-filter:blur(16px);max-width:calc(100vw - 42px)}
+.toolbar button{border-color:transparent;background:transparent;font-size:11px;padding:11px 12px;border-radius:7px;flex-shrink:0}.toolbar button:hover{background:#294456}.toolbar button.active{background:#88d7e9;color:#142935}.toolbar .divider{width:1px;background:var(--line);margin:8px 4px;flex-shrink:0}
+#missionToggle{left:28px;top:82px;font-size:10px;padding:6px 10px;border-color:var(--line);background:#132636da;color:#bdd4e4}
+.info{bottom:160px;right:26px;font-size:10px;color:#b3c9d8}
+.sceneCaption{position:absolute;left:28px;bottom:156px;pointer-events:none;z-index:2;text-shadow:0 2px 15px #0008}.sceneCaption h2{font-size:25px;letter-spacing:-.6px;font-weight:500;margin:7px 0}.sceneCaption p{font-size:11px;color:#c8d9e4;margin:0;line-height:1.7}.sceneCaption .eyebrow{color:#abdcea}
+body:not(.inside) .sceneCaption{display:none}body.missionOpen .sceneCaption{display:none}
+.appearance{position:absolute;bottom:158px;right:24px;width:228px;z-index:3;border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(14px);border-radius:11px;padding:13px 14px}.appearance .choices{display:flex;gap:4px;margin-top:9px}.appearance button{font-size:10px;padding:8px 5px;flex:1}.appearance label{display:block;font-size:9px;color:#bfd3df;letter-spacing:1.6px}.appearance a{display:block;font-size:9px;color:#a1bfce;text-decoration:none;margin-top:10px}.appearance a:hover{color:white}
+.deckOnly{display:none}body.flightDeck .deckOnly{display:block}body.flightDeck .cabinOnly{display:none}.deckOnly .jump{display:flex}.navigator .viewHint{border-top:1px solid var(--line);padding-top:10px;margin-top:10px;color:#a9c3d3;font-size:10px;line-height:1.6}
+.referenceNote{font-size:11px;border-left:2px solid #89d9ea;padding-left:12px;color:#b9d1df;line-height:1.7}
+dialog{max-height:85dvh;overflow:auto}dialog h2{font-size:19px}dialog a{color:#89d9ea}
+@media(max-height:790px) and (min-width:761px){.navigator{width:205px;padding:12px;top:112px}.navigator p{display:none}.navigator strong{margin:6px 0}.navigator .pad button{padding:5px}.appearance{bottom:132px;width:205px;padding:10px 12px}.notice{bottom:92px}.sceneCaption{bottom:135px}.help{top:77px}}
+@media(max-width:760px){header{height:94px;padding:17px 15px}h1{font-size:19px}.eyebrow{font-size:8px;letter-spacing:1.8px}.pill,.help,.info{display:none}#missionToggle{left:15px;top:73px;font-size:9px;padding:5px 8px}.toolbar{left:12px;right:12px;max-width:none;transform:none;bottom:max(12px,env(safe-area-inset-bottom));justify-content:flex-start}.toolbar button{font-size:10px;padding:10px 11px}.toolbar .divider{margin:7px 1px}.notice,body.inside .notice{bottom:82px;max-width:calc(100vw - 30px);width:max-content;font-size:9px;line-height:1.4;padding:8px 11px}.sceneCaption{left:16px;bottom:135px;max-width:48%}.sceneCaption h2{font-size:21px}.sceneCaption p{font-size:10px}.appearance{right:12px;bottom:139px;width:173px;padding:10px}.appearance a{font-size:8px;line-height:1.5}.appearance button{font-size:9px;padding:8px 4px}.navigator{top:109px;bottom:auto;right:12px;width:173px;padding:10px}.navigator .pad button{padding:6px;font-size:16px}.navigator strong{font-size:11px;margin:8px 0}.navigator .jump button{font-size:9px;padding:7px 3px}.navigator .small{font-size:9px}.navigator p{display:none}.navigator .viewHint{font-size:9px}.panel{left:12px;top:110px;bottom:auto;width:calc(100vw - 24px);max-width:310px;max-height:calc(100dvh - 205px);padding:13px}.panel h2{font-size:15px}body.missionOpen .navigator,body.missionOpen .appearance{display:none}}
+@media(max-height:650px){.sceneCaption{bottom:110px}.sceneCaption p{display:none}.appearance{bottom:106px}.appearance a{display:none}.navigator .pad{display:none}.navigator .viewHint{display:none}.navigator .jump{margin:5px 0}.navigator{top:104px}.notice,body.inside .notice{bottom:75px}}
+@media(max-width:760px) and (max-height:780px){.navigator .pad{display:none}.appearance{bottom:116px}}
+@media(max-height:650px){.navigator{max-height:calc(100dvh - 192px)}.appearance{right:auto;left:24px;width:205px}.sceneCaption{display:none}}
 </style><body>
-<header><div><div class="eyebrow">CABIN BENCHMARK / INTERACTIVE LAB</div><h1>A321neo · Catering Operations</h1></div><div class="pill">164-SEAT LAYOUT · 44 F / 54 C+ / 66 Y</div></header>
+<header><div><div class="eyebrow">CABIN BENCHMARK / INTERACTIVE LAB</div><h1>A321XLR · Interior Experience</h1></div><div class="pill">A320 FAMILY / CABIN EXPLORER</div></header>
 <div class="help" id="cameraHelp">Drag to orbit · Scroll / pinch to zoom</div>
-<section id="walkControls" class="navigator" style="display:none"><div class="eyebrow">CABIN NAVIGATOR</div><strong id="locationReadout">Forward cabin</strong><div class="jump"><button id="jumpFront">Fwd galley</button><button id="jumpCabin">Cabin</button><button id="jumpRear">Aft galley</button></div><label class="small" for="aislePosition">Position along the aisle</label><input id="aislePosition" type="range" min="-17.6" max="14.9" step="0.1" value="-13"><div class="small muted">Nose <span style="float:right">Tail</span></div><div class="pad"><button id="turnLeft" title="Look left">↶</button><button id="walkNext" title="Move forward">↑</button><button id="turnRight" title="Look right">↷</button><button id="strafeLeft" title="Step left">←</button><button id="walkBack" title="Move backward">↓</button><button id="strafeRight" title="Step right">→</button></div><div class="jump"><button id="faceFront">Face nose</button><button id="faceRear">Face tail</button></div><div class="jump"><button id="lookGalley">Look at galley</button><button id="levelView">Level view</button></div><p class="small muted">Hold arrows / W A S D to walk.<br>Drag to look · Q / E to turn.<br>Scroll to move along the aisle.</p></section>
+<section id="walkControls" class="navigator" style="display:none"><div class="eyebrow">CABIN NAVIGATOR</div><strong id="locationReadout">Forward cabin</strong><div class="cabinOnly"><div class="jump"><button id="jumpFront">Fwd galley</button><button id="jumpCabin">Cabin</button><button id="jumpRear">Aft galley</button></div><label class="small" for="aislePosition">Position along the aisle</label><input id="aislePosition" type="range" min="-17.6" max="14.9" step="0.1" value="-13"><div class="small muted">Nose <span style="float:right">Tail</span></div><div class="pad"><button id="turnLeft" title="Look left">↶</button><button id="walkNext" title="Move forward">↑</button><button id="turnRight" title="Look right">↷</button><button id="strafeLeft" title="Step left">←</button><button id="walkBack" title="Move backward">↓</button><button id="strafeRight" title="Step right">→</button></div><div class="jump"><button id="faceFront">Face nose</button><button id="faceRear">Face tail</button></div><div class="jump"><button id="lookGalley">Look at galley</button><button id="levelView">Level view</button></div><p class="small muted">W A S D / arrows · Walk<br>Drag · Look around / Q E · Turn<br>Scroll · Move along the aisle</p></div><div class="deckOnly"><div class="eyebrow">FLIGHT DECK VIEWPOINTS</div><div class="jump"><button id="deckPilot">Captain</button><button id="deckCenter">Centre</button></div><div class="jump"><button id="deckOverhead">Overhead</button><button id="deckPedestal">Pedestal</button></div><div class="jump"><button id="deckForward">Look forward</button><button id="deckCabin">Return to cabin</button></div><div class="viewHint">Drag to look around the 3D cockpit.<br>Scroll to zoom · Q / E to turn.<br>Visual reconstruction; controls are illustrative.</div></div></section>
 <div class="notice" id="notice">Select a galley, then drive your catering truck to the stop mark.</div>
-<button id="missionToggle">Hide / show mission</button>
+<button id="missionToggle">Catering mission</button>
 <aside class="panel"><h2>Turnaround mission</h2><div class="muted intro">Exchange 11 trolleys through the starboard service doors — 4 at the forward galley, 7 aft. Precision earns time back; mistakes cost time.</div>
 <div class="tabs"><button id="front" class="active">Forward · R1</button><button id="rear">Aft · R4</button></div>
 <div id="steps"></div>
@@ -45,20 +77,22 @@ body.inside .panel,body.inside .info{display:none}#missionToggle{position:absolu
 <div class="stat"><span>Mission time <span class="pen" id="pen"></span></span><span class="time" id="time">00:00</span></div>
 <div class="actions"><button id="reset">Restart mission</button></div>
 <p class="small muted">Keys: W/S or ↑/↓ hold to drive or lift · Space confirms. Not an operational training simulator.</p></aside>
-<nav class="toolbar"><button id="overview">Aircraft</button><button id="focus">Galley view</button><button id="cutaway">Cutaway: off</button><button id="cabin">Inside cabin</button><button id="insideGalley">Inside galley</button><button id="top">Top view</button><button id="autoCam" class="active">Follow action</button><button id="specs">Dimensions</button></nav>
-<div class="info"><strong>A321neo / full aircraft</strong><br>44.51 m length · 35.80 m span<br>11.76 m height · 3.95 m fuselage<br>Door sill ≈ 3.4 m · cabin 34.44 m<br><span>Published Airbus dimensions.<br>Procedural geometry.</span></div>
-<dialog id="details"><h2>Dimensions &amp; assumptions</h2>
-<table><tr><th>Item</th><th>Real A321neo</th><th>This model</th></tr>
+<nav class="toolbar" aria-label="Aircraft views"><button id="cabin">Cabin</button><button id="flightDeck">Flight deck</button><button id="tourFront">Fwd galley</button><button id="entrance">Door 1L</button><button id="tourRear">Aft galley</button><span class="divider"></span><button id="overview">Aircraft</button><button id="focus" title="Focus the selected galley from outside">Service view</button><button id="cutaway">Cutaway: off</button><button id="insideGalley" hidden>Inside galley</button><button id="top" hidden>Top view</button><button id="autoCam" class="active">Follow action</button><button id="specs">About</button></nav>
+<div class="sceneCaption"><div class="eyebrow" id="sceneEyebrow">CABIN / 164 SEATS</div><h2 id="sceneTitle">Room to explore.</h2><p id="sceneDescription">Sculpted seats. Soft light. A new perspective.</p></div>
+<section class="appearance" aria-label="Interior lighting"><label>INTERIOR LIGHTING</label><div class="choices"><button id="lightDay" class="active" aria-pressed="true">Daylight</button><button id="lightWarm" aria-pressed="false">Warm</button><button id="lightNight" aria-pressed="false">Evening</button></div><a href="https://a320.xga.ie/" target="_blank" rel="noopener">Visual reference · A320 360° cockpit ↗</a></section>
+<div class="info"><strong>A321XLR / full aircraft</strong><br>44.51 m length · 35.80 m span<br>11.76 m height · 3.95 m fuselage<br>Door sill ≈ 3.4 m · cabin 34.44 m<br>Range up to 4,700 nm · MTOW 101 t<br><span>Published Airbus dimensions.<br>Procedural geometry.</span></div>
+<dialog id="details"><h2>A closer look at the A320 family</h2><p class="referenceNote"><b>Visual reference:</b> <a href="https://a320.xga.ie/" target="_blank" rel="noopener">A320 360° cockpit panorama</a> — Airbus S.A.S. 2014 / Master Films / H. Goussé (credits displayed in the tour). Its blue-grey panels, six-display instrument arrangement, glareshield, centre pedestal and overhead systems panel informed this original 3D reconstruction. The panorama depicts a flight deck; the passenger cabin finishes are an interpretation. No reference photographs are embedded.</p><h2>Dimensions &amp; assumptions</h2>
+<table><tr><th>Item</th><th>Real A321XLR</th><th>This model</th></tr>
 <tr><td>Overall length</td><td>44.51 m</td><td>44.51 m</td></tr><tr><td>Wingspan (sharklets)</td><td>35.80 m</td><td>35.8 m</td></tr><tr><td>Height</td><td>11.76 m</td><td>11.76 m</td></tr>
-<tr><td>Fuselage width</td><td>3.95 m</td><td>3.95 m</td></tr><tr><td>Cabin length / width</td><td>34.44 m / 3.70 m</td><td>34.5 m / 3.6 m</td></tr>
+<tr><td>Fuselage width / height</td><td>3.95 m / 4.14 m</td><td>3.95 m / 4.14 m</td></tr><tr><td>Cabin length / width</td><td>34.44 m / 3.70 m</td><td>34.5 m / 3.6 m</td></tr>
 <tr><td>Wheelbase / track</td><td>16.91 m / 7.59 m</td><td>16.9 m / 7.59 m</td></tr><tr><td>Door sill above ground</td><td>≈ 3.4 m</td><td>3.30 m</td></tr>
 <tr><td>Service door (W × H)</td><td>0.81 × 1.85 m</td><td>0.81 × 1.9 m</td></tr><tr><td>Window pitch</td><td>0.533 m (21 in)</td><td>0.533 m</td></tr>
 <tr><td>First: pitch / seat width</td><td>38 in / 21 in</td><td>0.965 m / 0.53 m</td></tr><tr><td>Comfort pitch</td><td>34 in</td><td>0.864 m</td></tr><tr><td>Main pitch / seat width</td><td>31–32 in / 18 in</td><td>0.79 m / 0.46 m</td></tr>
-<tr><td>Full-size trolley</td><td>0.30 × 0.81 × 1.03 m</td><td>0.30 × 0.80 × 1.03 m</td></tr></table>
+<tr><td>Range / MTOW</td><td>4,700 nm (8,700 km) / 101 t</td><td>not simulated</td></tr><tr><td>Rear centre tank</td><td>12,900 L, aft of the gear bay</td><td>extended belly fairing</td></tr><tr><td>Exits</td><td>Doors 1, 3, 4 + overwing pairs</td><td>Door 3 shown deactivated</td></tr><tr><td>Full-size trolley</td><td>0.30 × 0.81 × 1.03 m</td><td>0.30 × 0.80 × 1.03 m</td></tr></table>
 <p><b>Cabin layout.</b> Modelled on the 164-seat premium-heavy A321neo layout described in the reference article: First rows 1–11 (2-2), Comfort rows 13–21 (3-3, overwing exit rows 14 and 15), Main rows 22–33 (3-3), one forward lavatory, one mid-cabin lavatory, two lavatories ahead of the aft galley, galleys at both ends, eight exits (doors 1 and 4 plus two overwing pairs). Reference: <a href="https://fromthetraytable.com/delta-a321neo-44-first-class/" target="_blank" rel="noopener">From the Tray Table — A321neo with 44 first-class seats</a>.</p>
-<p><b>What is still approximate.</b> Exact monument stations, half-row positions in Main, galley insert arrangement (two ovens forward, three aft), trolley counts (4 forward, 7 aft) and all truck geometry are reasonable estimates, not airline data. The fuselage is modelled as a 3.95 m circle (the real section is 4.14 m tall). The reference photographs could not be loaded, so colours follow a generic dark-leather scheme rather than the photos.</p>
+<p><b>What is still approximate.</b> Exact monument stations, half-row positions in Main, galley insert arrangement (two ovens forward, three aft), trolley counts (4 forward, 7 aft) and all truck geometry are reasonable estimates, not airline data. <b>Exterior proportions</b> were reworked against reference photographs: low blunt radome with a steeper windshield line, six-pane flight-deck glazing in dark surrounds, keel sweeping up to a high tail cone, 35.8 m span over canted sharklets, 2.46 m diameter lathed nacelles and twin-wheel gear with stays and doors. These are fitted by eye, not taken from drawings. The fuselage section is 3.95 m wide and 4.14 m tall, approximated by a circular upper lobe and a deeper lower lobe. <b>A321XLR features modelled:</b> Cabin Flex door arrangement with door 3 aft of the wing (drawn as a deactivated plug door, so the 164-seat cabin is unchanged), belly fairing extended aft for the rear centre tank, tall sharklets, canoe flap-track fairings, crown satcom radome and APU exhaust. <b>Door entrances:</b> doors 1L/1R and 4L/4R carry an interior lining with viewing window, mechanism housing, slide bustle, red control handle and arming lever; the surround has assist handles, a lit exit sign and a flat entrance ceiling with a light dome. Positions are estimated from photographs. <b>Overhead bins and ceiling:</b> curved bin doors with latch, hinge line and end ribs; arched ceiling panels with seams at the bin pitch and a backlit patterned centre strip that follows the lighting mode. The exterior carries a plain white-and-green scheme, not an airline livery. Cabin finishes use woven blue upholstery, leather headrests, light composite shells, brushed metal and soft indirect lighting. The flight deck and all display readouts are illustrative reconstructions, not a certified cockpit or a functional flight simulator. The existing 164-seat layout and catering mission have been retained.</p>
 <p><b>Gameplay.</b> Dock at the stop mark → stabilizers → raise to the sill → confirm slide disarmed and open the door → bridge → exchange each used trolley for the fresh one of the matching type → close up and depart. Catering is done from the starboard (right-hand) doors, as on the real aircraft.</p>
-<p><a href="https://www.aircraft.airbus.com/en/aircraft/a320-family/a321neo" target="_blank" rel="noopener">Airbus A321neo dimensions ↗</a></p>
+<p><a href="https://www.aircraft.airbus.com/en/aircraft/a320-family/a321xlr" target="_blank" rel="noopener">Airbus A321XLR ↗</a></p>
 <button onclick="this.closest('dialog').close()">Back to aircraft</button></dialog>
 <dialog id="result"><div class="eyebrow">TURNAROUND COMPLETE</div><div class="stars" id="stars"></div><div id="resultBody"></div><div class="actions" style="grid-template-columns:1fr 1fr"><button class="primary" id="again">Play again</button><button onclick="this.closest('dialog').close()">Explore the aircraft</button></div></dialog>
 <script>console.warn('Scripts "build/three.js" and "build/three.min.js" are deprecated with r150+, and will be removed with r160. Please use ES Modules or alternatives: https://threejs.org/docs/index.html#manual/en/introduction/Installation'),
@@ -71,20 +105,22 @@ function(t,e){"object"==typeof exports&&"undefined"!=typeof module?e(exports):"f
 </script><script>
 const $=id=>document.getElementById(id);
 // ---------- Reference dimensions (metres). x: nose -22.255 → tail +22.255. Starboard = -z. ----------
-const CY=3.75,FL=3.30,R0=1.975,DOORX=[-17.25,14.5],DOORHALF=.405,PI=Math.PI;
+const CY=3.75,FL=3.30,R0=1.975,DOORX=[-17.25,14.5],DOORHALF=.405,PI=Math.PI,D3X=4.75,LOBE=1.096,YS=a=>{const q=Math.sin(a);return q<0?q*LOBE:q};
 const scene=new THREE.Scene();
 {const c=document.createElement('canvas');c.width=4;c.height=256;const g=c.getContext('2d'),gr=g.createLinearGradient(0,0,0,256);gr.addColorStop(0,'#4f86bd');gr.addColorStop(.55,'#a9c6de');gr.addColorStop(1,'#d7e2ea');g.fillStyle=gr;g.fillRect(0,0,4,256);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;scene.background=t}
 scene.fog=new THREE.Fog('#c3d2dd',120,330);
 const camera=new THREE.PerspectiveCamera(40,innerWidth/innerHeight,.1,600);
 let renderer;try{renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:false})}catch(e){$('notice').textContent='WebGL is unavailable. Please enable hardware acceleration and reopen this file.';throw e}
-renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.95;document.body.prepend(renderer.domElement);
-scene.add(new THREE.HemisphereLight(0xdcecff,0x5a6468,1.7));
-const sun=new THREE.DirectionalLight(0xfff1d6,2.8);sun.position.set(-28,55,-34);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-40,right:40,top:40,bottom:-40,far:160});sun.shadow.bias=-.0004;sun.shadow.normalBias=.03;scene.add(sun);
+renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.03;document.body.prepend(renderer.domElement);
+const hemi=new THREE.HemisphereLight(0xe2efff,0x555c68,1.15);scene.add(hemi);const cabinLights=[],galleyLights=[],deckLights=[];
+{const es=new THREE.Scene(),c=document.createElement('canvas');c.width=8;c.height=256;const g=c.getContext('2d'),gr=g.createLinearGradient(0,0,0,256);gr.addColorStop(0,'#3f79b8');gr.addColorStop(.42,'#bcd3e6');gr.addColorStop(.5,'#f2f5f7');gr.addColorStop(.53,'#8d949a');gr.addColorStop(1,'#6f767c');g.fillStyle=gr;g.fillRect(0,0,8,256);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;es.add(new THREE.Mesh(new THREE.SphereGeometry(50,32,16),new THREE.MeshBasicMaterial({map:t,side:THREE.BackSide})));const sunDisc=new THREE.Mesh(new THREE.SphereGeometry(4,12,8),new THREE.MeshBasicMaterial({color:'#fffbe8'}));sunDisc.position.set(-20,36,-24);es.add(sunDisc);try{const pm=new THREE.PMREMGenerator(renderer);scene.environment=pm.fromScene(es,.03).texture;pm.dispose()}catch(e){}}
+const sun=new THREE.DirectionalLight(0xfff1d6,2.5);sun.position.set(-28,55,-34);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);Object.assign(sun.shadow.camera,{left:-40,right:40,top:40,bottom:-40,far:160});sun.shadow.bias=-.0004;sun.shadow.normalBias=.03;scene.add(sun);
 
 const mat=(c,m=0,r=.6)=>new THREE.MeshStandardMaterial({color:c,metalness:m,roughness:r});
 const white=mat('#eef2f4',.15,.32),belly=mat('#cfd8de',.15,.4),navy=mat('#14304a',.3,.45),accent=mat('#b3262e',.1,.5),metal=mat('#9aaab3',.75,.3),dark=mat('#141c24',.2,.6),rubber=mat('#15191d',0,.9),teal=mat('#31baac',.3),yellow=mat('#f3bc47',0,.7),orange=mat('#ef6a2a',0,.7);
+const green=mat('#0c5b3d',.25,.38),green2=mat('#083f2b',.3,.4),wingM=mat('#c3ccd2',.3,.4);
 const glassExt=mat('#0f1c26',.6,.12),glassCock=mat('#152733',.7,.08);
-const ivory=mat('#e3e5e2',.03,.62),ivory2=mat('#cfd3d2',.05,.6),trim=mat('#aeb8be',.5,.35),carpet=mat('#1c2a44',0,.97),carpet2=mat('#263a5e',0,.95),vinyl=mat('#59636b',.1,.7);
+const ivory=mat('#ebe6dc',.03,.62),ivory2=mat('#d9d3c6',.05,.6),trim=mat('#aeb8be',.5,.35),carpet=mat('#1c2a44',0,.97),carpet2=mat('#263a5e',0,.95),vinyl=mat('#59636b',.1,.7);
 const leaF=mat('#262c38',.05,.55),shellF=mat('#5f6672',.2,.5),leaY=mat('#1d2a45',.05,.6),headC=mat('#a3222b',.05,.6),headY=mat('#2f55a0',.05,.6),frame=mat('#3a424b',.4,.5);
 const screenMat=new THREE.MeshStandardMaterial({color:'#0d2a66',emissive:'#1b4fb5',emissiveIntensity:.9,roughness:.25});
 const led=new THREE.MeshStandardMaterial({color:'#dfe9ff',emissive:'#9fc0ff',emissiveIntensity:2.2});
@@ -109,78 +145,225 @@ for(const xd of DOORX){mark(3.2,.16,paint,xd,-2.42);mark(3.2,.1,paintR,xd,-1.95)
 for(const [x,z] of [[-1,-19],[-1,19],[-9.8,-5.75],[-9.8,5.75],[22.8,0],[-23,0]]){const c=cylinder(.03,.17,.55,orange,x,.28,z,scene,12);box(.36,.03,.36,orange,x,.015,z,scene)}
 
 // ---------- Fuselage skin with real door apertures ----------
-const ST=[[-22.255,.03,CY-.45],[-22.1,.32,CY-.43],[-21.7,.72,CY-.38],[-21.1,1.1,CY-.3],[-20.5,1.4,CY-.22],[-19.6,1.68,CY-.12],[-18.4,1.88,CY-.04],[-17.4,1.955,CY-.01],[-16.6,R0,CY],[12.5,R0,CY],[15,1.9,CY+.05],[16.4,1.72,CY+.12],[19,1.05,CY+.28],[21,.5,CY+.4],[22.255,.06,CY+.48]];
+// Fuselage profile from the reference photos: [x, crown T, keel B] relative to the centreline. Low blunt radome, steeper windshield break
+// (d = 1.9–2.75 m from the nose), near-flat keel under the flight deck; aft, the keel sweeps up to a high tail cone with the APU exhaust.
+const PROF=[[0,-.575,-.585],[.03,-.33,-.83],[.12,-.16,-1.05],[.4,.12,-1.42],[.8,.4,-1.66],[1.3,.62,-1.82],[1.9,.84,-1.93],[2.3,1.14,-1.99],[2.75,1.48,-2.04],[3.4,1.82,-2.09],[3.65,1.905,-2.14],[4.3,1.945,-2.15],[5.3,1.97,-2.16],[6,R0,-R0*LOBE]].map(([d,T,B])=>[d-22.255,T,B]).concat([[12.5,R0,-R0*LOBE],[14.5,1.96,-2.05],[16.5,1.92,-1.62],[18.5,1.78,-.85],[20.3,1.6,-.15],[21.6,1.38,.5],[22.255,1.12,.82]]);
+const ST=PROF.map(([x,T,B])=>{const r=(T-B)/(1+LOBE);return[x,r,CY+T-r]});
 function ringAt(x){for(let i=0;i<ST.length-1;i++){const a=ST[i],b=ST[i+1];if(x>=a[0]&&x<=b[0]){const t=(x-a[0])/(b[0]-a[0]);return[a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t]}}return x<0?[ST[0][1],ST[0][2]]:[ST[ST.length-1][1],ST[ST.length-1][2]]}
 const NA=96,XS=(()=>{const must=ST.map(s=>s[0]);for(const d of DOORX)must.push(d-DOORHALF,d+DOORHALF);const xs=[...must];for(let x=-22;x<22.2;x+=.45)if(must.every(m=>Math.abs(m-x)>.2))xs.push(x);return xs.sort((a,b)=>a-b)})();
 const inDoor=(xm,j)=>DOORX.some(d=>Math.abs(xm-d)<DOORHALF)&&((j>=36&&j<52)||j>=92||j<12);
-function skin(j0,j1,m,parent){const v=[],idx=[],n=j1-j0;for(const x of XS){const [r,cy]=ringAt(x);for(let j=j0;j<=j1;j++){const a=j/NA*2*PI;v.push(x,cy+r*Math.sin(a),r*Math.cos(a))}}for(let i=0;i<XS.length-1;i++){const xm=(XS[i]+XS[i+1])/2;for(let j=0;j<n;j++){if(inDoor(xm,j0+j))continue;const a=i*(n+1)+j,b=a+n+1;idx.push(a,b,a+1,b,b+1,a+1)}}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(v,3));g.setIndex(idx);g.computeVertexNormals();const mm=m.clone();mm.side=THREE.DoubleSide;return mesh(g,mm,0,0,0,parent)}
-function arcPanel(x0,x1,a0,a1,off,m,parent,nx=4,na=10){const v=[],idx=[];for(let i=0;i<=nx;i++){const x=x0+(x1-x0)*i/nx,[r,cy]=ringAt(x);for(let j=0;j<=na;j++){const a=(a0+(a1-a0)*j/na)*PI/180;v.push(x,cy+(r+off)*Math.sin(a),(r+off)*Math.cos(a))}}for(let i=0;i<nx;i++)for(let j=0;j<na;j++){const p=i*(na+1)+j,q=p+na+1;idx.push(p,q,p+1,q,q+1,p+1)}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(v,3));g.setIndex(idx);g.computeVertexNormals();const mm=m.clone();mm.side=THREE.DoubleSide;return mesh(g,mm,0,0,0,parent)}
+function skin(j0,j1,m,parent){const v=[],idx=[],n=j1-j0;for(const x of XS){const [r,cy]=ringAt(x);for(let j=j0;j<=j1;j++){const a=j/NA*2*PI;v.push(x,cy+r*YS(a),r*Math.cos(a))}}for(let i=0;i<XS.length-1;i++){const xm=(XS[i]+XS[i+1])/2;for(let j=0;j<n;j++){if(inDoor(xm,j0+j))continue;const a=i*(n+1)+j,b=a+n+1;idx.push(a,b,a+1,b,b+1,a+1)}}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(v,3));g.setIndex(idx);g.computeVertexNormals();const mm=m.clone();mm.side=THREE.DoubleSide;return mesh(g,mm,0,0,0,parent)}
+function arcPanel(x0,x1,a0,a1,off,m,parent,nx=4,na=10){const v=[],idx=[];for(let i=0;i<=nx;i++){const x=x0+(x1-x0)*i/nx,[r,cy]=ringAt(x);for(let j=0;j<=na;j++){const a=(a0+(a1-a0)*j/na)*PI/180;v.push(x,cy+(r+off)*YS(a),(r+off)*Math.cos(a))}}for(let i=0;i<nx;i++)for(let j=0;j<na;j++){const p=i*(na+1)+j,q=p+na+1;idx.push(p,q,p+1,q,q+1,p+1)}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(v,3));g.setIndex(idx);g.computeVertexNormals();const mm=m.clone();mm.side=THREE.DoubleSide;return mesh(g,mm,0,0,0,parent)}
 skin(48,96,belly,aircraft);skin(0,48,white,shellGroup);
 // Doors: 0.81 m wide plug doors that move out and slide forward. Starboard (service) doors are animated.
-const doorSkin=mat('#e2e8ec',.15,.35),doors=[[],[]];
-DOORX.forEach((xd,i)=>{for(const s of [-1,1]){const g=new THREE.Group();shellGroup.add(g);const a=s<0?[135,195]:[-15,45];arcPanel(xd-DOORHALF+.012,xd+DOORHALF-.012,a[0],a[1],0,doorSkin,g);arcPanel(xd-.11,xd+.11,s<0?154:14,s<0?166:26,.012,glassExt,g,2,4);arcPanel(xd-.2,xd+.2,s<0?176:-1,s<0?181:4,.014,metal,g,2,2);if(s<0)doors[i].push(g)}});
+const doorSkin=mat('#e2e8ec',.15,.35),doors=[[],[]],allDoors=[];
+DOORX.forEach((xd,i)=>{for(const s of [-1,1]){const g=new THREE.Group();shellGroup.add(g);const a=s<0?[135,195]:[-15,45];arcPanel(xd-DOORHALF+.012,xd+DOORHALF-.012,a[0],a[1],0,doorSkin,g);arcPanel(xd-.11,xd+.11,s<0?154:14,s<0?166:26,.012,glassExt,g,2,4);arcPanel(xd-.2,xd+.2,s<0?176:-1,s<0?181:4,.014,metal,g,2,2);allDoors.push({g,xd,s,i});if(s<0)doors[i].push(g)}});
+const seam=mat('#8d979e',.3,.5);DOORX.forEach(xd=>{for(const s of [-1,1]){const a=s<0?[135,195]:[-15,45];for(const dx of [-DOORHALF-.02,DOORHALF+.02])arcPanel(xd+dx-.012,xd+dx+.012,a[0]-1,a[1],.004,seam,shellGroup,1,10);arcPanel(xd-DOORHALF-.03,xd+DOORHALF+.03,a[s<0?0:1]+(s<0?-1.2:.2),a[s<0?0:1]+(s<0?-.2:1.2),.004,seam,shellGroup,2,1)}});
 // Overwing exits (rows 14 and 15) and flight-deck glazing.
 for(const x of [-4.1,-3.1])for(const s of [-1,1])arcPanel(x-.26,x+.26,s<0?151:-3,s<0?183:29,.006,doorSkin,shellGroup);
-for(const s of [-1,1]){arcPanel(-21.05,-20.25,s<0?150:12,s<0?168:30,.012,glassCock,shellGroup);arcPanel(-20.2,-19.55,s<0?150:13,s<0?167:30,.012,glassCock,shellGroup);arcPanel(-21.35,-21.1,s<0?128:16,s<0?164:52,.012,glassCock,shellGroup)}
+// Flight-deck glazing: two raked windshields meeting at a centre post, a sliding side window and the tapering aft fixed window, each in a dark surround.
+const glassFrame=mat('#14181d',.2,.5),aOf=(d,y)=>{const [r,cy]=ringAt(d-22.255);return Math.asin(Math.max(-1,Math.min(1,(CY+y-cy)/r)))*180/PI};
+function pane(s,c,off,m,grow=0,n=8){const cx=c.reduce((q,p)=>q+p[0],0)/4,ca=c.reduce((q,p)=>q+p[1],0)/4,k=c.map(([d,a])=>[d+Math.sign(d-cx)*grow,Math.min(89.6,a+Math.sign(a-ca)*grow*38)]),v=[],idx=[];
+ for(let i=0;i<=n;i++)for(let j=0;j<=n;j++){const u=i/n,w=j/n,d=(k[0][0]*(1-u)+k[1][0]*u)*(1-w)+(k[3][0]*(1-u)+k[2][0]*u)*w,a=((k[0][1]*(1-u)+k[1][1]*u)*(1-w)+(k[3][1]*(1-u)+k[2][1]*u)*w)*PI/180,x=d-22.255,[r,cy]=ringAt(x);v.push(x,cy+(r+off)*Math.sin(a),s*(r+off)*Math.cos(a))}
+ for(let i=0;i<n;i++)for(let j=0;j<n;j++){const q=i*(n+1)+j,t=q+n+1;idx.push(q,t,q+1,t,t+1,q+1)}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(v,3));g.setIndex(idx);g.computeVertexNormals();const mm=m.clone();mm.side=THREE.DoubleSide;const o=mesh(g,mm,0,0,0,shellGroup);o.castShadow=false;return o}
+{const W=[[[1.97,86.5],[2.25,38],[2.9,45],[2.72,86.5]],[[2.33,aOf(2.33,.52)],[3.07,aOf(3.07,.58)],[3.07,aOf(3.07,1.06)],[2.97,aOf(2.97,1.03)]],[[3.15,aOf(3.15,.58)],[3.72,aOf(3.72,.67)],[3.56,aOf(3.56,1.0)],[3.15,aOf(3.15,1.06)]]];
+ for(const s of [-1,1])for(const c of W){pane(s,c,.01,glassFrame,.045);pane(s,c,.018,glassCock)}}
+// A321XLR (Cabin Flex fuselage): door 3 sits aft of the wing. Modelled deactivated — outline, window and seams only.
+for(const s of [-1,1]){const a=s<0?[135,195]:[-15,45];arcPanel(D3X-DOORHALF,D3X+DOORHALF,a[0],a[1],.006,doorSkin,shellGroup);arcPanel(D3X-.11,D3X+.11,s<0?154:14,s<0?166:26,.016,glassExt,shellGroup,2,4);for(const dx of [-DOORHALF-.02,DOORHALF+.02])arcPanel(D3X+dx-.012,D3X+dx+.012,a[0]-1,a[1],.009,seam,shellGroup,1,10);arcPanel(D3X-DOORHALF-.03,D3X+DOORHALF+.03,a[s<0?0:1]+(s<0?-1.2:.2),a[s<0?0:1]+(s<0?-.2:1.2),.009,seam,shellGroup,2,1)}
+// Satcom radome on the crown and APU exhaust in the tail cone.
+{const rad=mesh(new THREE.SphereGeometry(1,24,12),white,3.3,CY+R0-.03,0,shellGroup);rad.scale.set(1.4,.21,.5);const apu=cylinder(.15,.13,.16,dark,22.2,CY+.975,0,tailGroup,20);apu.rotation.z=PI/2}
 // Cabin windows at the 0.533 m frame pitch.
-const WINX=[];for(let x=-16.2;x<12.45;x+=.5334)if(!DOORX.some(d=>Math.abs(x-d)<.6))WINX.push(x);
+const WINX=[];for(let x=-16.2;x<12.45;x+=.5334)if(![...DOORX,D3X].some(d=>Math.abs(x-d)<.6))WINX.push(x);
 for(const x of WINX)for(const s of [-1,1]){const w=rounded(.22,.32,.03,.09,glassExt,x,CY+.42,s*1.935,shellGroup);w.rotation.x=-s*.215}
 const fair=mesh(new THREE.SphereGeometry(1,28,14),belly,-3.3,CY-1.5,0);fair.scale.set(5.6,.72,2.05);
+// XLR: fairing extended aft around the rear centre tank (RCT) bay.
+const fair2=mesh(new THREE.SphereGeometry(1,28,14),belly,2.3,CY-1.6,0);fair2.scale.set(4.3,.56,1.8);
 
 // ---------- Wings, tail, engines, landing gear ----------
 function plate(points,depth=.14){const shape=new THREE.Shape();points.forEach(([x,y],i)=>i?shape.lineTo(x,y):shape.moveTo(x,y));shape.closePath();return new THREE.ExtrudeGeometry(shape,{depth,bevelEnabled:true,bevelSize:.05,bevelThickness:.05,bevelSegments:2,steps:1})}
-const wingG=plate([[-6.7,1.7],[-4.2,6.4],[1.55,17.75],[3.0,17.75],[-.25,6.4],[.5,1.7]],.26),stabG=plate([[16.5,.6],[19.7,6.22],[20.9,6.22],[20.6,.6]],.12),sharkG=plate([[1.7,0],[3.05,0],[3.6,2.35],[3.1,2.45]],.07);
+const wingG=plate([[-6.7,1.7],[-4.2,6.4],[1.35,17.3],[2.85,17.3],[-.25,6.4],[.5,1.7]],.26),stabG=plate([[16.5,.6],[19.7,6.22],[20.9,6.22],[20.6,.6]],.12),sharkG=plate([[1.4,0],[2.85,0],[3.85,2.4],[3.42,2.4],[2.3,1.0]],.07),canoeG=new THREE.SphereGeometry(1,16,10);
+const fanM=mat('#0b0d10',0,.95);fanM.envMapIntensity=.1;
+let nacG,inG;const bladeM=mat('#3a4046',.7,.35);const nacM=green.clone(),inM=mat('#8f9aa2',.6,.35);nacM.side=inM.side=THREE.DoubleSide;
 for(const s of [-1,1]){const dih=.089;
-const wing=mesh(wingG,white,0,2.72+s*.13,0);wing.rotation.x=s*(PI/2-dih);
-const sh=mesh(sharkG,navy,0,4.32,s*17.78-.035);sh.rotation.x=s*.12;
-const stab=mesh(stabG,white,0,CY+.8+s*.06,0,tailGroup);stab.rotation.x=s*(PI/2-.105);
-for(let k=0;k<4;k++){const f=box(2.4,.34,.3,belly,.2+k*.45,2.62+(4+k*3.1)*.089,s*(4+k*3.1));f.rotation.y=-s*.3}
+const wing=mesh(wingG,wingM,0,2.72+s*.13,0);wing.rotation.x=s*(PI/2-dih);
+const sh=mesh(sharkG,green,0,4.27,s*17.3-.035);sh.rotation.x=s*.26;
+const stab=mesh(stabG,wingM,0,CY+.8+s*.06,0,tailGroup);stab.rotation.x=s*(PI/2-.105);
+for(let k=0;k<4;k++){const f=mesh(canoeG,wingM,[-.2,-.4,.5,1.35][k],2.58+(4+k*3.1)*.089,s*(4+k*3.1));f.scale.set(1.55-k*.12,.2,.17);f.rotation.y=-s*.3}
 // Geared-turbofan nacelle: ~2.2 m diameter, centred 5.75 m off the centreline.
-const ex=-7.3,ey=1.72,ez=s*5.75;const nac=cylinder(1.12,.93,3.9,white,ex,ey,ez,aircraft,40);nac.rotation.z=PI/2;const cowl=cylinder(1.125,1.125,.7,navy,ex-1.55,ey,ez,aircraft,40);cowl.rotation.z=PI/2;const lip=mesh(new THREE.TorusGeometry(1.03,.1,12,44),metal,ex-1.93,ey,ez);lip.rotation.y=PI/2;const fan=cylinder(.96,.96,.05,dark,ex-1.8,ey,ez);fan.rotation.z=PI/2;const spin=cylinder(.02,.3,.5,metal,ex-2.0,ey,ez,aircraft,20);spin.rotation.z=PI/2;for(let k=0;k<20;k++){const a=k*PI/10;const blade=box(.05,.66,.13,metal,ex-1.84,ey+Math.cos(a)*.62,ez+Math.sin(a)*.62);blade.rotation.x=-a+.45}
-const noz=cylinder(.8,.5,1.1,metal,ex+2.45,ey,ez,aircraft,28);noz.rotation.z=PI/2;const plug=cylinder(.34,.05,1.0,dark,ex+3.2,ey,ez,aircraft,20);plug.rotation.z=PI/2;
-const py=box(4.6,.75,.3,white,ex+1.5,ey+1.1,ez);py.rotation.z=-.06}
-mesh(plate([[14.2,CY+1.7],[18.6,11.7],[20.5,11.7],[21.0,CY+1.2]]),navy,0,0,-.07,tailGroup);mesh(plate([[18.06,10.5],[18.6,11.7],[20.5,11.7],[20.55,10.5]],.15),accent,0,0,-.075,tailGroup);
+// High-bypass nacelle, ~2.46 m maximum diameter and 3.5 m long: lathed cowl with a rounded inlet lip, inlet duct, fan, spinner, bypass exit and core nozzle.
+const ex=-7.0,ey=1.78,ez=s*5.75,LV=q=>q.map(([r,y])=>new THREE.Vector2(r,y));nacG=nacG||new THREE.LatheGeometry(LV([[.8,-1.75],[.9,-1.4],[1.06,-.8],[1.19,-.1],[1.23,.5],[1.21,1.0],[1.15,1.4],[1.07,1.65],[1.0,1.75]]),56);inG=inG||new THREE.LatheGeometry(LV([[1.0,1.75],[.95,1.66],[.93,1.4],[.95,1.0],[.96,.6]]),56);
+const nac=mesh(nacG,nacM,ex,ey,ez);nac.rotation.z=PI/2;const inl=mesh(inG,inM,ex,ey,ez);inl.rotation.z=PI/2;inl.castShadow=false;const lip=mesh(new THREE.TorusGeometry(1.0,.05,12,56),metal,ex-1.74,ey,ez);lip.rotation.y=PI/2;
+const fan=cylinder(.96,.96,.05,fanM,ex-.95,ey,ez,aircraft,40);fan.rotation.z=PI/2;const spin=cylinder(.02,.3,.55,metal,ex-1.25,ey,ez,aircraft,24);spin.rotation.z=PI/2;for(let k=0;k<22;k++){const a=k*PI/11;const blade=box(.025,.68,.27,bladeM,ex-1.0,ey+Math.cos(a)*.62,ez+Math.sin(a)*.62);blade.rotation.set(a,.95,0)}
+const byp=cylinder(.79,.79,.04,fanM,ex+1.74,ey,ez,aircraft,40);byp.rotation.z=PI/2;
+const noz=cylinder(.62,.44,1.0,metal,ex+2.2,ey,ez,aircraft,32);noz.rotation.z=PI/2;const plug=cylinder(.3,.04,.8,dark,ex+3.05,ey,ez,aircraft,20);plug.rotation.z=PI/2;
+const py=box(4.3,.62,.3,wingM,ex+1.75,ey+1.2,ez);py.rotation.z=-.06;const pf=box(1.6,.3,.26,wingM,ex-.2,ey+1.22,ez);pf.rotation.z=.2}
+mesh(plate([[14.2,CY+1.7],[18.6,11.7],[20.5,11.7],[21.0,CY+1.2]]),green,0,0,-.07,tailGroup);
 // Gear: wheelbase 16.91 m, track 7.59 m.
-for(const [x,z,r,len] of [[-17.2,0,.38,1.55],[-.3,-3.795,.58,2.3],[-.3,3.795,.58,2.3]]){cylinder(.09,.12,len,metal,x,r+len/2,z,aircraft,14);box(.22,.2,.26,trim,x,r+.2,z);for(const a of [-.27,.27]){const wh=cylinder(r,r,.24,rubber,x,r,z+a,aircraft,28);wh.rotation.x=PI/2;const hub=cylinder(r*.45,r*.45,.26,metal,x,r,z+a,aircraft,16);hub.rotation.x=PI/2}}
+// Landing gear: twin-wheel nose leg with drag strut and doors; twin-wheel main legs (0.93 m wheel spacing) with side stays, torque links and leg doors.
+for(const [x,z,r,len,ww,sp] of [[-17.2,0,.38,1.3,.2,.5],[-.3,-3.795,.585,2.28,.42,.93],[-.3,3.795,.585,2.28,.42,.93]]){const main=z!==0,q=Math.sign(z);
+ cylinder(main?.1:.07,main?.13:.09,len,metal,x,r+len/2,z,aircraft,16);cylinder(main?.075:.05,main?.075:.05,len*.45,trim,x,r+len*.22,z,aircraft,14);const ax=cylinder(.06,.06,sp+ww*.6,metal,x,r,z,aircraft,12);ax.rotation.x=PI/2;
+ for(const a of [-sp/2,sp/2]){const wh=cylinder(r,r,ww,rubber,x,r,z+a,aircraft,32);wh.rotation.x=PI/2;const sh=cylinder(r*.86,r*.86,ww+.02,rubber,x,r,z+a,aircraft,32);sh.rotation.x=PI/2;const hub=cylinder(r*.5,r*.5,ww+.03,metal,x,r,z+a,aircraft,20);hub.rotation.x=PI/2;const cap=cylinder(r*.16,r*.16,ww+.06,trim,x,r,z+a,aircraft,12);cap.rotation.x=PI/2}
+ beam([x+.02,r+.12,z],[x+.3,r+.5,z],.03,trim,aircraft);beam([x+.3,r+.5,z],[x+.04,r+.9,z],.03,trim,aircraft);
+ if(main){beam([x,r+1.15,z],[x,2.72,z-q*1.5],.055,metal,aircraft);beam([x,r+1.9,z],[x-.9,2.9,z],.04,metal,aircraft);const d=box(.9,1.35,.03,white,x,r+1.5,z+q*.2);d.rotation.x=-q*.06}
+ else{beam([x,r+.75,0],[x-1.0,1.62,0],.04,metal,aircraft);for(const k of [-1,1]){const d=box(1.0,.5,.02,white,x-.45,1.36,k*.3);d.rotation.x=k*.25}box(.5,.34,.02,white,x+.45,1.44,.2);const tl=box(.1,.08,.14,trim,x-.09,r+.8,0)}}
 for(const s of [-1,1])for(const x of [-10.5,7.5]){const cargo=arcPanel(x-.9,x+.9,s<0?196:-34,s<0?214:-16,.01,doorSkin,aircraft,3,6)}
-mesh(plate([[-1,0],[-.6,.5],[.1,.5],[.6,0]],.05),white,-8,CY+R0-.03,-.025);
+mesh(plate([[-1,0],[-.6,.5],[.1,.5],[.6,0]],.05),white,-8,CY+R0-.03,-.025);mesh(plate([[-.3,0],[-.1,.3],[.15,.3],[.3,0]],.04),white,6,CY+R0-.03,-.02);mesh(plate([[-.3,0],[-.15,-.32],[.1,-.32],[.3,0]],.04),white,-12,CY-R0*LOBE+.03,-.02);
+const glow=(c,x,y,z,r=.07)=>{const o=mesh(new THREE.SphereGeometry(r,12,8),new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:3}),x,y,z);o.castShadow=false;return o};glow('#ff2a2a',1.5,4.3,17.32);glow('#2aff5a',1.5,4.3,-17.32);glow('#ff3030',-2,CY+R0+.05,0,.09);glow('#ff3030',-4,CY-R0-.75,0,.09);glow('#ffffff',22.3,CY+.975,0,.05);glow('#fff6dc',-17.36,1.18,0,.05);
 
 // ---------- Cabin interior: 164 seats · rows 1–11 First, 13–21 Comfort, 22–33 Main ----------
-box(32.5,.06,3.5,carpet,-2.35,FL-.03,0,lowerInt);box(2.0,.06,3.3,carpet,14.9,FL-.03,0,lowerInt);
-box(29.5,.012,.5,carpet2,-1.95,FL+.006,0,lowerInt);for(const z of [-.27,.27])box(29.5,.014,.02,led,-1.95,FL+.012,z,lowerInt);
+// Procedural textures: woven seat fabric, carpet, window sky view and seat-back screens.
+function canvasTex(w,h,draw,rx=1,ry=1){const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(rx,ry);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=4;return t}
+const weave=(g,w,h)=>{g.fillStyle='#b4b4b4';g.fillRect(0,0,w,h);for(let y=0;y<h;y+=2)for(let x=0;x<w;x+=2){const v=((x+y)/2%2?150:205)+Math.random()*50-25|0;g.fillStyle='rgb('+v+','+v+','+v+')';g.fillRect(x,y,2,2)}for(let i=0;i<260;i++){g.fillStyle=Math.random()<.5?'rgba(255,255,255,.35)':'rgba(0,0,0,.35)';g.fillRect(Math.random()*w,Math.random()*h,3,1)}};
+const tweedTex=canvasTex(128,128,weave,9,9);
+const carpetTex=canvasTex(128,128,(g,w,h)=>{g.fillStyle='#9a9a9a';g.fillRect(0,0,w,h);for(let i=0;i<5000;i++){const v=90+Math.random()*130|0;g.fillStyle='rgb('+v+','+v+','+v+')';g.fillRect(Math.random()*w,Math.random()*h,2,2)}g.strokeStyle='rgba(255,255,255,.18)';for(let i=-128;i<128;i+=16){g.beginPath();g.moveTo(i,0);g.lineTo(i+128,128);g.stroke()}},110,12);
+const skyTex=canvasTex(64,96,(g,w,h)=>{const gr=g.createLinearGradient(0,0,0,h);gr.addColorStop(0,'#5d9ad8');gr.addColorStop(.6,'#b9d8f2');gr.addColorStop(1,'#f4f8fb');g.fillStyle=gr;g.fillRect(0,0,w,h);g.fillStyle='rgba(255,255,255,.85)';for(const [x,y,r] of [[14,62,10],[26,58,13],[40,64,11],[50,70,9],[20,74,12],[44,80,14]]){g.beginPath();g.ellipse(x,y,r,r*.55,0,0,7);g.fill()}});
+const screenTex=canvasTex(512,320,(g,w,h)=>{
+ const gr=g.createLinearGradient(0,0,w,h);gr.addColorStop(0,'#10283b');gr.addColorStop(1,'#224a63');g.fillStyle=gr;g.fillRect(0,0,w,h);
+ g.strokeStyle='#537f92';g.lineWidth=1.5;g.beginPath();g.arc(428,152,157,0,Math.PI*2);g.stroke();for(let n=0;n<5;n++){g.beginPath();g.ellipse(428,152,35+n*29,157,0,0,7);g.stroke()}
+ g.strokeStyle='#9cd1dc';g.lineWidth=3;g.setLineDash([5,6]);g.beginPath();g.moveTo(270,210);g.quadraticCurveTo(342,87,485,108);g.stroke();g.setLineDash([]);g.fillStyle='#d6edf3';g.beginPath();g.moveTo(367,126);g.lineTo(386,123);g.lineTo(374,139);g.lineTo(375,130);g.closePath();g.fill();
+ g.fillStyle='#9cbecd';g.font='16px Arial';g.fillText('CABIN BENCHMARK',28,37);g.fillStyle='#eff7fb';g.font='30px Arial';g.fillText('Welcome',28,107);g.fillText('aboard.',28,143);g.font='13px Arial';g.fillStyle='#adc6d4';g.fillText('Your journey starts here.',28,177);
+ g.fillStyle='#102431';g.fillRect(0,244,w,76);g.font='15px Arial';g.fillStyle='#d4e8ee';for(const [t,x]of [['Discover',28],['Flight map',171],['Cabin guide',334]])g.fillText(t,x,283);g.fillStyle='#8ccbdc';g.fillRect(28,297,59,3);
+});
+const imat=(c,m=0,r=.6,o={})=>{const q=new THREE.MeshStandardMaterial(Object.assign({color:c,metalness:m,roughness:r},o));q.envMapIntensity=.35;return q};
+const fab=c=>imat(c,0,.92,{map:tweedTex,bumpMap:tweedTex,bumpScale:.0014});
+const wallM=imat('#e3e9eb',0,.64),wallM2=imat('#c8d3d9',.04,.48),dadoM=imat('#354652',0,.83),binM=imat('#e5ecee',.03,.43),alu=imat('#b9bec2',.85,.3),blk=imat('#17171a',.1,.6),
+ carpetM=imat('#273847',0,.98,{map:carpetTex,bumpMap:carpetTex,bumpScale:.001}),stripeM=imat('#91acb8',.2,.65),
+ fabF=fab('#496778'),leaBrown=imat('#243a4b',0,.37),tan=imat('#8295a0',.32,.4),shellCream=imat('#e2e8e9',0,.43),wood=imat('#30414b',.18,.32),
+ fabY=fab('#3b536b'),headComfort=imat('#56768c',0,.4),headMain=imat('#243c52',0,.4),shellY=imat('#dde6e9',0,.48),trayM=imat('#c4d0d7',.06,.5),beltM=imat('#697f8d',0,.8),netM=imat('#24211f',0,.9),
+ ledWarm=new THREE.MeshStandardMaterial({color:'#f3fbff',emissive:'#c5e7ff',emissiveIntensity:1.8}),ledSpot=new THREE.MeshStandardMaterial({color:'#fffaf2',emissive:'#ffe9c7',emissiveIntensity:2.0}),
+ paneM=new THREE.MeshStandardMaterial({map:skyTex,emissive:'#ffffff',emissiveMap:skyTex,emissiveIntensity:1.15,roughness:.2}),
+ scrM=new THREE.MeshStandardMaterial({map:screenTex,emissive:'#ffffff',emissiveMap:screenTex,emissiveIntensity:.55,roughness:.2});
+// Rounded, bevelled "soft" solid: w × h profile with corner radius r, extruded d, edges softened by bevel b.
+const softCache=new Map();
+// Average normals of coincident vertices so bevelled solids shade as soft upholstery instead of facets.
+function smooth(g){g.computeVertexNormals();const p=g.attributes.position,n=g.attributes.normal,acc=new Map(),k=i=>Math.round(p.getX(i)*2000)+'_'+Math.round(p.getY(i)*2000)+'_'+Math.round(p.getZ(i)*2000);for(let i=0;i<p.count;i++){const q=k(i),a=acc.get(q)||[0,0,0];a[0]+=n.getX(i);a[1]+=n.getY(i);a[2]+=n.getZ(i);acc.set(q,a)}for(let i=0;i<p.count;i++){const a=acc.get(k(i)),l=Math.hypot(a[0],a[1],a[2])||1;n.setXYZ(i,a[0]/l,a[1]/l,a[2]/l)}n.needsUpdate=true;return g}
+function soft(w,h,d,r,b,m,x,y,z,parent=lowerInt){const key=[w,h,d,r,b].join(',');let g=softCache.get(key);if(!g){const W=w-2*b,H=h-2*b,R=Math.max(.001,Math.min(r-b,W/2-.001,H/2-.001)),sh=new THREE.Shape();sh.moveTo(-W/2+R,-H/2);sh.lineTo(W/2-R,-H/2);sh.quadraticCurveTo(W/2,-H/2,W/2,-H/2+R);sh.lineTo(W/2,H/2-R);sh.quadraticCurveTo(W/2,H/2,W/2-R,H/2);sh.lineTo(-W/2+R,H/2);sh.quadraticCurveTo(-W/2,H/2,-W/2,H/2-R);sh.lineTo(-W/2,-H/2+R);sh.quadraticCurveTo(-W/2,-H/2,-W/2+R,-H/2);g=new THREE.ExtrudeGeometry(sh,{depth:Math.max(.002,d-2*b),bevelEnabled:b>0,bevelSize:b,bevelThickness:b,bevelSegments:2,curveSegments:4});g.translate(0,0,-Math.max(.002,d-2*b)/2);smooth(g);softCache.set(key,g)}return mesh(g,m,x,y,z,parent)}
+// Face a soft panel fore/aft (its profile seen from the front), recline it by t and toe it in by yaw.
+function tilt(o,t,yaw=0){o.rotation.order='ZYX';o.rotation.set(0,PI/2+yaw,t);return o}
+function rz(o,t){o.rotation.z=t;return o}
+function ry(o,t){o.rotation.y=t;return o}
+function fixed(x0,x1,parent,build){const len=x1-x0,o=build(len,(x0+x1)/2);return o}
+// Curved sidewall strip following the fuselage section (radius about the fuselage centre).
+function wallArc(a0,a1,rad,m,x0,x1,side,parent,seg=8){const v=[],idx=[];for(let i=0;i<2;i++){const x=i?x1:x0;for(let j=0;j<=seg;j++){const a=(a0+(a1-a0)*j/seg)*PI/180;v.push(x,CY+rad*Math.sin(a),side*rad*Math.cos(a))}}for(let j=0;j<seg;j++){const p=j,q=p+seg+1;idx.push(p,q,p+1,q,q+1,p+1)}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(v,3));g.setIndex(idx);g.computeVertexNormals();const mm=m.clone();mm.side=THREE.DoubleSide;mm.envMapIntensity=.35;const o=mesh(g,mm,0,0,0,parent);o.castShadow=false;return o}
+
+// Floor, aisle guide stripes, bulkheads.
+box(32.5,.06,3.5,carpetM,-2.35,FL-.03,0,lowerInt);box(2.0,.06,3.3,carpetM,14.9,FL-.03,0,lowerInt);
+for(const z of [-.265,.265])box(29.5,.006,.025,stripeM,-1.95,FL+.004,z,lowerInt);
 for(const xd of DOORX){box(1.05,.012,3.5,vinyl,xd,FL+.007,0,lowerInt)}
 const blk1=cylinder(1.8,1.8,.05,ivory,-18.62,CY,0,lowerInt,48);blk1.rotation.z=PI/2;const blk2=cylinder(1.68,1.68,.05,ivory,15.93,CY+.1,0,lowerInt,48);blk2.rotation.z=PI/2;
-box(.03,1.9,.56,ivory2,-18.585,FL+.95,0,lowerInt);box(.02,.1,.03,metal,-18.565,FL+1.0,.2,lowerInt);plaque('FLIGHT DECK',.4,.07,-18.565,FL+1.75,0,PI/2);
+box(.03,1.9,.56,ivory2,-18.585,FL+.95,0,lowerInt);box(.02,.1,.03,metal,-18.565,FL+1.0,.2,lowerInt);box(.02,.05,.05,blk,-18.565,FL+1.45,0,lowerInt);plaque('FLIGHT DECK',.4,.07,-18.565,FL+1.75,0,PI/2);
 const ROWS=[];
-function tilt(o,t){o.rotation.order='ZYX';o.rotation.set(0,PI/2,t);return o}
-function firstPair(x,side){const zm=side*.945;box(.34,.34,1.0,frame,x+.02,FL+.2,zm,lowerInt);box(.62,.22,.14,shellF,x+.02,FL+.56,zm,lowerInt);box(.1,.012,.1,trim,x-.12,FL+.676,zm,lowerInt);
-for(const zo of [.32,1.57])box(.52,.07,.07,shellF,x+.02,FL+.62,side*zo,lowerInt);
-for(const zc of [.62,1.27]){const z=side*zc;box(.5,.13,.5,leaF,x-.04,FL+.46,z,lowerInt);const lr=box(.035,.26,.44,leaF,x-.31,FL+.31,z,lowerInt);lr.rotation.z=.25;tilt(rounded(.57,.92,.05,.1,shellF,x+.385,FL+.86,z),-.17);tilt(rounded(.5,.8,.11,.08,leaF,x+.3,FL+.9,z),-.17);const h=box(.07,.2,.4,leaF,x+.283,FL+1.2,z,lowerInt);h.rotation.z=-.17;const st=box(.074,.03,.4,headC,x+.27,FL+1.12,z,lowerInt);st.rotation.z=-.17;const sc=box(.012,.19,.3,screenMat,x+.447,FL+1.03,z,lowerInt);sc.rotation.z=-.17;const tr=box(.012,.14,.36,frame,x+.425,FL+.82,z,lowerInt);tr.rotation.z=-.17}}
-function ecoBlock(x,side,head){const p=.485,z0=.5,mean=side*(z0+p);box(.34,.05,1.36,frame,x,FL+.37,mean,lowerInt);for(const dz of [-.46,.46])box(.05,.36,.05,frame,x+.06,FL+.18,mean+dz,lowerInt);
-for(let k=0;k<4;k++)box(.4,.045,.05,frame,x+.03,FL+.63,side*(z0-p/2+k*p),lowerInt);
-for(let k=0;k<3;k++){const z=side*(z0+k*p);box(.46,.1,.43,leaY,x-.03,FL+.46,z,lowerInt);tilt(rounded(.42,.74,.085,.07,leaY,x+.27,FL+.86,z),-.13);const h=box(.07,.19,.33,head,x+.262,FL+1.15,z,lowerInt);h.rotation.z=-.13;const sc=box(.012,.14,.23,screenMat,x+.338,FL+1.0,z,lowerInt);sc.rotation.z=-.13;const tr=box(.012,.2,.34,ivory2,x+.307,FL+.76,z,lowerInt);tr.rotation.z=-.13}}
+function belt(x,y,z){ry(box(.25,.008,.04,beltM,x+.03,y,z+.085,lowerInt),.5);ry(box(.25,.008,.04,beltM,x+.03,y,z-.085,lowerInt),-.5);box(.045,.014,.04,alu,x-.07,y+.004,z,lowerInt)}
+// First: wide recliners in pairs — woven fabric, leather headrest and armrest pads, tan side shells, cream back shell.
+function firstPair(x,side){const zm=side*.945,T=-.17;
+box(.42,.3,1.06,blk,x+.04,FL+.19,zm,lowerInt);box(.5,.04,1.2,alu,x+.04,FL+.03,zm,lowerInt);
+soft(.62,.42,.15,.08,.012,tan,x+.03,FL+.47,zm);soft(.3,.03,.135,.012,.006,wood,x-.14,FL+.695,zm);soft(.3,.045,.13,.02,.01,leaBrown,x+.17,FL+.7,zm);
+for(const zo of [.318,1.572]){soft(.6,.4,.07,.08,.01,tan,x+.03,FL+.46,side*zo);soft(.46,.045,.085,.02,.01,leaBrown,x+.05,FL+.685,side*zo);box(.05,.02,.03,alu,x-.2,FL+.6,side*(zo+(zo<1?.036:-.036)),lowerInt)}
+for(const zc of [.62,1.27]){const z=side*zc;
+soft(.52,.14,.5,.06,.02,fabF,x-.04,FL+.46,z);rz(soft(.06,.3,.46,.025,.012,fabF,x-.31,FL+.3,z),.22);
+tilt(soft(.5,.64,.13,.1,.03,fabF,x+.285,FL+.84,z),T);tilt(soft(.36,.4,.03,.08,.012,fabF,x+.225,FL+.8,z),T);
+tilt(soft(.5,.27,.12,.1,.035,leaBrown,x+.335,FL+1.27,z),T);for(const k of [-1,1])tilt(soft(.11,.25,.06,.03,.02,leaBrown,x+.275,FL+1.27,z+k*.235),T,-k*.6);
+tilt(soft(.59,1.02,.05,.14,.012,shellCream,x+.405,FL+.9,z),T);tilt(soft(.5,.3,.03,.05,.008,tan,x+.385,FL+.52,z),T);
+rz(box(.014,.215,.335,blk,x+.452,FL+1.06,z,lowerInt),T);rz(box(.016,.185,.3,scrM,x+.4535,FL+1.06,z,lowerInt),T);rz(box(.03,.13,.36,netM,x+.428,FL+.78,z,lowerInt),T);rz(box(.02,.03,.1,alu,x+.447,FL+.9,z,lowerInt),T);
+belt(x-.02,FL+.535,z)}}
+// Comfort / Main: slim-line triples — fabric pads, leather headrest with wings, cream hard back shell with screen, tray and pocket.
+function ecoBlock(x,side,head){const p=.485,z0=.5,mean=side*(z0+p),T=-.13;
+for(const dx of [-.13,.15]){const t=cylinder(.022,.022,1.42,alu,x+dx,FL+.36,mean,lowerInt,10);t.rotation.x=PI/2}
+for(const dz of [-.47,.47]){box(.42,.03,.05,alu,x+.02,FL+.02,mean+dz,lowerInt);rz(box(.04,.37,.04,alu,x-.08,FL+.19,mean+dz,lowerInt),-.3);rz(box(.04,.37,.04,alu,x+.12,FL+.19,mean+dz,lowerInt),.22)}
+for(let k=0;k<4;k++){const zb=side*(z0-p/2+k*p);soft(.34,.04,.05,.015,.008,blk,x+.03,FL+.64,zb);rz(box(.03,.2,.035,alu,x+.2,FL+.55,zb,lowerInt),-.2)}
+for(let k=0;k<3;k++){const z=side*(z0+k*p);
+soft(.47,.11,.43,.045,.015,fabY,x-.03,FL+.455,z);
+tilt(soft(.41,.58,.075,.08,.02,fabY,x+.262,FL+.81,z),T);
+tilt(soft(.4,.22,.085,.07,.022,head,x+.298,FL+1.175,z),T);for(const q of [-1,1])tilt(soft(.08,.2,.045,.02,.015,head,x+.255,FL+1.175,z+q*.185),T,-q*.55);
+tilt(soft(.44,.8,.032,.1,.01,shellY,x+.312,FL+.87,z),T);
+rz(box(.012,.17,.27,blk,x+.3465,FL+1.03,z,lowerInt),T);rz(box(.014,.142,.238,scrM,x+.3475,FL+1.03,z,lowerInt),T);
+rz(box(.014,.2,.37,trayM,x+.322,FL+.775,z,lowerInt),T);rz(box(.02,.022,.045,alu,x+.342,FL+.885,z,lowerInt),T);rz(box(.02,.13,.35,netM,x+.298,FL+.6,z,lowerInt),T);
+belt(x-.02,FL+.513,z)}}
 for(let i=0;i<11;i++){const x=-15.75+i*.965;ROWS.push({n:i+1,x,c:'First'});for(const s of [-1,1])firstPair(x,s)}
 const comfortX=[-4.6,-3.6,-2.6];for(let k=1;k<=6;k++)comfortX.push(-2.6+k*.864);
-comfortX.forEach((x,i)=>{ROWS.push({n:13+i,x,c:'Comfort'});for(const s of [-1,1])ecoBlock(x,s,headC)});
-ROWS.push({n:22,x:3.5,c:'Main'});ecoBlock(3.5,-1,headY);
-for(let k=0;k<10;k++){const x=4.4+k*.79;ROWS.push({n:23+k,x,c:'Main'});for(const s of [-1,1])ecoBlock(x,s,headY)}
-ROWS.push({n:33,x:12.3,c:'Main'});ecoBlock(12.3,1,headY);
+comfortX.forEach((x,i)=>{ROWS.push({n:13+i,x,c:'Comfort'});for(const s of [-1,1])ecoBlock(x,s,headComfort)});
+ROWS.push({n:22,x:3.5,c:'Main'});ecoBlock(3.5,-1,headMain);
+for(let k=0;k<10;k++){const x=4.4+k*.79;ROWS.push({n:23+k,x,c:'Main'});for(const s of [-1,1])ecoBlock(x,s,headMain)}
+ROWS.push({n:33,x:12.3,c:'Main'});ecoBlock(12.3,1,headMain);
 // Bulkheads, class divider and lavatories (1 forward, 1 mid-cabin, 2 ahead of the aft galley).
-function partition(x,low,high){for(const s of [-1,1]){box(.05,low,1.38,ivory,x,FL+low/2,s*1.03,lowerInt);if(high)box(.05,.56,.83,ivory,x,FL+1.34,s*.755,lowerInt)}}
-partition(-16.76,1.08,true);partition(-5.47,1.25,false);for(const s of [-1,1])for(const zc of [.62,1.27])box(.012,.19,.3,screenMat,-16.73,FL+.95,s*zc,lowerInt);
-function monument(x0,x1,side,name,doorFace){const w=x1-x0,xc=(x0+x1)/2;box(w,1.08,1.39,ivory,xc,FL+.54,side*1.025,lowerInt);box(w,.87,.82,ivory,xc,FL+1.515,side*.74,lowerInt);
-if(doorFace==='x+'){box(.02,1.8,.56,ivory2,x1+.011,FL+.93,side*.72,lowerInt);box(.02,.1,.04,metal,x1+.03,FL+1.0,side*.5,lowerInt);plaque(name,.42,.07,x1+.03,FL+1.74,side*.72,PI/2)}
-else{box(.6,1.8,.02,ivory2,xc,FL+.93,side*.319,lowerInt);box(.04,.1,.02,metal,xc+.2,FL+1.0,side*.3,lowerInt);plaque(name,.42,.07,xc,FL+1.74,side*.305,side>0?PI:0)}}
+function partition(x,low,high){for(const s of [-1,1]){box(.05,low,1.38,ivory,x,FL+low/2,s*1.03,lowerInt);box(.056,.12,1.38,dadoM,x,FL+.06,s*1.03,lowerInt);box(.06,.02,1.38,alu,x,FL+low+.01,s*1.03,lowerInt);if(high)box(.05,.52,.83,ivory,x,FL+1.34,s*.755,lowerInt)}}
+partition(-16.76,1.08,true);partition(-5.47,1.25,false);
+for(const s of [-1,1])for(const zc of [.62,1.27]){box(.012,.215,.335,blk,-16.731,FL+.95,s*zc,lowerInt);box(.014,.185,.3,scrM,-16.729,FL+.95,s*zc,lowerInt);box(.03,.12,.36,netM,-16.72,FL+.6,s*zc,lowerInt)}
+function monument(x0,x1,side,name,doorFace){const w=x1-x0,xc=(x0+x1)/2;box(w,1.08,1.39,ivory,xc,FL+.54,side*1.025,lowerInt);box(w,.87,.82,ivory,xc,FL+1.515,side*.74,lowerInt);box(w+.006,.1,1.396,dadoM,xc,FL+.05,side*1.025,lowerInt);
+if(doorFace==='x+'){box(.02,1.8,.56,ivory2,x1+.011,FL+.93,side*.72,lowerInt);box(.022,1.8,.012,alu,x1+.012,FL+.93,side*.72,lowerInt);box(.02,.1,.04,metal,x1+.03,FL+1.0,side*.5,lowerInt);box(.012,.05,.09,accent,x1+.024,FL+1.12,side*.5,lowerInt);plaque(name,.42,.07,x1+.03,FL+1.74,side*.72,PI/2)}
+else{box(.6,1.8,.02,ivory2,xc,FL+.93,side*.319,lowerInt);box(.012,1.8,.022,alu,xc,FL+.93,side*.318,lowerInt);box(.04,.1,.02,metal,xc+.2,FL+1.0,side*.3,lowerInt);box(.09,.05,.012,accent,xc+.2,FL+1.12,side*.306,lowerInt);plaque(name,.42,.07,xc,FL+1.74,side*.305,side>0?PI:0)}}
 monument(-18.6,-17.75,1,'LAVATORY','x+');monument(3.1,4.05,1,'LAVATORY','z');monument(12.85,13.8,1,'LAVATORY','z');monument(12.85,13.8,-1,'LAVATORY','z');
-// Sidewalls with window reveals; overhead bins, PSUs, mood lighting and ceiling (hidden in cutaway).
-for(const s of [-1,1]){box(29.55,1.08,.03,ivory,-1.925,FL+.54,s*1.775,lowerInt);box(29.55,.03,.06,trim,-1.925,FL+.62,s*1.75,lowerInt);
-for(const x of WINX){if(x>12.8)continue;rounded(.3,.4,.012,.12,ivory2,x,FL+.87,s*1.757);rounded(.22,.31,.014,.09,winIn,x,FL+.87,s*1.752)}
-const up=box(29.55,.778,.03,ivory,-1.925,FL+1.35,s*1.48,upperInt);up.rotation.x=-s*.804;
-for(let x=-16;x<12.6;x+=1.2){box(1.18,.38,.55,ivory,x,FL+1.81,s*.875,upperInt);box(.16,.03,.02,trim,x,FL+1.69,s*.595,upperInt)}
-box(29.4,.03,.42,ivory2,-2,FL+1.605,s*.93,upperInt);box(29.4,.02,.05,led,-2,FL+2.03,s*.585,upperInt)}
-box(34.4,.04,1.2,ivory,-1.35,FL+2.11,0,upperInt);
-for(const x of [-14,-8,-2,4,10]){const l=new THREE.PointLight('#dfe8ff',2.6,8,1.4);l.position.set(x,FL+1.85,0);aircraft.add(l)}
+// Curved sidewalls with bezelled window reveals and shades; sculpted overhead bins, PSUs, cove lighting and ceiling (hidden in cutaway).
+const WX0=-16.7,WX1=12.85,bezelG=(()=>{const rr=(s,w,h,r)=>{s.moveTo(-w/2+r,-h/2);s.lineTo(w/2-r,-h/2);s.quadraticCurveTo(w/2,-h/2,w/2,-h/2+r);s.lineTo(w/2,h/2-r);s.quadraticCurveTo(w/2,h/2,w/2-r,h/2);s.lineTo(-w/2+r,h/2);s.quadraticCurveTo(-w/2,h/2,-w/2,h/2-r);s.lineTo(-w/2,-h/2+r);s.quadraticCurveTo(-w/2,-h/2,-w/2+r,-h/2)};const sh=new THREE.Shape();rr(sh,.34,.46,.15);const ho=new THREE.Path();rr(ho,.215,.315,.095);sh.holes.push(ho);const g=new THREE.ExtrudeGeometry(sh,{depth:.012,bevelEnabled:true,bevelSize:.014,bevelThickness:.014,bevelSegments:3,curveSegments:8});g.translate(0,0,-.006);smooth(g);return g})();
+// Overhead bins: large pivoting bins with a smooth convex door (cubic profile), body, end ribs, latch pocket and edge trim.
+const BEZ=t=>{const u=1-t,a=u*u*u,b=3*u*u*t,c=3*u*t*t,d=t*t*t;return[a*.60+b*.47+c*.50+d*.70,a*2.06+b*1.92+c*1.66+d*1.615]},BINP=[];for(let i=0;i<=24;i++)BINP.push(BEZ(i/24));
+function profGeo(pts,len,side=1){const v=[],idx=[],n=pts.length;for(let i=0;i<2;i++)for(const [z,y] of pts)v.push((i-.5)*len,y,side*z);for(let j=0;j<n-1;j++)idx.push(j,j+n,j+1,j+n,j+n+1,j+1);const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(v,3));g.setIndex(idx);g.computeVertexNormals();return g}
+const doorM=imat('#eef2f4',.02,.3,{side:THREE.DoubleSide}),ribM=imat('#9eabb3',.1,.55,{side:THREE.DoubleSide}),seamM=imat('#56636c',.1,.7),ceilM=imat('#e9eef1',.02,.5,{side:THREE.DoubleSide});doorM.envMapIntensity=.6;
+function binShape(side){const sh=new THREE.Shape(),P=(z,y)=>[-side*z,y];BINP.forEach(([z,y],i)=>i?sh.lineTo(...P(z+.006,y)):sh.moveTo(...P(z+.006,y)));sh.lineTo(...P(1.36,1.6));sh.lineTo(...P(1.05,2.0));sh.closePath();const g=new THREE.ExtrudeGeometry(sh,{depth:1.17,bevelEnabled:false});g.translate(0,0,-.585);return g}
+function onDoor(t,off=0){const [z,y]=BEZ(t),[z2,y2]=BEZ(t+.01),l=Math.hypot(z2-z,y2-y),tz=(z2-z)/l,ty=(y2-y)/l;return{z:z+ty*off,y:y-tz*off,tz,ty}}
+for(const s of [-1,1]){wallArc(-14.6,-4,1.795,dadoM,WX0,WX1,s,lowerInt,3);wallArc(-4,20.5,1.8,wallM,WX0,WX1,s,lowerInt,7);wallArc(20.5,40.8,1.8,wallM,WX0,WX1,s,upperInt,6);
+const th=-s*.236,cz=Math.cos(.236),sz=Math.sin(.236);
+WINX.forEach((x,n)=>{if(x>12.8)return;const b=mesh(bezelG,wallM2,x,CY+.42-.012*sz,s*(1.8*cz-.016),lowerInt);b.rotation.x=th;b.castShadow=false;
+const pn=rounded(.225,.325,.008,.095,paneM,x,CY+.42,s*(1.8*cz-.005));pn.rotation.x=th;
+const drop=[0,0,.1,0,.16,0,0,.05][(n*7+(s>0?3:0))%8];if(drop){const sd=rounded(.225,drop,.01,.03,wallM2,x,CY+.42+(.1625-drop/2)*cz,s*(1.8*cz-.011-(.1625-drop/2)*sz));sd.rotation.x=th}});
+const bg=binShape(s),dg=profGeo(BINP,1.17,s),rg=profGeo(BINP.map(([z,y])=>[z+.014,y]),.03,s);for(let x=-16;x<12.6;x+=1.2){const b=mesh(bg,binM,x,FL,0,upperInt);b.rotation.y=PI/2;mesh(dg,doorM,x,FL,0,upperInt).castShadow=false;mesh(rg,ribM,x+.6,FL,0,upperInt).castShadow=false;if(x===-16)mesh(rg,ribM,x-.6,FL,0,upperInt);
+{const q=onDoor(.83,.002),th=Math.atan2(s*q.tz,q.ty);const pk=box(.2,.06,.006,blk,x,FL+q.y,s*q.z,upperInt);pk.rotation.x=th;pk.castShadow=false;const q2=onDoor(.835,.007),pd=box(.13,.03,.012,alu,x,FL+q2.y,s*q2.z,upperInt);pd.rotation.x=th;const q3=onDoor(.9,.002),gr=box(1.1,.004,.004,seamM,x,FL+q3.y,s*q3.z,upperInt);gr.castShadow=false;
+const q4=onDoor(.06,.002),hg=box(1.15,.006,.004,seamM,x,FL+q4.y,s*q4.z,upperInt);hg.castShadow=false;box(1.17,.012,.022,alu,x,FL+1.612,s*.708,upperInt);
+for(const dx of [-.5,.5]){const q5=onDoor(.95,.003),bp=box(.05,.02,.006,ribM,x+dx,FL+q5.y,s*q5.z,upperInt);bp.rotation.x=Math.atan2(s*q5.tz,q5.ty);bp.castShadow=false}}
 
+for(const dx of [-.3,.3]){for(const dz of [-.07,0,.07])box(.03,.008,.03,ledSpot,x+dx,FL+1.597,s*(1.02+dz),upperInt);for(const dz of [-.04,.04])box(.04,.01,.04,blk,x+dx+.09,FL+1.597,s*(1.02+dz),upperInt);box(.05,.008,.03,accent,x+dx-.09,FL+1.597,s*1.02,upperInt)}}
+box(29.4,.025,.05,ledWarm,-2,FL+2.062,s*.6,upperInt);box(29.4,.012,.03,alu,-2,FL+1.602,s*.77,upperInt)}
+// Ceiling: arched panels matching the bin pitch (dark backing shows through as panel seams), backlit patterned centre strip, speaker / emergency-light fixtures.
+const ceilPts=[];for(let i=0;i<=18;i++){const z=-.62+1.24*i/18;ceilPts.push([z,2.07+.125*(1-(z/.62)**2)])}
+box(34.4,.02,1.26,seamM,-1.35,FL+2.215,0,upperInt);
+{const cg=profGeo(ceilPts,1.188),cg0=profGeo(ceilPts,.738);mesh(cg0,ceilM,-18.175,FL,0,upperInt).castShadow=false;for(let k=0;k<27;k++)mesh(cg,ceilM,-16+k*1.2,FL,0,upperInt).castShadow=false}
+const mosaicTex=canvasTex(256,256,(g,w,h)=>{g.fillStyle='#aab3cc';g.fillRect(0,0,w,h);const sh=['#ffffff','#f1f4fa','#c9d1e4','#8f9cbd','#e2e7f2','#ffffff'];for(let r=0;r<8;r++)for(let c=-1;c<17;c++){const up=(r+c)%2===0,x=c*16,y=r*32,k=((c+16)%16*7+r*13+(up?3:0))%6;g.fillStyle=sh[k];g.beginPath();if(up){g.moveTo(x,y+32);g.lineTo(x+16,y);g.lineTo(x+32,y+32)}else{g.moveTo(x,y);g.lineTo(x+32,y);g.lineTo(x+16,y+32)}g.closePath();g.fill();g.strokeStyle='rgba(70,84,120,.55)';g.lineWidth=1.5;g.stroke()}},67,1);
+const ceilGlow=new THREE.MeshStandardMaterial({map:mosaicTex,emissive:'#eaf3ff',emissiveMap:mosaicTex,emissiveIntensity:.8,roughness:.4});
+{const pl=mesh(new THREE.PlaneGeometry(29.4,.44),ceilGlow,-1.9,FL+2.166,0,upperInt);pl.rotation.x=PI/2;pl.castShadow=false;
+for(const z of [-.228,.228]){box(29.4,.016,.02,alu,-1.9,FL+2.16,z,upperInt);box(29.4,.006,.03,ledWarm,-1.9,FL+2.168,z*1.16,upperInt)}
+for(let k=0;k<=24;k++){const x=-16.6+k*1.2+(k===24?.6:0);box(.014,.012,.44,alu,x,FL+2.161,0,upperInt)}
+for(let x=-14.2;x<12;x+=4.8){box(.22,.014,.13,alu,x,FL+2.158,0,upperInt);box(.17,.016,.085,blk,x,FL+2.156,0,upperInt);box(.12,.018,.02,ledSpot,x,FL+2.154,0,upperInt)}}
+
+function exitSign(x,y,z,rot){const e=plaque('EXIT',.24,.085,x,y,z,rot,upperInt,'#0f7a3c','#eafff2');e.material.emissive=new THREE.Color('#ffffff');e.material.emissiveMap=e.material.map;e.material.emissiveIntensity=1.3}
+for(const x of [DOORX[0]+.55,-3.6,DOORX[1]-.6]){box(.03,.1,.26,blk,x,FL+2.02,0,upperInt);box(.02,.1,.05,blk,x,FL+2.115,0,upperInt);exitSign(x+.017,FL+2.02,0,PI/2);exitSign(x-.017,FL+2.02,0,-PI/2)}
+// ---------- Door entrance areas (1L/1R and 4L/4R, symmetric): door lining, slide bustle, handle, frame, exit sign, entrance ceiling ----------
+const liningM=imat('#e4e8ea',.02,.5),liningD=imat('#c9d1d6',.04,.5),skirtM=imat('#8c979e',.05,.7),vinylD=imat('#2f353b',.05,.8),redM=imat('#c7272f',.1,.45),greenM=imat('#0f7a3c',0,.6);
+function zAt(x,yRel,off){const [r0,cy]=ringAt(x),dy=FL+yRel-cy,r=r0-off;return dy>=0?Math.sqrt(r*r-dy*dy):r*Math.sqrt(Math.max(0,1-(dy/(LOBE*r))**2))}
+const dA=(s,a0,a1)=>s>0?[a0,a1]:[180-a1,180-a0];
+for(const {g,xd,s} of allDoors){
+ const P=(x0,x1,a0,a1,off,m,par=g,nx=3,na=10)=>{const o=arcPanel(x0,x1,...dA(s,a0,a1),off,m,par,nx,na);o.castShadow=false;return o},rot=s>0?PI:0,
+  Z=(y,in_=0)=>s*(zAt(xd,y,.06)-in_),lean=(o,y)=>{o.rotation.x=Math.atan(s*(zAt(xd,y+.05,.06)-zAt(xd,y-.05,.06))/.1);o.castShadow=false;return o};
+ // Door lining with raised upper cover, framed viewing window, mechanism housing and slide bustle (these move with the door).
+ P(xd-.385,xd+.385,-10,44.3,-.06,liningM);
+ P(xd-.325,xd+.325,27.3,42.7,-.068,seamM);P(xd-.31,xd+.31,28,42,-.076,liningM);
+ P(xd-.14,xd+.14,13,26.4,-.068,seamM,g,2,4);P(xd-.11,xd+.11,14.5,25,-.075,winIn,g,2,4);
+ soft(.74,.46,.34,.08,.02,liningM,xd,FL+.27,Z(.27,.16),g);box(.7,.07,.33,skirtM,xd,FL+.045,Z(.05,.165),g);
+ soft(.5,.34,.24,.06,.02,liningM,xd-.09,FL+.69,Z(.69,.11),g);box(.3,.006,.006,seamM,xd-.09,FL+.5,Z(.5,.335),g);
+ for(const dx of [-.22,.22])box(.07,.035,.004,liningD,xd+dx,FL+.36,Z(.27,.332),g);
+ // Control handle (red), pivot plate, OPEN arrow, arming lever with flag, small placards.
+ lean(box(.13,.2,.02,liningD,xd+.27,FL+.72,Z(.72,.012),g),.72);lean(box(.22,.036,.036,redM,xd+.23,FL+.72,Z(.72,.045),g),.72);cylinder(.022,.022,.05,alu,xd+.31,FL+.72,Z(.72,.04),g,12).rotation.x=PI/2;
+ lean(plaque('OPEN',.085,.03,xd+.235,FL+1.24,Z(1.24,.012),rot,g,'#e9edee','#0f7a3c'),1.24);lean(box(.012,.17,.004,greenM,xd+.235,FL+1.11,Z(1.11,.01),g),1.11);lean(box(.04,.012,.004,greenM,xd+.235,FL+1.2,Z(1.2,.01),g),1.2);
+ lean(box(.07,.11,.03,blk,xd-.25,FL+1.08,Z(1.08,.02),g),1.08);lean(box(.02,.11,.006,redM,xd-.25,FL+.97,Z(.97,.012),g),.97);
+ lean(plaque('ARMED · DISARMED',.13,.025,xd-.25,FL+1.17,Z(1.17,.012),rot,g,'#e9edee','#4a5a64'),1.17);
+ lean(plaque('DOOR '+(xd<0?1:4)+(s>0?'L':'R'),.12,.03,xd,FL+1.6,Z(1.6,.03),rot,g,'#e9edee','#4a5a64'),1.6);
+ // Fixed door surround: frame liners, jamb trims, header, assist handles in recesses, lit exit sign, sill plate.
+ for(const q of [-1,1]){P(xd+q*.405,xd+q*.52,-12,46,-.05,liningM,lowerInt,1,10);P(xd+q*.398,xd+q*.416,-12,46,-.058,liningD,lowerInt,1,10);
+  lean(soft(.075,.32,.02,.03,.005,liningD,xd+q*.47,FL+1.15,Z(1.15,.0),lowerInt),1.15);lean(cylinder(.013,.013,.22,alu,xd+q*.47,FL+1.15,Z(1.15,.035),lowerInt,10),1.15);
+  for(const dy of [-.11,.11])lean(box(.02,.02,.035,alu,xd+q*.47,FL+1.15+dy,Z(1.15+dy,.018),lowerInt),1.15)}
+ P(xd-.52,xd+.52,44.5,56,-.04,liningM,upperInt,2,4);
+ box(.34,.12,.05,liningM,xd,FL+1.945,s*1.13,upperInt);box(.3,.1,.02,blk,xd,FL+1.945,s*1.108,upperInt);exitSign(xd,FL+1.945,s*1.096,rot);
+ if(s>0){box(.8,.03,.3,metal,xd,FL+.01,1.74,lowerInt);for(let q=0;q<8;q++)box(.1,.006,.08,q%2?yellow:dark,xd-.35+q*.1,FL+.028,1.64,lowerInt)}
+}
+// Entrance vestibules: dark non-slip floor, flat entrance ceiling with a patterned backlit field and an oval light dome.
+const entryTex=mosaicTex.clone();entryTex.needsUpdate=true;entryTex.repeat.set(2,3);
+const entryGlow=new THREE.MeshStandardMaterial({map:entryTex,emissive:'#eaf3ff',emissiveMap:entryTex,emissiveIntensity:.8,roughness:.4});
+[[-18.55,-16.76],[13.8,15.9]].forEach(([x0,x1],i)=>{const xc=(x0+x1)/2,xd=DOORX[i];
+ box(x1-x0,.012,3.5,vinylD,xc,FL+.011,0,lowerInt);if(i)box(x1-x0,.03,1.8,binM,xc,FL+2.06,0,upperInt);else{box(.8,.03,1.5,binM,x0+.4,FL+2.06,0,upperInt);box(x1-x0-.8,.03,1.8,binM,(x0+.8+x1)/2,FL+2.06,0,upperInt)}
+ const pl=mesh(new THREE.PlaneGeometry(.9,1.5),entryGlow,xd,FL+2.0435,0,upperInt);pl.rotation.x=PI/2;pl.castShadow=false;
+ for(const [w,h,r,m,y] of [[.64,.36,.17,binM,2.04],[.52,.25,.12,ledWarm,2.036],[.44,.17,.08,binM,2.032]]){const o=rounded(w,h,.012,r,m,xd,FL+y,0,upperInt);o.rotation.x=PI/2;o.castShadow=false}
+ for(const z of [-.76,.76])box(.9,.014,.02,alu,xd,FL+2.04,z,upperInt);for(const dx of [-.455,.455])box(.014,.014,1.54,alu,xd+dx,FL+2.04,0,upperInt);
+ for(const z of [-.95,.95]){const sp=cylinder(.05,.05,.008,liningD,xd,FL+2.042,z,upperInt,16);sp.castShadow=false}});
+for(const x of [-14,-8,-2,4,10]){const l=new THREE.PointLight('#dcefff',3.4,8,1.25);l.position.set(x,FL+1.85,0);aircraft.add(l);cabinLights.push(l)}
 // ---------- Galleys: open trolley bays (full-size trolleys, 0.32 m pitch), ovens, coffee, stowage ----------
 const TYPES={MF:{n:'Meals · First',s:'MEAL F',c:'#d9a441'},MY:{n:'Meals · Main',s:'MEAL Y',c:'#31baac'},BV:{n:'Beverages',s:'BEV',c:'#4a8fe0'},SN:{n:'Snacks',s:'SNACK',c:'#c56bd6'},IC:{n:'Ice · dry',s:'ICE',c:'#9fd3f0'},WS:{n:'Waste',s:'WASTE',c:'#8b98a3'}};
 const PLAN=[['MF','MF','BV','WS'],['MY','MY','BV','BV','SN','IC','WS']],BAYX=[-18.17,15.47];
@@ -197,13 +380,169 @@ for(let z=uA+.2;z<uB-.1;z+=.4){box(.02,.22,.34,ivory2,xf,FL+1.74,z,lowerInt);box
 const cz=i?[-.6,.6]:[-1.5];for(const z of cz){box(.24,.3,.2,trim,xb+f*.2,FL+1.26,z,lowerInt);box(.02,.16,.12,dark,xb+f*.33,FL+1.28,z,lowerInt);box(.14,.02,.14,metal,xb+f*.4,FL+1.12,z,lowerInt)}
 plaque(i?'GALLEY 5 · AFT':'GALLEY 1 · FORWARD',.7,.08,xf+f*.012,FL+1.9,uc,f>0?PI/2:-PI/2);
 const xd=DOORX[i];box(.8,.03,.3,metal,xd,FL+.01,-1.74,lowerInt);for(let q=0;q<8;q++)box(.1,.006,.08,q%2?yellow:dark,xd-.35+q*.1,FL+.028,-1.64,lowerInt);
-const gl=new THREE.PointLight('#fff1db',3,6,1.5);gl.position.set(xd,FL+1.85,0);aircraft.add(gl)}
+const gl=new THREE.PointLight('#edf6ff',4,6,1.3);gl.position.set(xd,FL+1.85,0);aircraft.add(gl);galleyLights.push(gl)}
 galley(0);galley(1);
+
+// ---------- Refined cabin details ----------
+const piping=imat('#9fb4bd',.05,.73),stitch=imat('#6d889b',0,.85),ventRing=imat('#99aab3',.74,.3);
+const ventGeo=new THREE.TorusGeometry(.023,.004,6,16),ventInner=new THREE.CylinderGeometry(.017,.017,.009,12);
+const rowAtlas=canvasTex(1024,1024,(g,w,h)=>{g.fillStyle='#263e50';g.fillRect(0,0,w,h);g.textAlign='center';g.textBaseline='middle';g.fillStyle='#e8f4f9';g.font='500 27px Arial';for(let n=1;n<=33;n++)g.fillText('ROW '+n,512,(n-.5)*h/33)});
+const rowMat=new THREE.MeshStandardMaterial({map:rowAtlas,roughness:.72});
+for(const row of ROWS){
+ for(const side of [-1,1]){
+  const rg=new THREE.PlaneGeometry(.24,.045),uv=rg.attributes.uv;
+  for(let j=0;j<uv.count;j++)uv.setY(j,1-(row.n-1+(1-uv.getY(j)))/33);
+  const rm=mesh(rg,rowMat,row.x,FL+1.751,side*.534,upperInt);rm.rotation.y=side>0?PI:0;rm.castShadow=false;
+ }
+ const zs=row.c==='First'?[.62,1.27]:[.5,.985,1.47];
+ for(const side of [-1,1])for(const zc of zs){
+  if(row.n===22&&side>0||row.n===33&&side<0)continue;
+  const z=side*zc;
+  for(const dz of [-1,1]){const seam=box(.37,.003,.004,stitch,row.x-.04,FL+(row.c==='First'?.535:.513),z+dz*(row.c==='First'?.205:.186),lowerInt);seam.castShadow=false}
+  const p=box(.009,.076,.23,wallM2,row.x+(row.c==='First'?.452:.335),FL+(row.c==='First'?.78:.62),z,lowerInt);p.rotation.z=-.13;p.castShadow=false;
+ }
+}
+for(const side of [-1,1]){
+ // Inset sidewall joints, dark window seals and circular passenger air outlets.
+ WINX.forEach(x=>{if(x>12.8)return;
+  for(const dx of [-.255,.255]){const o=box(.003,.62,.009,wallM2,x+dx,FL+.83,side*1.775,lowerInt);o.castShadow=false}
+  const w=mesh(bezelG,piping,x,CY+.42,side*1.733,lowerInt);w.scale.set(.76,.79,.2);w.rotation.x=-side*.236;w.castShadow=false;
+ });
+ for(let x=-15.9;x<12.5;x+=.965){
+  box(.36,.012,.2,wallM2,x,FL+1.588,side*1.02,upperInt);
+  for(const dx of [-.1,0,.1]){const o=mesh(ventGeo,ventRing,x+dx,FL+1.573,side*1.01,upperInt);o.rotation.x=PI/2;o.castShadow=false;const v=mesh(ventInner,blk,x+dx,FL+1.574,side*1.01,upperInt);v.castShadow=false}
+ }
+ // Cove lip and lower kick strips add readable layers in the aisle.
+ box(29.4,.018,.055,wallM2,-2,FL+2.03,side*.645,upperInt);
+ box(29.4,.012,.016,ledWarm,-2,FL+.023,side*.264,lowerInt);
+}
+
+// Galley detail: equipment faces, red latches, rubber bumpers and service placards.
+const equipmentTex=canvasTex(512,512,(g,w,h)=>{
+ g.fillStyle='#899ca7';g.fillRect(0,0,w,h);g.strokeStyle='#354c5b';g.lineWidth=9;g.strokeRect(9,9,w-18,h-18);g.fillStyle='#182b39';g.fillRect(40,93,432,286);g.fillStyle='#354d5a';g.fillRect(55,110,402,250);
+ for(let y=145;y<320;y+=28){g.fillStyle='#162b36';g.fillRect(74,y,364,8)}g.fillStyle='#10212c';g.fillRect(45,30,200,42);g.font='27px monospace';g.fillStyle='#a9e5a9';g.fillText('180°C  READY',58,60);g.fillStyle='#c8d6dc';g.fillRect(75,398,362,22);g.fillStyle='#e7a77e';g.beginPath();g.arc(415,53,13,0,7);g.fill();g.fillStyle='#344b59';for(let x=50;x<460;x+=16)g.fillRect(x,455,9,22);
+});
+const equipmentMat=new THREE.MeshStandardMaterial({map:equipmentTex,metalness:.26,roughness:.39});
+for(let i=0;i<2;i++){
+ const f=i?-1:1,xb=i?15.9:-18.6,uA=i?-1.0:-1.18,xf=xb+f*.612;
+ for(let k=0;k<(i?3:2);k++){const o=mesh(new THREE.PlaneGeometry(.3,.34),equipmentMat,xf+f*.019,FL+1.42,uA+.19+k*.34,lowerInt);o.rotation.y=f*PI/2;o.castShadow=false}
+ for(let b=0;b<PLAN[i].length;b++){
+  const z=bayZ(i,b);box(.026,.015,.22,metal,xb+f*.87,FL+.024,z,lowerInt);
+  const l=box(.025,.022,.105,accent,xb+f*.892,FL+1.035,z+.095,lowerInt);l.rotation.x=.18;
+ }
+ const n=PLAN[i].length,zA=bayZ(i,0)-.16,zB=bayZ(i,n-1)+.16;
+ for(const z of [zA-.025,zB+.025])box(.08,1.0,.04,blk,xb+f*.84,FL+.5,z,lowerInt);
+ plaque('KEEP AISLE CLEAR',.38,.045,xf+f*.025,FL+1.82,i?.72:-.81,f*PI/2,lowerInt,'#dce5e8','#314c5d');
+}
+
+// ---------- Flight deck: original geometry and procedural panel artwork ----------
+// Based on visible arrangement in the user-provided A320 panorama. Non-operational displays.
+const deck=new THREE.Group(),deckRoof=new THREE.Group();lowerInt.add(deck);upperInt.add(deckRoof);
+const deckBlue=imat('#536f7d',.17,.63),deckEdge=imat('#283c49',.12,.6),deckTrim=imat('#95a7ac',.4,.5),deckFabric=fab('#597381'),knobM=imat('#d5d9d4',.22,.44);
+const deckTex=(w,h,draw)=>canvasTex(w,h,draw);
+function panelMaterial(t,glow=.12){return new THREE.MeshStandardMaterial({map:t,emissive:'#ffffff',emissiveMap:t,emissiveIntensity:glow,roughness:.72,metalness:.12})}
+function plane(w,h,m,x,y,z,ry=PI/2,parent=deck){const o=mesh(new THREE.PlaneGeometry(w,h),m,x,y,z,parent);o.rotation.y=ry;o.castShadow=false;return o}
+function ink(g,text,x,y,size=12,color='#e3eced',align='left'){g.fillStyle=color;g.font=size+'px monospace';g.textAlign=align;g.fillText(text,x,y)}
+function drawPFD(g,w,h){
+ g.fillStyle='#040a0e';g.fillRect(0,0,w,h);g.save();g.beginPath();g.rect(100,85,310,314);g.clip();g.fillStyle='#287bb5';g.fillRect(95,80,320,155);g.fillStyle='#92542f';g.fillRect(95,235,320,170);g.strokeStyle='white';g.lineWidth=3;g.beginPath();g.moveTo(95,235);g.lineTo(415,235);g.stroke();
+ for(let j=-4;j<=4;j++){const y=235+j*28,wd=j%2?32:58;g.lineWidth=1.5;g.beginPath();g.moveTo(255-wd/2,y);g.lineTo(255+wd/2,y);g.stroke();if(j&&j%2===0){ink(g,Math.abs(j)*5,214,y+5,12);ink(g,Math.abs(j)*5,287,y+5,12)}}
+ g.strokeStyle='#f5d04b';g.lineWidth=5;g.beginPath();g.moveTo(197,236);g.lineTo(239,236);g.lineTo(239,247);g.moveTo(271,247);g.lineTo(271,236);g.lineTo(313,236);g.stroke();g.restore();
+ g.strokeStyle='#d8e7ef';g.lineWidth=3;g.beginPath();g.arc(255,210,115,3.72,5.7);g.stroke();
+ for(let a=-50;a<=50;a+=10){const r=a*Math.PI/180;g.beginPath();g.moveTo(255+Math.sin(r)*117,210-Math.cos(r)*117);g.lineTo(255+Math.sin(r)*127,210-Math.cos(r)*127);g.stroke()}
+ g.fillStyle='#182c37';g.fillRect(20,95,65,300);g.fillRect(425,95,65,300);for(let n=0;n<7;n++){ink(g,80+n*10,30,128+n*39,20);ink(g,200+n*100,435,128+n*39,19)}g.fillStyle='#010a0d';g.fillRect(14,226,82,40);g.fillRect(415,226,90,40);ink(g,'140',23,255,27,'#fff');ink(g,'0040',422,255,25,'#fff');ink(g,'1 FD 2',255,46,20,'#6deaa0','center');ink(g,'CLB    NAV',255,72,18,'#6deaa0','center');ink(g,'1013',445,439,23,'#80d5ff','center');ink(g,'0',255,364,20,'#6deaa0','center');
+ g.strokeStyle='#eee';g.beginPath();g.moveTo(115,451);g.lineTo(395,451);g.stroke();for(let n=0;n<9;n++){const x=120+n*34;g.beginPath();g.moveTo(x,451);g.lineTo(x,460);g.stroke();if(n%2===0)ink(g,String(24+n*10),x,483,17,'#e7f7ff','center')}ink(g,'PFD / ILLUSTRATIVE',255,508,11,'#75929e','center');
+}
+function drawND(g,w,h){
+ g.fillStyle='#020a0d';g.fillRect(0,0,w,h);ink(g,'GS 000   TAS ---',24,34,18,'#d2e7ea');ink(g,'TRK  000  MAG',256,67,19,'#7bdf98','center');g.strokeStyle='#6c939b';g.lineWidth=2;for(const r of [84,166,242]){g.beginPath();g.arc(256,300,r,Math.PI*1.09,Math.PI*1.91);g.stroke()}
+ for(let a=-80;a<=80;a+=10){const t=a*Math.PI/180;const x=256+240*Math.sin(t),y=300-240*Math.cos(t);g.beginPath();g.moveTo(x,y);g.lineTo(256+252*Math.sin(t),300-252*Math.cos(t));g.stroke();if(a%20===0)ink(g,String((360+a)%360).padStart(3,'0'),256+218*Math.sin(t),300-218*Math.cos(t)+5,16,'#d7edf3','center')}
+ g.strokeStyle='#dd6bd5';g.lineWidth=3;g.beginPath();g.moveTo(256,359);g.lineTo(256,209);g.lineTo(306,146);g.lineTo(290,82);g.stroke();for(const [x,y,n]of [[256,209,'HAM'],[306,146,'IDEKO'],[290,82,'NOLGO']]){g.strokeStyle='#79dba3';g.strokeRect(x-5,y-5,10,10);ink(g,n,x+13,y+4,15,'#9ee9ba')}
+ g.fillStyle='#f0e46a';g.beginPath();g.moveTo(256,327);g.lineTo(245,357);g.lineTo(256,350);g.lineTo(267,357);g.closePath();g.fill();ink(g,'GPS PRIMARY',256,440,21,'#70db91','center');ink(g,'ARC  /  10 NM',256,480,17,'#8db3bf','center');
+}
+function drawECAM(g,w,h,lower){
+ g.fillStyle='#030b0c';g.fillRect(0,0,w,h);ink(g,lower?'DOOR / OXY':'ENG   1        2',256,35,24,'#d7ebeb','center');g.strokeStyle='#87cf9c';g.lineWidth=3;
+ if(lower){g.beginPath();g.ellipse(256,254,38,146,0,0,Math.PI*2);g.moveTo(225,235);g.lineTo(119,298);g.lineTo(223,280);g.moveTo(288,235);g.lineTo(393,298);g.lineTo(289,280);g.moveTo(235,355);g.lineTo(188,393);g.lineTo(239,383);g.moveTo(277,355);g.lineTo(324,393);g.lineTo(274,383);g.stroke();for(const y of [149,213,282,350])for(const x of [220,283])g.strokeRect(x-5,y,10,18);ink(g,'CKPT OXY   1850 PSI',256,80,18,'#72d88e','center');ink(g,'SLIDES DISARMED',256,458,18,'#79dba0','center')}
+ else{for(let r=0;r<2;r++)for(let c=0;c<2;c++){const x=150+c*210,y=125+r*134;g.beginPath();g.arc(x,y,58,Math.PI,Math.PI*2.15);g.stroke();g.beginPath();g.moveTo(x,y);g.lineTo(x-39,y-24);g.stroke();ink(g,r?'EGT':'N1',256,y-23,17,'#dae8e5','center');ink(g,r?'020':'0.0',x,y+29,27,'#72e8a0','center')}
+  ink(g,'FOB   6200 KG',30,357,21,'#d2e9e4');g.strokeStyle='#777';g.beginPath();g.moveTo(20,377);g.lineTo(492,377);g.stroke();ink(g,'SEAT BELTS',28,418,20,'#75db94');ink(g,'NO SMOKING',28,450,20,'#75db94');ink(g,'APU AVAIL',300,418,20,'#75db94');ink(g,'PARK BRK',300,450,20,'#75db94')}
+ ink(g,'VISUAL RECONSTRUCTION',256,503,11,'#6b8c96','center');
+}
+const pfdM=panelMaterial(deckTex(512,512,drawPFD),.65),ndM=panelMaterial(deckTex(512,512,drawND),.58),ecamUp=panelMaterial(deckTex(512,512,(g,w,h)=>drawECAM(g,w,h,false)),.6),ecamLo=panelMaterial(deckTex(512,512,(g,w,h)=>drawECAM(g,w,h,true)),.6);
+const autopilotTex=deckTex(2048,260,(g,w,h)=>{
+ g.fillStyle='#4e6875';g.fillRect(0,0,w,h);g.strokeStyle='#a3b5bb';g.lineWidth=3;g.strokeRect(6,6,w-12,h-12);const labs=['SPD / MACH','HDG / TRK','ALTITUDE','V/S / FPA'];const vals=['---','000','10000','----'];
+ for(let i=0;i<4;i++){const x=170+i*430;ink(g,labs[i],x,43,23,'#edf0df');g.fillStyle='#172928';g.fillRect(x,58,260,61);ink(g,vals[i],x+131,104,47,'#ffd277','center');for(let n=0;n<3;n++){g.fillStyle='#172a32';g.fillRect(x+n*76,152,58,42);g.strokeStyle='#e6d2a0';g.lineWidth=2;g.strokeRect(x+n*76,152,58,42)}ink(g,['AP 1   AP 2','A/THR','EXPED','LOC    APPR'][i],x,230,23,'#ede8d5')}
+});
+const overheadTex=deckTex(1024,1400,(g,w,h)=>{
+ g.fillStyle='#4b6879';g.fillRect(0,0,w,h);const banks=[['ADIRS','FLT CTL','EVAC','EMER ELEC PWR','GPWS','CALLS'],['AIR COND','ELEC','FUEL','HYD','ANTI ICE','EXT LT'],['CABIN PRESS','VENT','APU','SIGNS','INT LT','WIPER']];
+ for(let col=0;col<3;col++)for(let row=0;row<6;row++){const x=14+col*338,y=12+row*230;g.fillStyle=col===1?'#526f80':'#496473';g.fillRect(x,y,325,219);g.strokeStyle='#b3c3c7';g.lineWidth=2;g.strokeRect(x+3,y+3,319,213);ink(g,banks[col][row],x+162,y+26,20,'#f2eee0','center');for(let a=0;a<2;a++)for(let b=0;b<3;b++){const xx=x+40+b*98,yy=y+62+a*90;g.fillStyle='#112733';g.fillRect(xx,yy,43,39);g.strokeStyle='#d6d4bb';g.lineWidth=2;g.strokeRect(xx,yy,43,39);ink(g,(col+row+a+b)%4===0?'ON':'',xx+21,yy+24,14,'#a7e0e6','center');ink(g,['AUTO','OFF','ON'][b],xx+21,yy-6,11,'#dce5df','center')}
+ if(col===1){g.strokeStyle='#8ddc93';g.lineWidth=3;g.beginPath();g.moveTo(x+62,y+122);g.lineTo(x+258,y+122);g.moveTo(x+160,y+105);g.lineTo(x+160,y+150);g.stroke()}}
+});
+const pedestalTex=deckTex(600,1200,(g,w,h)=>{
+ g.fillStyle='#4a6575';g.fillRect(0,0,w,h);g.strokeStyle='#b4c0bd';g.lineWidth=2;for(const x of [20,312]){g.fillStyle='#162a34';g.fillRect(x,15,268,355);g.fillStyle='#020a0e';g.fillRect(x+23,31,222,156);ink(g,'MCDU MENU',x+134,57,15,'#e7f0e7','center');for(let r=0;r<5;r++)ink(g,['<FMGC','<ATSU','<AIDS','<CFDS','  SELECT SYSTEM'][r],x+40,83+r*22,12,'#82dbb4');for(let r=0;r<6;r++)for(let c=0;c<8;c++){g.fillStyle='#50616c';g.fillRect(x+17+c*30,207+r*24,24,18);ink(g,String.fromCharCode(65+(r*8+c)%26),x+29+c*30,221+r*24,11,'#e3ebed','center')}}
+ for(let r=0;r<4;r++){g.strokeStyle='#b0bdc3';g.strokeRect(16,405+r*176,568,160);ink(g,['RADIO MANAGEMENT','ENG 1         ENG 2','SPEED BRAKE      FLAPS','PARK BRK  /  GRAVITY GEAR'][r],300,432+r*176,17,'#e1e4df','center');for(let c=0;c<6;c++){g.fillStyle='#142831';g.fillRect(38+c*89,451+r*176,63,37);ink(g,r===0?'118.0':'AUTO',69+c*89,475+r*176,13,'#e2c27d','center')}}
+});
+// Raised floor, tapered sidewalls, insulated rear bulkhead and door surround.
+box(2.25,.07,2.75,carpetM,-19.75,FL-.025,0,deck);
+for(const side of [-1,1]){
+ const w=soft(1.95,.62,.1,.14,.018,deckBlue,-19.62,FL+.39,side*1.22,deck);w.rotation.y=side*.09;
+ soft(1.35,.16,.33,.055,.015,deckBlue,-19.73,FL+.67,side*1.08,deck);
+ soft(.7,.06,.22,.04,.012,deckEdge,-19.32,FL+.77,side*1.03,deck);
+ const stick=cylinder(.024,.025,.15,blk,-19.54,FL+.89,side*1.035,deck,12);stick.rotation.z=-.18;soft(.10,.07,.06,.02,.008,blk,-19.55,FL+.97,side*1.035,deck);
+ // Pilot seat in blue woven fabric; the backrest remains behind the seated viewpoint.
+ box(.43,.35,.48,deckEdge,-19.0,FL+.19,side*.62,deck);
+ soft(.53,.13,.49,.06,.02,deckFabric,-19.03,FL+.44,side*.62,deck);
+ tilt(soft(.53,.68,.12,.08,.025,deckFabric,-18.80,FL+.86,side*.62,deck),-.1);
+ tilt(soft(.29,.22,.1,.06,.018,deckFabric,-18.76,FL+1.27,side*.62,deck),-.1);
+ for(const dz of [-.31,.31])soft(.43,.05,.085,.02,.01,blk,-18.98,FL+.67,side*.62+dz,deck);
+ box(.45,.025,.022,alu,-19.0,FL+.02,side*.62,deck);
+}
+// Main panel and padded glareshield. The main panel faces aft toward the pilot.
+const mainPanel=soft(2.22,.73,.18,.14,.025,deckBlue,-20.18,FL+.86,0,deck);mainPanel.rotation.y=PI/2;mainPanel.rotation.z=.08;
+soft(.45,.13,2.43,.05,.02,deckEdge,-20.28,FL+1.29,0,deck);
+const displaySpec=[[-.91,pfdM],[-.555,ndM],[.555,ndM],[.91,pfdM]];
+function cockpitDisplay(z,y,m,w=.315,h=.315){const b=soft(w+.036,h+.035,.026,.023,.006,blk,-20.060,y,z,deck);b.rotation.y=PI/2;plane(w,h,m,-20.043,y,z);}
+for(const [z,m] of displaySpec)cockpitDisplay(z,FL+.91,m);
+cockpitDisplay(0,FL+1.03,ecamUp,.30,.268);cockpitDisplay(0,FL+.68,ecamLo,.30,.268);
+for(const side of [-1,1]){plane(.105,.135,pfdM,-20.041,FL+.94,side*.304);plaque('SIDE STICK',.11,.025,-20.038,FL+.64,side*.63,PI/2,deck,'#526e7d','#e4eded');
+ for(let q=0;q<8;q++){const o=cylinder(.012,.012,.012,knobM,-20.025,FL+.70+q*.05,side*1.105,deck,10);o.rotation.z=PI/2}}
+// Flight control unit with separate three-dimensional selector knobs.
+soft(.12,.205,1.58,.025,.008,deckBlue,-20.20,FL+1.385,0,deck);plane(1.52,.192,panelMaterial(autopilotTex,.23),-20.133,FL+1.385,0);
+for(const z of [-.55,-.19,.18,.55]){const k=cylinder(.027,.031,.045,knobM,-20.085,FL+1.361,z,deck,20);k.rotation.z=PI/2;box(.048,.006,.005,deckEdge,-20.06,FL+1.378,z,deck)}
+// Pedestal, radio panels and twin thrust levers.
+soft(1.45,.52,.47,.07,.015,deckBlue,-19.52,FL+.30,0,deck);
+const pedestal=plane(.445,1.40,panelMaterial(pedestalTex,.18),-19.52,FL+.575,0,0);pedestal.rotation.set(-PI/2,0,PI/2);
+for(const side of [-1,1]){const lever=box(.04,.20,.035,alu,-19.57,FL+.70,side*.07,deck);lever.rotation.z=.17;soft(.10,.045,.07,.018,.008,blk,-19.59,FL+.81,side*.07,deck)}
+const brake=box(.035,.12,.022,blk,-19.04,FL+.65,.14,deck);brake.rotation.z=-.25;
+// Windshield artwork is original, with a quiet airport horizon rather than a copied photograph.
+const apronView=deckTex(1536,768,(g,w,h)=>{const gr=g.createLinearGradient(0,0,0,h);gr.addColorStop(0,'#75a6c4');gr.addColorStop(.6,'#cfe0e4');gr.addColorStop(.61,'#aebfc1');gr.addColorStop(1,'#85949a');g.fillStyle=gr;g.fillRect(0,0,w,h);g.fillStyle='#a0afb4';g.fillRect(0,430,w,90);g.fillStyle='#c8d3d5';for(let x=70;x<w;x+=240){g.fillRect(x,390,180,87);g.fillStyle='#6a808d';g.fillRect(x+12,415,155,37);g.fillStyle='#c8d3d5'}g.strokeStyle='#ddc56d';g.lineWidth=5;g.beginPath();g.moveTo(w*.5,h);g.lineTo(w*.53,520);g.stroke();g.fillStyle='#e3e9e8';for(let x=0;x<w;x+=110)g.fillRect(x,600,58,5)});
+const windMat=new THREE.MeshBasicMaterial({map:apronView,side:THREE.DoubleSide,toneMapped:false});
+function quad(pts,m,parent=deck){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pts.flat(),3));g.setAttribute('uv',new THREE.Float32BufferAttribute([0,0,1,0,1,1,0,1],2));g.setIndex([0,1,2,0,2,3]);g.computeVertexNormals();const o=mesh(g,m,0,0,0,parent);o.castShadow=false;return o}
+function beam(a,b,r,m,parent=deck){const va=new THREE.Vector3(...a),vb=new THREE.Vector3(...b),o=cylinder(r,r,va.distanceTo(vb),m,...va.clone().add(vb).multiplyScalar(.5).toArray(),parent,12);o.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),vb.sub(va).normalize());return o}
+for(const side of [-1,1]){
+ const a=[-20.47,FL+1.43,side*.025],b=[-20.18,FL+1.43,side*1.11],c=[-20.04,FL+1.98,side*1.00],d=[-20.42,FL+2.04,side*.025];
+ quad([a,b,c,d],windMat);for(const [p,q]of [[a,b],[b,c],[c,d],[d,a]])beam(p,q,.027,deckTrim);
+ quad([[-20.17,FL+1.44,side*1.12],[-19.16,FL+1.34,side*1.33],[-19.03,FL+1.99,side*1.27],[-20.02,FL+1.98,side*1.01]],windMat);
+ beam([-19.16,FL+1.34,side*1.33],[-19.03,FL+1.99,side*1.27],.04,deckBlue);
+ beam([-20.19,FL+1.44,side*1.13],[-19.16,FL+1.34,side*1.33],.035,deckBlue);
+ beam([-20.02,FL+1.98,side*1.01],[-19.03,FL+1.99,side*1.27],.06,deckBlue,deckRoof);
+ // Windscreen wiper, grab handle and small window latch.
+ beam([-20.44,FL+1.46,side*.10],[-20.26,FL+1.61,side*.67],.009,blk);beam([-20.26,FL+1.61,side*.67],[-20.18,FL+1.60,side*.95],.014,blk);
+ beam([-19.72,FL+1.78,side*1.15],[-19.41,FL+1.79,side*1.20],.017,blk);
+ box(.14,.025,.04,alu,-19.15,FL+1.35,side*1.29,deck);
+}
+// The insulated ceiling and a sloping overhead systems panel.
+soft(1.95,.075,2.44,.13,.012,deckBlue,-19.43,FL+2.075,0,deckRoof);
+const overGroup=new THREE.Group();overGroup.position.set(-19.67,FL+1.985,0);overGroup.rotation.z=-.045;deckRoof.add(overGroup);
+soft(1.43,.07,1.10,.04,.008,deckEdge,0,0,0,overGroup);const overhead=plane(1.03,1.36,panelMaterial(overheadTex,.16),0,-.039,0,0,overGroup);overhead.rotation.set(PI/2,0,-PI/2);
+for(let r=0;r<6;r++)for(const side of [-1,1])for(const zc of [.17,.40]){const x=-.56+r*.215,z=side*zc;const k=cylinder(.013,.014,.026,knobM,x,-.057,z,overGroup,12);const cap=box(.01,.025,.024,knobM,x,-.080,z,overGroup);cap.rotation.x=side*.3}
+// Rear cockpit wall, doorway, chart stowage and lighting.
+for(const side of [-1,1]){box(.06,1.92,.71,deckBlue,-18.65,FL+.96,side*.90,deck);box(.035,.6,.08,deckEdge,-18.70,FL+1.05,side*.38,deck)}
+box(.035,1.8,.62,deckEdge,-18.68,FL+.9,0,deck);plaque('FLIGHT DECK',.34,.045,-18.705,FL+1.64,0,-PI/2,deck,'#283c49','#c5d8de');
+for(const [x,y,z,c,i] of [[-19.55,FL+1.8,0,'#dce9ef',2.6],[-20.0,FL+.95,0,'#accbd8',.5]]){const l=new THREE.PointLight(c,i,3.3,1.4);l.position.set(x,y,z);aircraft.add(l);deckLights.push(l)}
+
 // Merge repeated furnishings into instanced batches.
 function batch(group){group.updateMatrixWorld(true);const m=new Map();for(const o of [...group.children]){if(!o.isMesh||o.isInstancedMesh)continue;const k=o.geometry.uuid+'/'+o.material.uuid;if(!m.has(k))m.set(k,[]);m.get(k).push(o)}for(const items of m.values()){if(items.length<2)continue;const inst=new THREE.InstancedMesh(items[0].geometry,items[0].material,items.length);items.forEach((o,i)=>{o.updateMatrix();inst.setMatrixAt(i,o.matrix);group.remove(o)});inst.castShadow=true;inst.receiveShadow=true;inst.frustumCulled=false;group.add(inst)}}
-batch(lowerInt);batch(upperInt);batch(shellGroup);
+batch(lowerInt);batch(upperInt);batch(shellGroup);batch(deck);batch(deckRoof);batch(overGroup);
 const sprites=[];function label(text,x,y,z,size){const c=document.createElement('canvas');c.width=512;c.height=96;const ct=c.getContext('2d');ct.fillStyle='#122b3aee';ct.beginPath();ct.roundRect(4,4,504,88,44);ct.fill();ct.fillStyle='#d9fff6';ct.font='bold 34px Arial';ct.textAlign='center';ct.fillText(text,256,60);const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false}));sp.position.set(x,y,z);sp.scale.set(size,size*96/512,1);scene.add(sp);sprites.push(sp)}
-label('R1 · FORWARD GALLEY',DOORX[0],7.4,-2.2,5);label('R4 · AFT GALLEY',DOORX[1],7.6,-2.2,4.4);label('A321neo',-2,7.2,0,4.5);
+label('R1 · FORWARD GALLEY',DOORX[0],7.4,-2.2,5);label('R4 · AFT GALLEY',DOORX[1],7.6,-2.2,4.4);label('A321XLR',-2,7.2,0,4.5);
 
 // ---------- Catering trucks (local +z points at the aircraft) ----------
 const truckBody=mat('#f1f3f4',.1,.45);
@@ -219,7 +558,7 @@ return{group,lift,bridge,bFloor,rails,legs,beams,vel:0,liftVel:0}}
 const trucks=DOORX.map(buildTruck);
 function setBridge(i,o){const t=trucks[i],len=Math.max(.02,o*(-1.9-(t.group.position.z+2.2)));t.bridge.visible=o>0;t.bFloor.scale.z=len;t.bFloor.position.z=2.2+len/2;t.rails[0].scale.z=t.rails[2].scale.z=len;t.rails[0].position.z=t.rails[2].position.z=2.2+len/2;t.rails[1].position.z=t.rails[3].position.z=2.2+len-.03}
 function setLegs(i,o){trucks[i].legs.forEach((l,k)=>{l.visible=o>0;if(k%2===0){l.scale.y=Math.max(.01,o);l.position.y=.9-.45*o}})}
-function setDoor(i,o){doors[i].forEach(d=>d.position.set(-.9*Math.max(0,(o*3-1)/2),0,-.15*Math.min(1,o*3)))}
+function setDoor(i,o){doors[i].forEach(d=>d.position.set(-.9*Math.max(0,(o*3-1)/2),0,-.42*Math.min(1,o*3)))}
 const usedBody=mat('#7f8a91',.6,.5),usedTop=mat('#5f676e',.1,.6),typeMat={};for(const k in TYPES)typeMat[k]=mat(TYPES[k].c,.1,.5);
 function cartMesh(type,used){const g=new THREE.Group(),c=used?usedTop:typeMat[type];box(.28,.93,.8,used?usedBody:metal,0,.565,0,g);box(.29,.035,.81,c,0,1.045,0,g);const tag=box(.22,.14,.83,c,0,.82,0,g);tag.castShadow=false;const lt=box(.06,.05,.825,used?accent:teal,.09,.62,0,g);lt.castShadow=false;const wh=box(.24,.1,.7,rubber,0,.05,0,g);wh.castShadow=false;return g}
 
@@ -278,25 +617,48 @@ $('again').onclick=()=>{$('result').close();newMission();notify('New mission. Dr
 $('reset').onclick=()=>{newMission();notify('Mission reset. Drive your catering truck to the stop mark.')};
 
 // ---------- Cameras ----------
-let interior=false,eye=new THREE.Vector3(-13,FL+1.6,0),yaw=0,pitch=0;
+let flightDeck=false,interior=false,eye=new THREE.Vector3(-13,FL+1.6,0),yaw=0,pitch=0;
 const cam={t:new THREE.Vector3(0,3,0),r:75,az:-2.3,el:.5},goal={t:new THREE.Vector3(0,3,0),r:75,az:-2.3,el:.5};
-function view(x,y,z,r,a,e){interior=false;$('walkControls').style.display='none';document.body.classList.remove('inside','missionOpen');$('cameraHelp').textContent='Drag to orbit · Scroll / pinch to zoom';camera.fov=40;camera.updateProjectionMatrix();goal.t.set(x,y,z);goal.r=r;goal.az=a;goal.el=e}
+function view(x,y,z,r,a,e){interior=false;flightDeck=false;shellGroup.visible=!cut;document.body.classList.remove('flightDeck');setViewButton('overview');$('walkControls').style.display='none';document.body.classList.remove('inside','missionOpen');$('cameraHelp').textContent='Drag to orbit · Scroll / pinch to zoom';camera.fov=40;camera.updateProjectionMatrix();goal.t.set(x,y,z);goal.r=r;goal.az=a;goal.el=e}
 function setCut(v){cut=v;shellGroup.visible=!v;upperInt.visible=!v;tailGroup.visible=!v;$('cutaway').textContent='Cutaway: '+(v?'on':'off');$('cutaway').classList.toggle('active',v)}
 function stageCam(){if(!autoCam||interior)return;const i=sel,s=G[i].stage,xd=DOORX[i],sg=i?1:-1;
 if(s<=1)view(xd,2,-7.5,25,sg*2.5,.33);else if(s===2)view(xd,3,-5,17,sg*2.45,.25);else if(s<=4)view(xd,FL+.7,-3,12,sg*2.2,.3);else if(s===5){setCut(true);view(xd+sg*.3,FL+.5,-.6,9,-sg*1.8,.95)}else view(xd,2.5,-6,26,sg*2.4,.4)}
 $('overview').onclick=()=>view(0,3,0,75,-2.3,.5);$('focus').onclick=()=>{setCut(true);view(DOORX[sel],FL+.5,-.6,9.5,sel?-1.8:1.8,.95)};$('top').onclick=()=>view(0,3,0,72,PI,1.55);$('cutaway').onclick=()=>setCut(!cut);
 $('autoCam').onclick=()=>{autoCam=!autoCam;$('autoCam').classList.toggle('active',autoCam);if(autoCam)stageCam()};
-function enterCabin(galley){interior=true;setCut(false);camera.fov=72;camera.updateProjectionMatrix();if(galley){eye.set(DOORX[sel]+(sel?-.35:.4),FL+1.6,.1);yaw=sel?0:PI+.3;pitch=-.18}else{eye.set(-13,FL+1.6,0);yaw=0;pitch=-.05}$('walkControls').style.display='block';document.body.classList.add('inside');$('cameraHelp').textContent='WASD / arrows to walk · Drag to look · Q/E to turn';notify(galley?names[sel]+' galley · trolley bays, ovens and stowage':'Cabin · First 2-2, Comfort and Main 3-3');}
+function enterCabin(galley){interior=true;flightDeck=false;document.body.classList.remove('flightDeck');setViewButton(galley?(sel?'tourRear':'tourFront'):'cabin');setCaption(galley?(sel?'AFT GALLEY / R4':'FORWARD GALLEY / R1'):'PASSENGER CABIN / 164 SEATS',galley?'Ready for service.':'A new perspective.',galley?'Stainless worktops, trolley locks and detailed equipment.':'Woven upholstery. Sculpted shells. Soft indirect light.');setCut(false);camera.fov=68;camera.updateProjectionMatrix();if(galley){eye.set(DOORX[sel]+(sel?-.35:.4),FL+1.6,.1);yaw=sel?0:PI+.3;pitch=-.18}else{eye.set(-8.25,FL+1.49,0);yaw=PI;pitch=-.06}$('walkControls').style.display='block';document.body.classList.add('inside');$('cameraHelp').textContent='WASD / arrows to walk · Drag to look · Q/E to turn';notify(galley?names[sel]+' galley · trolley bays, ovens and stowage':'Cabin · First 2-2, Comfort and Main 3-3');}
 $('cabin').onclick=()=>enterCabin(false);$('insideGalley').onclick=()=>enterCabin(true);
 const held=new Set();let previousFrame=0;
-function limitPosition(){eye.x=Math.max(-17.6,Math.min(14.9,eye.x));const w=(eye.x<-16.9||eye.x>13.95)?1.15:.14;eye.z=Math.max(-w,Math.min(w,eye.z));eye.y=FL+1.6}
-function moveRelative(f,sd,dt){eye.x+=(Math.cos(yaw)*f-Math.sin(yaw)*sd)*dt;eye.z+=(Math.sin(yaw)*f+Math.cos(yaw)*sd)*dt;limitPosition()}
+function limitPosition(){if(flightDeck)return;eye.x=Math.max(-17.6,Math.min(14.9,eye.x));const w=(eye.x<-16.9||eye.x>13.95)?1.15:.14;eye.z=Math.max(-w,Math.min(w,eye.z));eye.y=FL+1.6}
+function moveRelative(f,sd,dt){if(flightDeck)return;eye.x+=(Math.cos(yaw)*f-Math.sin(yaw)*sd)*dt;eye.z+=(Math.sin(yaw)*f+Math.cos(yaw)*sd)*dt;limitPosition()}
 function jumpTo(x,g){if(g!==undefined){sel=g;pick=-1;update()}enterCabin(g!==undefined);if(g===undefined){eye.x=x;eye.z=0}limitPosition()}
+
+function setCaption(k,t,d){$('sceneEyebrow').textContent=k;$('sceneTitle').textContent=t;$('sceneDescription').textContent=d}
+function setViewButton(id){$('cutaway').disabled=id==='flightDeck';for(const q of ['cabin','flightDeck','tourFront','entrance','tourRear','overview']){$(q).classList.toggle('active',q===id);$(q).setAttribute('aria-pressed',String(q===id))}}
+function enterDeck(preset='centre'){
+ interior=true;flightDeck=true;setCut(false);shellGroup.visible=false;document.body.classList.add('inside','flightDeck');document.body.classList.remove('missionOpen');$('walkControls').style.display='block';camera.fov=preset==='overhead'?80:76;camera.updateProjectionMatrix();
+ eye.set(preset==='pilot'?-19.15:-18.98,FL+(preset==='pilot'?1.35:1.40),preset==='pilot'?.55:0);yaw=PI+(preset==='pilot'?.20:0);pitch=preset==='pilot'?-.075:.04;
+ if(preset==='overhead'){eye.set(-18.84,FL+1.28,0);yaw=PI;pitch=.86}
+ if(preset==='pedestal'){eye.set(-19.12,FL+1.38,.35);yaw=PI+.18;pitch=-.82}
+ setViewButton('flightDeck');$('locationReadout').textContent='A320-family flight deck';$('cameraHelp').textContent='Drag to look · Scroll / pinch to zoom';
+ setCaption('FLIGHT DECK / A320 FAMILY',preset==='overhead'?'Every system in view.':preset==='pedestal'?'At the centre.':preset==='pilot'?'The captain’s perspective.':'Flight deck, in focus.','Blue-grey panels and instrument detail inspired by the 360° reference.');
+ notify('Flight deck · choose Captain, Centre, Overhead or Pedestal. Drag to look around.');
+}
+$('flightDeck').onclick=()=>enterDeck('centre');$('deckPilot').onclick=()=>enterDeck('pilot');$('deckCenter').onclick=()=>enterDeck('centre');$('deckOverhead').onclick=()=>enterDeck('overhead');$('deckPedestal').onclick=()=>enterDeck('pedestal');$('deckForward').onclick=()=>enterDeck('centre');$('deckCabin').onclick=()=>enterCabin(false);
+$('tourFront').onclick=()=>jumpTo(DOORX[0],0);$('entrance').onclick=()=>{jumpTo(DOORX[0],0);eye.set(DOORX[0]+.03,FL+1.6,1.1);yaw=-PI/2;pitch=-.08;setViewButton('entrance');setCaption('ENTRANCE / DOOR 1L','Welcome aboard.','Door lining, slide bustle, assist handles and entrance ceiling. 1R mirrors 1L.');notify('Boarding through door 1L, looking across to door 1R · turn around (Q / E) to see 1L itself.')};$('tourRear').onclick=()=>jumpTo(DOORX[1],1);
+function lighting(mode){
+ const night=mode==='night',warm=mode==='warm',color=night?'#91b9ed':warm?'#ffe0af':'#dcefff';
+ cabinLights.forEach(l=>{l.color.set(color);l.intensity=night?1.35:warm?3.0:3.4});galleyLights.forEach(l=>{l.color.set(warm?'#ffe8c3':'#e4f2ff');l.intensity=night?2.1:4});deckLights.forEach((l,i)=>{l.color.set(night?'#b4c6e0':warm?'#ffe1b8':'#dce9ef');l.intensity=i?.5:(night?1.15:2.6)});
+ ledWarm.emissive.set(night?'#719edc':warm?'#ffc58b':'#c5e7ff');ledWarm.emissiveIntensity=night?.95:1.8;
+ ceilGlow.emissive.set(night?'#8f86ff':warm?'#ffd7a6':'#eaf3ff');ceilGlow.emissiveIntensity=night?.75:.8;entryGlow.emissive.copy(ceilGlow.emissive);entryGlow.emissiveIntensity=ceilGlow.emissiveIntensity;paneM.emissiveIntensity=night?.18:1.15;paneM.color.set(night?'#7497ba':'#ffffff');windMat.color.set(night?'#536b8b':warm?'#ffefd8':'#ffffff');
+ hemi.intensity=night?.32:warm?.87:1.15;sun.intensity=night?.12:warm?1.5:2.5;sun.color.set(warm?'#ffe1b3':'#fff1d6');renderer.toneMappingExposure=night?.91:1.03;
+ for(const [id,val]of [['lightDay','day'],['lightWarm','warm'],['lightNight','night']]){$(id).classList.toggle('active',mode===val);$(id).setAttribute('aria-pressed',String(mode===val))}
+}
+$('lightDay').onclick=()=>lighting('day');$('lightWarm').onclick=()=>lighting('warm');$('lightNight').onclick=()=>lighting('night');
 $('jumpFront').onclick=()=>jumpTo(DOORX[0],0);$('jumpRear').onclick=()=>jumpTo(DOORX[1],1);$('jumpCabin').onclick=()=>jumpTo(-1);
 $('aislePosition').oninput=e=>{eye.x=+e.target.value;eye.z=0;limitPosition()};
 $('faceFront').onclick=()=>{yaw=PI;pitch=0};$('faceRear').onclick=()=>{yaw=0;pitch=0};$('levelView').onclick=()=>pitch=0;$('lookGalley').onclick=()=>jumpTo(DOORX[sel],sel);
-$('missionToggle').onclick=()=>document.body.classList.toggle(interior?'missionOpen':'panelHidden');
-function bindHold(id,key){const b=$(id);b.onpointerdown=e=>{e.preventDefault();b.setPointerCapture(e.pointerId);held.add(key);begin()};b.onpointerup=b.onpointercancel=b.onlostpointercapture=()=>held.delete(key)}
+$('missionToggle').onclick=()=>{const cls=interior?'missionOpen':'panelHidden';document.body.classList.toggle(cls);if(interior&&document.body.classList.contains('missionOpen')){view(DOORX[sel],3,-7,25,sel?2.5:-2.5,.33);document.body.classList.remove('panelHidden');notify('Catering mission · drive the truck to the stop mark to begin.')}};
+function bindHold(id,key){const b=$(id);b.onpointerdown=e=>{e.preventDefault();b.setPointerCapture(e.pointerId);held.add(key);if(!interior&&(key==='pos'||key==='neg'))begin()};b.onpointerup=b.onpointercancel=b.onlostpointercapture=()=>held.delete(key)}
 bindHold('walkNext','w');bindHold('walkBack','s');bindHold('strafeLeft','a');bindHold('strafeRight','d');bindHold('turnLeft','q');bindHold('turnRight','e');bindHold('holdPos','pos');bindHold('holdNeg','neg');
 const WALK=['w','a','s','d','q','e','arrowup','arrowdown','arrowleft','arrowright'];
 document.addEventListener('keydown',e=>{if(['INPUT','SELECT','TEXTAREA'].includes(e.target.tagName)||document.querySelector('dialog[open]'))return;const k=e.key.toLowerCase();
@@ -309,9 +671,9 @@ const pointers=new Map();let lastDist=0;const cv=renderer.domElement;
 cv.onpointerdown=e=>{pointers.set(e.pointerId,[e.clientX,e.clientY]);cv.setPointerCapture(e.pointerId);lastDist=0};
 cv.onpointermove=e=>{if(!pointers.has(e.pointerId))return;const prev=pointers.get(e.pointerId);pointers.set(e.pointerId,[e.clientX,e.clientY]);if(pointers.size===2){const p=[...pointers.values()],d=Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]);if(lastDist){if(interior){camera.fov=Math.max(45,Math.min(85,camera.fov*lastDist/d));camera.updateProjectionMatrix()}else goal.r=cam.r=Math.max(5,Math.min(160,goal.r*lastDist/d))}lastDist=d}else if(interior){yaw-=(e.clientX-prev[0])*.004;pitch=Math.max(-1.1,Math.min(1.1,pitch-(e.clientY-prev[1])*.004))}else{goal.az=cam.az=goal.az-(e.clientX-prev[0])*.006;goal.el=cam.el=Math.max(.04,Math.min(1.55,goal.el+(e.clientY-prev[1])*.006))}};
 cv.onpointerup=cv.onpointercancel=e=>{pointers.delete(e.pointerId);lastDist=0};
-cv.addEventListener('wheel',e=>{e.preventDefault();if(interior){eye.x+=e.deltaY*.003;limitPosition();return}goal.r=Math.max(5,Math.min(160,goal.r*Math.exp(e.deltaY*.001)))},{passive:false});
+cv.addEventListener('wheel',e=>{e.preventDefault();if(interior){if(flightDeck){camera.fov=Math.max(38,Math.min(85,camera.fov+e.deltaY*.025));camera.updateProjectionMatrix()}else{eye.x+=e.deltaY*.003;limitPosition()}return}goal.r=Math.max(5,Math.min(160,goal.r*Math.exp(e.deltaY*.001)))},{passive:false});
 onresize=()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight)};
-function where(){const x=eye.x;if(x<-16.8)return'Forward galley · door 1';if(x>13.85)return'Aft galley · door 4';if(x>12.7)return'Aft lavatories';let best=ROWS[0];for(const r of ROWS)if(Math.abs(r.x-x)<Math.abs(best.x-x))best=r;return best.c+' · row '+best.n+(best.n===14||best.n===15?' (overwing exit)':'')}
+function where(){if(flightDeck)return'A320-family flight deck';const x=eye.x;if(x<-16.8)return'Forward galley · door 1';if(x>13.85)return'Aft galley · door 4';if(x>12.7)return'Aft lavatories';let best=ROWS[0];for(const r of ROWS)if(Math.abs(r.x-x)<Math.abs(best.x-x))best=r;return best.c+' · row '+best.n+(best.n===14||best.n===15?' (overwing exit)':'')}
 const approach=(v,target,maxStep)=>v+Math.max(-maxStep,Math.min(maxStep,target-v));
 
 function tick(now){requestAnimationFrame(tick);const dt=Math.min(.05,Math.max(0,(now-previousFrame)/1000));previousFrame=now;
@@ -325,11 +687,10 @@ if(start&&!finished)elapsed=now-start;$('time').textContent=fmt(elapsed);
 trucks.forEach(tr=>tr.beams.forEach(({b,s})=>{const h=Math.max(.12,tr.lift.position.y-1.05);b.position.y=1.0+h/2;b.scale.y=Math.hypot(h,4.6);b.rotation.x=s*Math.atan2(4.6,h)}));
 if(interior){camera.position.copy(eye);camera.lookAt(eye.x+Math.cos(yaw)*Math.cos(pitch),eye.y+Math.sin(pitch),eye.z+Math.sin(yaw)*Math.cos(pitch))}
 else{const k=1-Math.exp(-dt*3.5);cam.t.lerp(goal.t,k);cam.r+=(goal.r-cam.r)*k;{let d=(goal.az-cam.az)%(2*PI);if(d>PI)d-=2*PI;if(d<-PI)d+=2*PI;cam.az+=d*k}cam.el+=(goal.el-cam.el)*k;camera.position.set(cam.t.x+cam.r*Math.sin(cam.az)*Math.cos(cam.el),cam.t.y+cam.r*Math.sin(cam.el),cam.t.z+cam.r*Math.cos(cam.az)*Math.cos(cam.el));camera.lookAt(cam.t)}
-sprites.forEach(o=>o.visible=!interior&&!cut);renderer.render(scene,camera)}
-newMission();
-window.__game={renderer,trucks,get state(){return{G,sel,busy,penalty,bonus,finished,elapsed}},view,enterCabin,setCut,goal,cam,DOCKZ,LIFTTOP,PLAN};
+sprites.forEach(o=>o.visible=!interior&&!cut);deck.visible=flightDeck||cut;deckRoof.visible=flightDeck;renderer.render(scene,camera)}
+newMission();enterCabin(false);notify('Explore the cabin, flight deck and galleys — or open the catering mission.');
+window.__game={eyeSet(x,z,y,p){eye.x=x;eye.z=z;yaw=y;pitch=p},renderer,trucks,scene,camera,enterDeck,lighting,get flightDeck(){return flightDeck},get interior(){return interior},get state(){return{G,sel,busy,penalty,bonus,finished,elapsed}},view,enterCabin,setCut,goal,cam,DOCKZ,LIFTTOP,PLAN};
 requestAnimationFrame(tick);
-</script><script>
 /* Keep the screen awake while the game is open (Screen Wake Lock API). */
 (()=>{if(!('wakeLock' in navigator))return;let lock=null;
 const req=async()=>{if(lock||document.visibilityState!=='visible')return;
