@@ -221,7 +221,12 @@ body.clean .act,body.clean .chips,body.clean .panel,body.clean .toolbar,body.cle
       <button role="menuitem" data-dest="lav" data-lav="0">Lavatories <em>forward</em></button>
       <div class="lv" role="group" aria-label="Other lavatories"><button role="menuitem" data-dest="lav" data-lav="1">Mid-cabin</button><button role="menuitem" data-dest="lav" data-lav="2">Aft left</button><button role="menuitem" data-dest="lav" data-lav="3">Aft right</button></div>
       <hr>
+      <button role="menuitem" data-dest="d1r">Door 1R <em>service door</em></button>
+      <button role="menuitem" data-dest="d1l">Door 1L <em>boarding</em></button>
+      <button role="menuitem" data-dest="ovw">Overwing exits</button>
+      <hr>
       <button role="menuitem" data-dest="deck">Cockpit <em>observer</em></button>
+      <button role="menuitem" data-dest="out">Step outside <em>back to the apron view</em></button>
     </div></div>
   <button class="xb" id="xSit" title="Look at a seat to sit in it (F)">Sit</button>
   <button class="xb" id="xDoor" title="Open or close the nearest door">Open door</button>
@@ -231,8 +236,8 @@ body.clean .act,body.clean .chips,body.clean .panel,body.clean .toolbar,body.cle
 </div>
 <div id="xGuide" class="glass xguide" hidden role="dialog" aria-label="Movement guide">
   <b>Explore with your mouse</b>
-  <ul id="xGuideKeys"><li><b>Drag</b> the view to look around.</li><li><b>Click the aisle floor</b> to walk there, or hold the walking buttons. Scroll to walk forward or back.</li><li><b>Go to</b> jumps to any cabin area, galley, lavatory or cockpit.</li><li>Use <b>Sit / Stand up</b>, <b>Open door</b> or the door labels. The keyboard is optional.</li></ul>
-  <ul id="xGuideTouch" hidden><li>Drag to look. Tap the aisle floor to walk.</li><li>Hold the walking buttons, or choose a place with <b>Go to</b>.</li><li>Use <b>Sit</b>, <b>Stand up</b> and the door buttons to interact.</li></ul>
+  <ul id="xGuideKeys"><li><b>Drag</b> the view to look around; <b>Level view</b> puts the horizon straight again.</li><li><b>Roll the wheel</b> to walk — the faster you roll, the faster you go. Rolling back walks backwards.</li><li><b>Click the aisle floor</b> to walk there, or hold the walking buttons. <b>Stop</b> cancels either.</li><li><b>Go to</b> jumps to any cabin area, galley, lavatory, door, the cockpit or back outside.</li><li>Use <b>Sit / Stand up</b>, <b>Open door</b> or the door labels. The keyboard is optional.</li></ul>
+  <ul id="xGuideTouch" hidden><li>Drag to look. Tap the aisle floor to walk there.</li><li>Hold the walking buttons, or choose a place with <b>Go to</b>.</li><li>Use <b>Sit</b>, <b>Stand up</b> and the door buttons to interact.</li></ul>
   <div class="row"><button id="xGuideClose">Got it</button></div>
 </div>
 <div id="xJoy" class="xjoy" hidden aria-label="Walk: drag the stick"><i></i></div>
@@ -254,9 +259,12 @@ body.clean .act,body.clean .chips,body.clean .panel,body.clean .toolbar,body.cle
     <button data-walk="left" title="Hold to step left" aria-label="Step left"><span>←</span>Step left</button>
     <button id="navStop" class="navstop" title="Stop walking" aria-label="Stop walking"><span>■</span>Stop</button>
     <button data-walk="right" title="Hold to step right" aria-label="Step right"><span>→</span>Step right</button>
-    <span></span><button data-walk="back" title="Hold to walk backward" aria-label="Walk backward"><span>↓</span>Back</button><span></span>
+    <button data-walk="lookUp" title="Hold to look up" aria-label="Look up"><span>⌃</span>Look up</button>
+    <button data-walk="back" title="Hold to walk backward" aria-label="Walk backward"><span>↓</span>Back</button>
+    <button data-walk="lookDown" title="Hold to look down" aria-label="Look down"><span>⌄</span>Look down</button>
    </div>
-   <p>Drag to look · click the floor to walk.<br>Use “Go to” for longer distances.</p>
+   <div class="row"><button id="navPace" aria-pressed="false" title="Switch between walking and a brisk walk">⇥ Pace: walk</button><button id="navLevel" title="Level the view to the horizon">⊜ Level view</button></div>
+   <p>Drag to look · click the floor to walk.<br>Roll the wheel to walk — roll faster to go faster.</p>
   </div>
  </div>
 </aside>
@@ -302,6 +310,21 @@ const camera=new THREE.PerspectiveCamera(44,innerWidth/innerHeight,.035,420);
 let renderer;try{renderer=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:false})}catch(e){$('boot').innerHTML='<h2>WebGL unavailable</h2><p>Enable hardware acceleration, then reopen this file in a recent browser.</p>';throw e}
 renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,innerWidth<800?1.35:1.65));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.shadowMap.autoUpdate=false;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.03;document.body.prepend(renderer.domElement);
 const hemi=new THREE.HemisphereLight(0xe2efff,0x555c68,1.15);scene.add(hemi);const cabinLights=[],galleyLights=[],deckLights=[];
+// Environment: a small procedural sky/apron equirectangular map, pre-filtered once into a cube. Many materials
+// here already declare envMapIntensity (clearcoat paint, the glazing, brushed metal) but had no environment to
+// sample, so glass read as flat black and polished metal as flat grey. One 256x128 source and a single PMREM
+// pass gives every reflective surface something to reflect, at the cost of one small cube texture and no extra
+// draw calls. Done at this point so later materials inherit it through scene.environment.
+{const c=document.createElement('canvas');c.width=256;c.height=128;const g=c.getContext('2d');
+ const sky=g.createLinearGradient(0,0,0,64);sky.addColorStop(0,'#5a8fc4');sky.addColorStop(.7,'#b7d0e4');sky.addColorStop(1,'#e4edf3');
+ g.fillStyle=sky;g.fillRect(0,0,256,64);
+ const gnd=g.createLinearGradient(0,64,0,128);gnd.addColorStop(0,'#b9bfc3');gnd.addColorStop(1,'#7d858b');
+ g.fillStyle=gnd;g.fillRect(0,64,256,64);
+ g.fillStyle='rgba(255,252,240,.95)';g.beginPath();g.ellipse(70,26,13,9,0,0,7);g.fill();      // sun disc, matching the key light
+ g.fillStyle='rgba(255,255,255,.5)';for(const [x,y,r] of [[150,30,16],[182,24,12],[36,40,14],[214,36,11]]){g.beginPath();g.ellipse(x,y,r,r*.45,0,0,7);g.fill()}
+ const env=new THREE.CanvasTexture(c);env.mapping=THREE.EquirectangularReflectionMapping;env.colorSpace=THREE.SRGBColorSpace;
+ const pm=new THREE.PMREMGenerator(renderer);pm.compileEquirectangularShader();
+ scene.environment=pm.fromEquirectangular(env).texture;pm.dispose();env.dispose();}
 {const es=new THREE.Scene(),c=document.createElement('canvas');c.width=8;c.height=256;const g=c.getContext('2d'),gr=g.createLinearGradient(0,0,0,256);gr.addColorStop(0,'#3f79b8');gr.addColorStop(.42,'#bcd3e6');gr.addColorStop(.5,'#f2f5f7');gr.addColorStop(.53,'#8d949a');gr.addColorStop(1,'#6f767c');g.fillStyle=gr;g.fillRect(0,0,8,256);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;es.add(new THREE.Mesh(new THREE.SphereGeometry(50,32,16),new THREE.MeshBasicMaterial({map:t,side:THREE.BackSide})));const sunDisc=new THREE.Mesh(new THREE.SphereGeometry(4,12,8),new THREE.MeshBasicMaterial({color:'#fffbe8'}));sunDisc.position.set(-20,36,-24);es.add(sunDisc);try{const pm=new THREE.PMREMGenerator(renderer);scene.environment=pm.fromScene(es,.03).texture;pm.dispose()}catch(e){}}
 const sun=new THREE.DirectionalLight(0xfff1d6,2.5);sun.position.set(-28,55,-34);sun.castShadow=true;sun.shadow.mapSize.set(innerWidth<800?1024:2048,innerWidth<800?1024:2048);sun.shadow.radius=3;Object.assign(sun.shadow.camera,{left:-40,right:40,top:40,bottom:-40,far:160});sun.shadow.bias=-.0004;sun.shadow.normalBias=.03;scene.add(sun);
 
@@ -378,19 +401,58 @@ const seam=mat('#8d979e',.3,.5);DOORX.forEach(xd=>{for(const s of [-1,1]){const 
 // Overwing exits (rows 14 and 15) and flight-deck glazing.
 for(const x of [-4.1,-3.1])for(const s of [-1,1])arcPanel(x-.26,x+.26,s<0?151:-3,s<0?183:29,.006,doorSkin,shellGroup);
 // Flight-deck glazing: two raked windshields meeting at a centre post, a sliding side window and the tapering aft fixed window, each in a dark surround.
-const glassFrame=mat('#14181d',.2,.5),aOf=(d,y)=>{const [r,cy]=ringAt(d-22.255);return Math.asin(Math.max(-1,Math.min(1,(CY+y-cy)/r)))*180/PI};
+const glassFrame=mat('#3b434b',.35,.45),aOf=(d,y)=>{const [r,cy]=ringAt(d-22.255);return Math.asin(Math.max(-1,Math.min(1,(CY+y-cy)/r)))*180/PI};
 function pane(s,c,off,m,grow=0,n=8){const cx=c.reduce((q,p)=>q+p[0],0)/4,ca=c.reduce((q,p)=>q+p[1],0)/4,k=c.map(([d,a])=>[d+Math.sign(d-cx)*grow,Math.min(89.6,a+Math.sign(a-ca)*grow*38)]),v=[],idx=[];
  for(let i=0;i<=n;i++)for(let j=0;j<=n;j++){const u=i/n,w=j/n,d=(k[0][0]*(1-u)+k[1][0]*u)*(1-w)+(k[3][0]*(1-u)+k[2][0]*u)*w,a=((k[0][1]*(1-u)+k[1][1]*u)*(1-w)+(k[3][1]*(1-u)+k[2][1]*u)*w)*PI/180,x=d-22.255,[r,cy]=ringAt(x);v.push(x,cy+(r+off)*Math.sin(a),s*(r+off)*Math.cos(a))}
  for(let i=0;i<n;i++)for(let j=0;j<n;j++){const q=i*(n+1)+j,t=q+n+1;idx.push(q,t,q+1,t,t+1,q+1)}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(v,3));g.setIndex(idx);g.computeVertexNormals();const mm=m.clone();mm.side=THREE.DoubleSide;const o=mesh(g,mm,0,0,0,shellGroup);o.castShadow=false;return o}
-{const W=[[[1.97,86.5],[2.25,38],[2.9,45],[2.72,86.5]],[[2.33,aOf(2.33,.52)],[3.07,aOf(3.07,.58)],[3.07,aOf(3.07,1.06)],[2.97,aOf(2.97,1.03)]],[[3.15,aOf(3.15,.58)],[3.72,aOf(3.72,.67)],[3.56,aOf(3.56,1.0)],[3.15,aOf(3.15,1.06)]]];
- for(const s of [-1,1])for(const c of W){pane(s,c,.013,glassFrame,.045,16);pane(s,c,.022,glassCock,0,16)}}
+// Corner order is (fwd-low, aft-low, aft-high, fwd-high). Elevations are derived from the station
+// height so every corner lands on the flank of the nose and never rides over the crown: aOfC caps the
+// elevation a little below the local crown, so the glazing stays inside the contour at every station.
+{const aOfC=(d,y,cap=.978)=>{const [r,cy]=ringAt(d-22.255),q=(CY+y-cy)/r;return Math.asin(Math.max(-1,Math.min(cap,q)))*180/PI};
+ // Every corner is a station height converted to an elevation on that station's own ring, so each corner lands
+ // on the hull rather than near it. The tops are held well under the local crown, which keeps a band of white
+ // fuselage above the glazing instead of letting the dark panes spill over the top of the nose. Only the
+ // forward corner of the windshield climbs, following the nose as it narrows towards the centre post.
+ const W=[
+  [[2.00,aOfC(2.00,.34)],[2.96,aOfC(2.96,.50)],[2.88,aOfC(2.88,.95)],[2.12,72]],                            // windshield: raked, taller aft
+  [[3.13,aOfC(3.13,.58)],[3.66,aOfC(3.66,.62)],[3.62,aOfC(3.62,.98)],[3.13,aOfC(3.13,1.00)]],               // sliding side window
+  [[3.83,aOfC(3.83,.64)],[4.34,aOfC(4.34,.71)],[4.24,aOfC(4.24,.92)],[3.83,aOfC(3.83,.97)]]];               // aft fixed window, tapering
+ // The surround stands 6 mm proud and the glass 2 mm, so each pane reads as recessed into its frame. The
+ // surround is kept narrow so the structural posts between the panes stay visible as white fuselage.
+ for(const s of [-1,1])for(const c of W){pane(s,c,.006,glassFrame,.020,16);pane(s,c,.002,glassCock,0,16)}
+ // No separate centre post: the windshields are brought close enough at the nose that the fuselage between
+ // them reads as the post. A painted strip there only produced a grey patch over the crown of the radome.
+}
 // A321XLR (Cabin Flex fuselage): door 3 sits aft of the wing. Modelled deactivated — outline, window and seams only.
 for(const s of [-1,1]){const a=s<0?[135,195]:[-15,45];arcPanel(D3X-DOORHALF,D3X+DOORHALF,a[0],a[1],.006,doorSkin,shellGroup);arcPanel(D3X-.11,D3X+.11,s<0?154:14,s<0?166:26,.016,glassExt,shellGroup,2,4);for(const dx of [-DOORHALF-.02,DOORHALF+.02])arcPanel(D3X+dx-.012,D3X+dx+.012,a[0]-1,a[1],.009,seam,shellGroup,1,10);arcPanel(D3X-DOORHALF-.03,D3X+DOORHALF+.03,a[s<0?0:1]+(s<0?-1.2:.2),a[s<0?0:1]+(s<0?-.2:1.2),.009,seam,shellGroup,2,1)}
 // Satcom radome on the crown and APU exhaust in the tail cone.
 {const rad=mesh(new THREE.SphereGeometry(1,24,12),white,3.3,CY+R0-.03,0,shellGroup);rad.scale.set(1.4,.21,.5);const apu=cylinder(.15,.13,.16,dark,22.2,CY+.975,0,tailGroup,20);apu.rotation.z=PI/2}
 // Cabin windows at the 0.533 m frame pitch.
 const WINX=[];for(let x=-16.2;x<12.45;x+=.5334)if(![...DOORX,D3X].some(d=>Math.abs(x-d)<.6))WINX.push(x);
-for(const x of WINX)for(const s of [-1,1]){const w=rounded(.22,.32,.03,.09,glassExt,x,CY+.42,s*1.935,shellGroup);w.rotation.x=-s*.215}
+// A window is a rounded rectangle laid on the fuselage surface itself, not a box set against it: every vertex is
+// placed at the hull radius for its own station and angle, so the pane follows the double curvature exactly and
+// nothing stands proud of the skin. The whole window belt lies in the constant-section barrel (x −16.255…12.5),
+// so one geometry per side serves every station and the instancing pass still collapses them to a single draw call.
+const winCache=new Map();
+function hullWindow(s,halfD,halfA,off,round=.40,nring=3,nseg=36){
+  const key=[s,halfD,halfA,off,round].join(',');let g=winCache.get(key);
+  if(!g){const [r,cy]=ringAt(0),q=r+off,aC=Math.asin(.42/r),p=[],idx=[];
+    // Superellipse boundary |u|^n+|v|^n=1 in (station, angle) space: n=2 is an oval, large n a rectangle.
+    // round=0.40 puts it where the A320 cabin window sits — a rectangle with generously radiused corners.
+    const n=2/Math.max(.05,round),edge=t=>{const a=t*2*PI,c=Math.cos(a),sn=Math.sin(a);
+      return[Math.sign(c)*Math.pow(Math.abs(c),2/n),Math.sign(sn)*Math.pow(Math.abs(sn),2/n)]};
+    const put=(du,dv)=>{const a=aC+dv*halfA;p.push(du*halfD,cy+q*YS(a),s*q*Math.cos(a))};
+    put(0,0);
+    for(let ring=1;ring<=nring;ring++)for(let i=0;i<nseg;i++){const [u,v]=edge(i/nseg),t=ring/nring;put(u*t,v*t)}
+    for(let i=0;i<nseg;i++)idx.push(0,1+i,1+(i+1)%nseg);
+    for(let ring=0;ring<nring-1;ring++)for(let i=0;i<nseg;i++){const a=1+ring*nseg+i,b=1+ring*nseg+(i+1)%nseg;idx.push(a,a+nseg,b,b,a+nseg,b+nseg)}
+    g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(p,3));g.setIndex(idx);g.computeVertexNormals();winCache.set(key,g)}
+  return g;
+}
+{const [r0]=ringAt(0),hA=.165/r0,hD=.112;                       // 0.33 m tall × 0.224 m wide, the A320 frame window
+ const winSeal=mat('#3f484e',.25,.55),winGlass=glassExt.clone();winGlass.side=THREE.DoubleSide;winSeal.side=THREE.DoubleSide;
+ for(const s of [-1,1]){const sealG=hullWindow(s,hD+.017,hA+.0095,.005),glassG=hullWindow(s,hD,hA,.0018);
+  for(const x of WINX){const a=mesh(sealG,winSeal,x,0,0,shellGroup),b=mesh(glassG,winGlass,x,0,0,shellGroup);a.castShadow=b.castShadow=false;a.receiveShadow=b.receiveShadow=false}}}
 const fair=mesh(new THREE.SphereGeometry(1,28,14),belly,-3.3,CY-1.5,0);fair.scale.set(5.6,.72,2.05);
 // XLR: fairing extended aft around the rear centre tank (RCT) bay.
 const fair2=mesh(new THREE.SphereGeometry(1,28,14),belly,2.3,CY-1.6,0);fair2.scale.set(4.3,.56,1.8);
@@ -608,14 +670,10 @@ galley(1);
 // ---------- Refined cabin details ----------
 const piping=imat('#9fb4bd',.05,.73),stitch=imat('#6d889b',0,.85),ventRing=imat('#99aab3',.74,.3);
 const ventGeo=new THREE.TorusGeometry(.023,.004,6,16),ventInner=new THREE.CylinderGeometry(.017,.017,.009,12);
-const rowAtlas=canvasTex(1024,1024,(g,w,h)=>{g.fillStyle='#263e50';g.fillRect(0,0,w,h);g.textAlign='center';g.textBaseline='middle';g.fillStyle='#e8f4f9';g.font='500 27px Arial';for(let n=1;n<=33;n++)g.fillText('ROW '+n,512,(n-.5)*h/33)});
-const rowMat=new THREE.MeshStandardMaterial({map:rowAtlas,roughness:.72});
+// Row-number placards on the bin fronts are deliberately omitted: at this scale they read as dark slabs
+// hanging under the stowage rather than as the small printed labels they are, and each one needed its own
+// geometry for the atlas UVs, so dropping them removes 66 unique geometries and the same number of draw calls.
 for(const row of ROWS){
- for(const side of [-1,1]){
-  const rg=new THREE.PlaneGeometry(.24,.045),uv=rg.attributes.uv;
-  for(let j=0;j<uv.count;j++)uv.setY(j,1-(row.n-1+(1-uv.getY(j)))/33);
-  const rm=mesh(rg,rowMat,row.x,FL+1.751,side*.534,upperInt);rm.rotation.y=side>0?PI:0;rm.castShadow=false;
- }
  const zs=row.c==='First'?[.62,1.27]:[.5,.985,1.47];
  for(const side of [-1,1])for(const zc of zs){
   if(row.n===22&&side>0||row.n===33&&side<0)continue;
@@ -886,7 +944,10 @@ const concreteMap=ptex(256,256,(g,w,h)=>{g.fillStyle='#9fa5a8';g.fillRect(0,0,w,
 const contactTex=ptex(128,128,(q,w,h)=>{const gr=q.createRadialGradient(w/2,h/2,2,w/2,h/2,w/2);gr.addColorStop(0,'rgba(0,0,0,.62)');gr.addColorStop(.45,'rgba(0,0,0,.32)');gr.addColorStop(1,'rgba(0,0,0,0)');q.fillStyle=gr;q.fillRect(0,0,w,h)});
 
 // ---------------- Materials ----------------------------------------------------
-const std=(o)=>new THREE.MeshStandardMaterial(o);
+// Ground equipment, crew and cabin fittings take a reduced share of the environment. Without this the
+// scene environment added since v5 puts a hard sky reflection on cloth, skin and hair and everything reads
+// as moulded plastic; the aircraft's own paint and glazing keep their full intensity and are set separately.
+const std=(o)=>new THREE.MeshStandardMaterial(Object.assign({envMapIntensity:.42},o));
 const M={
   steel:std({color:'#d5dbde',metalness:.86,roughness:.3,map:brushedMap,roughnessMap:brushedRough}),
   steelDark:std({color:'#8c969c',metalness:.85,roughness:.36,map:brushedMap,roughnessMap:brushedRough}),
@@ -1339,7 +1400,9 @@ function makeStack(def,k){
 const EXPL={boxes:[],seats:[],doors:[],lavs:[]};
 const obsBox=(x0,x1,z0,z1,tag)=>{const b={x0:Math.min(x0,x1),x1:Math.max(x0,x1),z0:Math.min(z0,z1),z1:Math.max(z0,z1),tag};EXPL.boxes.push(b);return b};
 // Lavatory palette: warm-grey laminate walls, solid-surface counter, stainless basin and bowl, grey plastic shroud.
-const lavM={wall:std({color:'#c9c3b6',roughness:.62,map:laminateMap}),wall2:std({color:'#b9b2a4',roughness:.6,map:laminateMap}),floor:std({color:'#4a5157',roughness:.85,map:nonslipMap}),
+// Lavatory linings: the reference photographs show near-white cool panels, not the warm beige laminate used
+// before, which under the cabin lights read as an older cabin and flattened the whole compartment.
+const lavM={wall:std({color:'#e0dedb',roughness:.58,map:laminateMap}),wall2:std({color:'#cdcbc8',roughness:.56,map:laminateMap}),floor:std({color:'#3f464c',roughness:.85,map:nonslipMap}),
   china:std({color:'#c4c8c6',roughness:.42,metalness:0}),chrome:std({color:'#dfe5e8',roughness:.12,metalness:1}),counter:std({color:'#8e979b',roughness:.38,map:laminateMap}),
   steel:std({color:'#cbd2d6',roughness:.26,metalness:.86,map:brushedMap}),
   mirror:new THREE.MeshStandardMaterial({color:'#b9c6ce',roughness:.06,metalness:1,envMapIntensity:1.0}),lamp:new THREE.MeshStandardMaterial({color:'#fff8e8',emissive:'#fff1d0',emissiveIntensity:1.6}),
@@ -1392,6 +1455,39 @@ function buildLav([x0,x1,s,face],li){
    const ring=mesh(new THREE.TorusGeometry(.135,.022,10,28),lavM.seat,0,0,0,g);ring.rotation.x=PI/2;ring.scale.set(.92,1.12,1);ring.position.copy(W(tx,.43,tz-.05));
    const lid=rbox(.30,.022,.36,.04,lavM.seat,0,0,0,g);lid.position.copy(W(tx,.62,tz+.17));lid.rotation.x=s*1.45;
    rbox(.34,.40,.07,.03,lavM.wall2,0,0,0,g).position.copy(W(tx,.66,tz+.24));cylinder(.022,.022,.02,lavM.chrome,0,0,0,g,16).position.copy(W(tx+.12,.92,tz+.2))}
+  // Service panel above the toilet, after the reference photographs of the Airspace lavatory: a column of flush
+  // white panels carrying the waste flap, two tissue dispensers, the airsick-bag slot and their pictograms, with
+  // the illuminated flush plate beside them. Shallow boxes and two small canvas placards, so the whole column
+  // costs very little and is what the eye actually reads when it looks at a lavatory wall.
+  {const py=FL+1.33,yA=FL+.95,yB=FL+1.72,zA=zo(yA),zB=zo(yB),th=Math.atan2(zA-zB,yB-yA);   // the outboard wall leans in with the fuselage
+   const grp=new THREE.Group();grp.position.set(x0+tx,py,s*(zo(py)-.028));grp.rotation.x=-s*th;g.add(grp);
+   const io=-s,panelM=lavM.seat,inset=lavM.wall2,P=(lx,ly,d)=>[lx,ly,io*d];               // io: local +z towards the room
+   const put=(o,lx,ly,d)=>{o.position.set(lx,ly,io*d);return o};
+   put(rbox(.52,.78,.022,.012,panelM,0,0,0,grp),0,0,.011);                                 // flush panel column
+   for(const dy of [.165,-.145])box(.50,.004,.004,inset,0,dy,io*.023,grp);                 // joints between panels
+   for(const dx of [-.145,.145]){                                                          // tissue dispensers
+     put(rbox(.15,.055,.016,.01,inset,0,0,0,grp),dx,.25,.027);
+     box(.125,.035,.010,lavM.dark,dx,.248,io*.031,grp);
+     put(rbox(.055,.022,.012,.006,panelM,0,0,0,grp),dx,.16,.030)}                          // grab tabs
+   put(rbox(.17,.034,.016,.008,lavM.dark,0,0,0,grp),0,.075,.027);                          // airsick-bag slot
+   put(rbox(.30,.20,.018,.012,panelM,0,0,0,grp),0,-.14,.028);                              // waste flap
+   box(.22,.016,.010,lavM.dark,0,-.065,io*.039,grp);
+   {const pl=label('PUSH',.07,.022,0,0,0,0,grp,'#eef1ef','#55606a');pl.position.set(0,-.21,io*.040);if(io<0)pl.rotation.y=PI}
+   {const sg=label('NO SMOKING IN LAVATORY',.16,.036,0,0,0,0,grp,'#f2f4f2','#b0242c');sg.position.set(-.17,.355,io*.040);if(io<0)sg.rotation.y=PI}
+   // Flush plate: a blue illuminated ring, the one strong colour on an otherwise white wall.
+   {put(rbox(.075,.075,.014,.03,inset,0,0,0,grp),.205,-.015,.027);
+    const ring=mesh(new THREE.TorusGeometry(.021,.0048,8,22),std({color:'#1c4f9c',emissive:'#2f7fe8',emissiveIntensity:1.7,roughness:.4}),.205,-.015,io*.037,grp);
+    cylinder(.017,.017,.008,lavM.chrome,.205,-.015,io*.036,grp,16).rotation.x=PI/2}
+   // Bake the tilt into the panel meshes and hand them to the lavatory group, so the static merge below folds
+   // them in with the rest of the compartment instead of leaving a dozen extra draw calls per lavatory.
+   grp.traverse(o=>{if(o.isMesh)o.castShadow=false});grp.updateWorldMatrix(true,true);
+   for(const c of [...grp.children])g.attach(c);g.remove(grp)}
+  // Ambient cove: a dim cool strip washing the top of the walls, as in the reference photographs. Emissive
+  // only, so it tints the surfaces it is seen against without adding a light to the per-frame cost.
+  {const cove=new THREE.MeshStandardMaterial({color:'#9fc6ef',emissive:'#6aa8ee',emissiveIntensity:1.25,roughness:.5});
+   box(w-.10,.012,.016,cove,xc,top-.075,zi+s*.030,g).castShadow=false;
+   const d=Math.max(.2,Math.min(1.30,zo(top-.08)-.38));
+   box(.014,.012,d,cove,x1-.045,top-.075,s*(.38+d/2),g).castShadow=false}
   // Fittings: grab bar and paper holder on the aft wall (clear of any door), towel dispenser, ceiling light, signs.
   {const gb=cylinder(.014,.014,.34,lavM.chrome,0,0,0,g,10);gb.rotation.x=PI/2;gb.position.copy(W(L.bar[0],.95,L.bar[1]));
    rbox(.04,.16,.14,.02,M.plastic,0,0,0,g).position.copy(W(L.tp[0],.62,L.tp[1]));
@@ -1490,14 +1586,20 @@ const cylGeo=(r1,r2,h,seg=24)=>cachedGeo('cyl'+[r1,r2,h,seg],()=>new THREE.Cylin
 // along rays from a centre inside the head (star-shaped), so there are no creases where the volumes meet.
 const FACE_E=[[0,.088,-.006,.082,.1,.098],[0,.036,.01,.069,.07,.0705]];     // skull and jaw: both contain HEAD_O
 // Facial relief as smooth height bumps along z (no silhouette discontinuities): [x, y, rx, ry, height].
-const FACE_BUMPS=[[0,-.008,.031,.022,.0085],[.03,.104,.031,.0115,.0038],[-.03,.104,.031,.0115,.0038],[0,.026,.026,.016,.0018],
-  [0,.073,.014,.031,.0065],[0,.057,.017,.017,.010], [.012,.052,.010,.010,.0028],[-.012,.052,.010,.010,.0028]];   // chin, brow ridge, cheekbones, mouth, nose bridge, tip, wings
+// Softened from the earlier set: the nose tip was the tallest bump on the face after the chin and read as a
+// beak in profile, so its height is reduced and its footprint widened; the wings are broadened to carry the
+// tip into the cheek instead of ending in a ridge; a shallow philtrum and a lower-lip shelf are added so the
+// mouth sits in relief rather than being drawn on; the cheekbones are raised slightly to catch the key light.
+const FACE_BUMPS=[[0,-.008,.031,.022,.0085],[.03,.104,.031,.0115,.0038],[-.03,.104,.031,.0115,.0038],[0,.026,.026,.016,.0026],
+  [0,.073,.0145,.030,.0058],[0,.0565,.0195,.0205,.0078],[.0145,.0515,.0125,.0115,.0030],[-.0145,.0515,.0125,.0115,.0030],
+  [0,.0385,.0075,.0085,.0016],[0,.0135,.019,.0105,.0020],[.0345,.066,.0225,.0185,.0022],[-.0345,.066,.0225,.0185,.0022]];
+  // chin, brow ridge L/R, mouth, nose bridge, tip, wings L/R, philtrum, lower-lip shelf, cheekbones L/R
 const HEAD_O=[0,.062,0];
 const smax=(a,b,k)=>{const h=Math.max(k-Math.abs(a-b),0);return Math.max(a,b)+h*h/(4*k)};
 function faceBump(x,y){let h=0;for(const [bx,by,rx,ry,A] of FACE_BUMPS){const q=((x-bx)/rx)**2+((y-by)/ry)**2;if(q<4){const e=Math.exp(-1.6*q)*Math.pow(1-q/4,3);h+=A*e}}return h}
 function headRadius(dx,dy,dz){let r=0;const [ox0,oy0,oz0]=HEAD_O;
   for(const [cx,cy,cz,a,b,c] of FACE_E){const ox=(ox0-cx)/a,oy=(oy0-cy)/b,oz=(oz0-cz)/c,vx=dx/a,vy=dy/b,vz=dz/c,A=vx*vx+vy*vy+vz*vz,B=2*(ox*vx+oy*vy+oz*vz),C=ox*ox+oy*oy+oz*oz-1,D=B*B-4*A*C;
-    if(D<0)continue;const t=(-B+Math.sqrt(D))/(2*A);if(t>0)r=r?smax(r,t,.02):t}
+    if(D<0)continue;const t=(-B+Math.sqrt(D))/(2*A);if(t>0)r=r?smax(r,t,.030):t}   // wider blend: the jaw met the skull in a visible crease along the cheek
   if(dz>.25){const h=faceBump(ox0+dx*r,oy0+dy*r);if(h>0)r+=h/dz}
   return r}
 // Sphere directions are turned so the UV seam sits at the back of the head; seam normals are averaged.
@@ -1514,7 +1616,11 @@ function faceZ(x,y){const k=x.toFixed(4)+','+y.toFixed(4);if(_faceCache.has(k))r
   _faceRay.set(V(x,y,.4),V(0,0,-1));const h=_faceRay.intersectObject(_faceMesh,false)[0];const z=h?h.point.z:0;_faceCache.set(k,z);return z}
 // Hair: a shell over the head surface that rises out of the skin above a hairline (elevation per azimuth), so it
 // hugs the skull, leaves the face open and blends into the scalp instead of sitting on it like a helmet.
-const HAIRLINE=[[0,.8],[.45,.74],[.9,.55],[1.3,.44],[1.62,.40],[1.95,.18],[2.35,-.25],[2.75,-.5],[PI,-.56]];
+// Elevation of the hairline per azimuth (0 = forehead, PI/2 = the side of the head, PI = the nape). The earlier
+// curve fell from .18 to −.25 between two knots, which put a hard diagonal cliff across the temple just above
+// the ear and left a bare wedge of scalp in front of it. The descent is now carried over five knots through
+// the sideburn, around the ear and down to the nape, so the edge reads as a hairline rather than a cut.
+const HAIRLINE=[[0,.79],[.40,.73],[.80,.60],[1.15,.47],[1.45,.355],[1.70,.265],[1.90,.155],[2.10,.01],[2.40,-.20],[2.75,-.42],[PI,-.50]];
 function hairlineAt(az){az=Math.abs(az);for(let i=0;i<HAIRLINE.length-1;i++){const [a0,e0]=HAIRLINE[i],[a1,e1]=HAIRLINE[i+1];if(az<=a1){const t=(az-a0)/(a1-a0);return e0+(e1-e0)*t}}return HAIRLINE[HAIRLINE.length-1][1]}
 function hairGeo(style){return cachedGeo('smooth-hair-'+style,()=>{
   // The first ring follows the hairline itself. There is no cut through coarse
@@ -1553,39 +1659,84 @@ function buildHead(o,head,skinM){
     const k=mesh(g,m,0,0,0,head);k.castShadow=false;return k;
   }
   const face=mesh(headGeo(),skinM,0,0,0,head);face.name='Smooth unified face';
+  // A brow or a lash drawn as a round tube reads as a wire laid on the face in profile. These sit as tapered
+  // ribbons on the skin instead: the curve is sampled, offset sideways by a half-width that falls to zero at
+  // both ends, and every vertex is dropped onto the head surface, so the feature has width and thickness
+  // where it should and disappears into the skin at its tips.
+  const ribbon=(pts,wid,m,off=.0007,n=26)=>{
+    const cur=new THREE.CatmullRomCurve3(pts.map(([x,y])=>V(x,y,0))),p=[],idx=[];
+    for(let i=0;i<=n;i++){const t=i/n,q=cur.getPoint(t),d=cur.getTangent(t),nx=-d.y,ny=d.x,
+      w=wid*Math.pow(Math.max(0,1-Math.pow(Math.abs(t*2-1),2.1)),.62)+1e-5;
+      for(const k of [1,-1]){const x=q.x+nx*w*k,y=q.y+ny*w*k;p.push(x,y,faceZ(x,y)+off)}}
+    for(let i=0;i<n;i++){const a=i*2;idx.push(a,a+2,a+1,a+1,a+2,a+3)}
+    const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(p,3));g.setIndex(idx);g.computeVertexNormals();
+    const k=mesh(g,m,0,0,0,head);k.material.side=THREE.DoubleSide;k.castShadow=false;return k};
   for(const s of [-1,1]){
-    M_(sphGeo(.025,24,18),skinM,s*.080,.075,-.011,.34,1,.59);M_(sphGeo(.011,20,14),shadeM,s*.086,.074,-.006,.22,1,.56);
-    const ex=s*.032,ey=.084,rx=.014;
+    // Ear: a flattened auricle that grows out of the skull, a helix rim that closes its upper edge, a small
+    // recessed concha and a lobe. The previous version put a dark sphere almost as large as the light one
+    // inside it, which read at any distance as a ring stuck to the side of the head.
+    const earX=s*.0738;
+    const pin=M_(sphGeo(.0285,20,14),skinM,earX,.0685,-.0155,.32,1.04,.70);pin.rotation.set(.10,0,s*-.13);
+    const hel=mesh(torGeo(.0212,.0044,7,20,PI*1.5),skinM,earX+s*.0045,.0715,-.0155,head);
+    hel.rotation.set(0,s*PI/2,s*-2.52);hel.scale.set(1,1.12,.44);
+    const con=M_(sphGeo(.0098,14,10),shadeM,earX+s*.0066,.0668,-.0135,.24,1.00,.76);con.rotation.z=s*-.13;
+    const lob=M_(sphGeo(.0092,12,10),skinM,earX+s*.0008,.0478,-.0118,.42,.94,.72);
+    for(const q of [pin,hel,con,lob])q.castShadow=false;
+    // Eye: white, iris, pupil and catchlight laid on the surface, with an upper-lid fold above the lash so the
+    // eye sits under a brow rather than being painted flat on the cheek.
+    const ex=s*.032,ey=.0838,rx=.0142;
     patch(ex,ey,rx,.0050,.0038,whiteM,.0010);
     patch(ex,ey+.0002,.0045,.0045,.0037,irisM,.00135);
     patch(ex,ey+.0003,.0021,.0022,.0021,pupM,.00165);
-    M_(sphGeo(.00065,10,8),hiM,ex-.0013,ey+.0017,faceZ(ex-.0013,ey+.0017)+.0021);
-    const upper=[],lower=[];for(let i=0;i<=12;i++){const a=PI*i/12,x=ex-rx*Math.cos(a);upper.push([x,ey+.0051*Math.sin(a),.0011]);lower.push([x,ey-.0039*Math.sin(a),.0009])}
-    tube(upper,.00105,lidM);tube(lower,.0008,lidM);
-    tube([[s*.017,.105,.0009],[s*.027,.108,.0011],[s*.039,.1081,.0011],[s*.048,.1057,.0008]],o.browW?.00125:.0016,browM,24);
+    M_(sphGeo(.00065,10,8),hiM,ex-s*.0013,ey+.0017,faceZ(ex-s*.0013,ey+.0017)+.0021);
+    const upper=[],lower=[],fold=[];
+    for(let i=0;i<=14;i++){const a=PI*i/14,x=ex-rx*Math.cos(a);
+      upper.push([x,ey+.0052*Math.sin(a)]);lower.push([x,ey-.0040*Math.sin(a)]);fold.push([x,ey+.0083*Math.sin(a)*Math.sin(a)+.0016])}
+    ribbon(upper,.00115,lidM,.0011,22);ribbon(lower,.00075,lidM,.0009,18);ribbon(fold,.0013,shadeM,.0004,18);
+    // Brow: a tapered ribbon following the ridge, thicker at the inner third and fading at the tail.
+    ribbon([[s*.0145,.1026],[s*.0255,.1066],[s*.0375,.1072],[s*.0472,.1044]],o.browW?.0022:.0028,browM,.0008,24);
     patch(s*.008,.050,.0021,.00065,.00065,shadeM,.00045);
   }
-  // Subtle lip ribbons with relaxed corners; all samples lie on the skin.
-  const smile=o.smile==='open'?.0028:.0020,w=.020;
+  // Lip ribbons with relaxed corners; all samples lie on the skin. The upper lip carries a cupid's bow — two
+  // low peaks either side of a central dip — and the lower lip is fullest at the centre, so the mouth has a
+  // shape of its own instead of being two parallel bands. The corner lift is kept small: a wide grin on a
+  // simplified head turns into a rictus, so the smile is carried by the shape of the lips, not their travel.
+  const smile=o.smile==='open'?.0024:.0017,w=.020;
   function lipRibbon(upper){const p=[],idx=[],n=40;
     for(let i=0;i<=n;i++){
-      const x=(i/n*2-1)*w,t=x/w,mid=.023+smile*t*t,th=(upper?.0020:.0027)*Math.pow(Math.max(0,1-t*t),.7);
+      const x=(i/n*2-1)*w,t=x/w,mid=.023+smile*t*t,
+        shape=upper?.76+.40*Math.exp(-Math.pow((Math.abs(t)-.30)/.21,2)):1+.22*Math.exp(-Math.pow(t/.44,2)),
+        th=(upper?.0021:.0028)*Math.pow(Math.max(0,1-t*t),upper?.62:.5)*shape;
       for(const y of [mid,mid+(upper?th:-th)])p.push(x,y,faceZ(x,y)+.0008);
     }
     for(let i=0;i<n;i++){const a=i*2;idx.push(a,a+2,a+1,a+1,a+2,a+3)}
     const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(p,3));g.setIndex(idx);g.computeVertexNormals();const k=mesh(g,lipM,0,0,0,head);k.material.side=THREE.DoubleSide;k.castShadow=false;
   }
   lipRibbon(true);lipRibbon(false);
-  tube(Array.from({length:17},(_,i)=>{const x=(i/16*2-1)*w;return[x,.023+smile*(x/w)**2,.0010]}),.00055,mouthM,32);
+  ribbon(Array.from({length:13},(_,i)=>{const x=(i/12*2-1)*w*.99;return[x,.023+smile*(x/w)**2]}),.00075,mouthM,.0010,30);
   // Hair: a cap tilted back so its front edge forms the hairline; nape piece; style-specific volume.
-  const hm=o.hair?std({color:o.hair,roughness:.72,metalness:.04}):null;
-  if(hm){hm.bumpMap=hairTex;hm.bumpScale=.00035;hm.roughnessMap=hairTex;mesh(hairGeo(o.hairStyle||'short'),hm,0,0,0,head);
-    if(o.hairStyle==='bun'){M_(sphGeo(.042,20,14),hm,0,.115,-.118,1,.92,.86);M_(torGeo(.029,.0042,6,20,PI*2),std({color:tone(o.hair,.55),roughness:.6}),0,.113,-.094)}}
+  // Hair is matt with a slight sheen, not a lacquered shell: the scene environment added at this revision
+  // turned the old low-roughness setting into a plastic highlight across the crown.
+  const hm=o.hair?std({color:o.hair,roughness:.84,metalness:0,envMapIntensity:.22}):null;
+  if(hm){hm.bumpMap=hairTex;hm.bumpScale=.00045;hm.roughnessMap=hairTex;mesh(hairGeo(o.hairStyle||'short'),hm,0,0,0,head);
+    if(o.hairStyle==='bun'){
+      // The bun is seated into the cap and the gathered band widened, so the two volumes meet in a collar
+      // rather than in the hard circle left by a sphere pushed through a shell.
+      const b=M_(sphGeo(.0405,20,14),hm,0,.1145,-.1125,1,.94,.88);
+      const band=mesh(torGeo(.0335,.0062,8,22,PI*2),std({color:tone(o.hair,.62),roughness:.74,envMapIntensity:.2}),0,.1125,-.0845,head);
+      band.rotation.x=.26;band.scale.set(1.06,1,.72);b.castShadow=band.castShadow=false}}
   // Headwear and hearing protection, fitted over the hair.
-  if(o.hardHat){const hh=std({color:o.hardHat,roughness:.32,metalness:.02});const d=M_(capSph(.12,0,PI/2,32,12),hh,0,.12,-.004,.86,.78,1);
-    const br=M_(cylGeo(.125,.128,.007,40),hh,0,.12,.008,.88,1,1.12);
-    const rg=mesh(torGeo(.1,.0075,6,22,PI),hh,0,.12,-.004,head);rg.rotation.y=PI/2;rg.scale.set(1,.94,1.2);
-    M_(sphGeo(.012,10,8),std({color:'#ff7a1a',roughness:.5}),0,.168,.093,1.6,.9,.4)}
+  // Industrial safety helmet: a domed shell with a reinforcing crown rib, a short peak over the brow only and
+  // a narrow drip rim, rather than the full-circle flat brim of the earlier version, which read as a sun hat.
+  if(o.hardHat){const hh=std({color:o.hardHat,roughness:.32,metalness:.02}),hb=std({color:tone(o.hardHat,.9),roughness:.36});
+    M_(capSph(.118,0,PI/2,32,12),hh,0,.118,-.004,.90,.86,1.02);
+    const rim=mesh(torGeo(.1055,.0062,7,36,PI*2),hh,0,.1175,-.004,head);rim.rotation.x=PI/2;rim.scale.set(.99,1.07,1);
+    const rg=mesh(torGeo(.098,.0085,7,22,PI),hh,0,.118,-.004,head);rg.rotation.y=PI/2;rg.scale.set(1,.98,1.18);   // crown rib
+    // Peak: a shallow shell section swept across the front only, tilted down over the brow.
+    {const pk=new THREE.Shape();pk.absellipse(0,0,.098,.058,0,PI*2);
+     const pg=new THREE.ExtrudeGeometry(pk,{depth:.006,bevelEnabled:true,bevelSize:.004,bevelThickness:.003,bevelSegments:2,curveSegments:22});
+     pg.translate(0,0,-.003);smooth(pg);const p=mesh(pg,hb,0,.1095,.072,head);p.rotation.x=1.30;p.scale.set(1,.92,1)}
+    M_(sphGeo(.011,10,8),std({color:'#ff7a1a',roughness:.5}),0,.163,.084,1.5,.85,.4)}
   if(o.pillbox){const pm=std({color:o.pillbox,roughness:.62}),bm=std({color:o.scarf||'#c62f3a',roughness:.5});const g=M_(cylGeo(.044,.048,.04,28),pm,.026,.198,.012);g.rotation.set(-.12,0,-.24);
     const b=M_(cylGeo(.0485,.0485,.011,28),bm,.022,.183,.013);b.rotation.set(-.12,0,-.24)}
   if(o.muffs){const mm=std({color:o.muffs,roughness:.45}),pad=std({color:'#17191b',roughness:.9});
@@ -2786,7 +2937,8 @@ window.__turnaround={Sim,crew,truck,TASKS,World,freshCarts,usedCarts,allItems,ba
 const Explore=(()=>{
   const BODY={hx:.10,hz:.13},WALK=1.2,RUN=2.2,X_MIN=-20.3,X_MAX=15.85,EYE=1.62,STOOP=1.47;
   const S={on:false,started:false,pos:V(-15,0,0),yaw:0,pitch:-.06,ly:0,lp:-.06,vx:0,vz:0,eye:FL+EYE,seat:null,stand:null,
-    held:new Set(),path:[],stalled:0,keys:new Set(),joy:{x:0,y:0,id:null},drag:null,locked:false,saved:null,guideSeen:false,space:null,touch:IS_MOBILE||matchMedia('(pointer:coarse)').matches};
+    held:new Set(),path:[],stalled:0,keys:new Set(),joy:{x:0,y:0,id:null},drag:null,locked:false,saved:null,guideSeen:false,space:null,
+    scroll:{v:0,t:0},run:false,levelling:false,touch:IS_MOBILE||matchMedia('(pointer:coarse)').matches};
   const DEST={
     fwd:{label:'Forward cabin',x:-15.0,z:0,yaw:0,pitch:-.07},
     mid:{label:'Middle cabin',x:-5.12,z:0,yaw:0,pitch:-.07},
@@ -2794,7 +2946,12 @@ const Explore=(()=>{
     fgal:{label:'Forward galley',x:-16.42,z:.6,yaw:-2.42,pitch:-.2},
     agal:{label:'Rear galley',x:13.95,z:0,yaw:0,pitch:-.16},
     lav:{label:'Lavatories',door:0},
-    deck:{label:'Cockpit',door:'deck'}};
+    // Door stations face the doorway across the aisle, so the viewer arrives looking at the thing they chose.
+    d1r:{label:'Door 1R · service door',x:-16.98,z:-.62,yaw:-1.22,pitch:-.05},
+    d1l:{label:'Door 1L · boarding door',x:-16.98,z:.62,yaw:1.22,pitch:-.05},
+    ovw:{label:'Overwing exits',x:-3.6,z:0,yaw:-1.57,pitch:-.03},
+    deck:{label:'Cockpit',door:'deck'},
+    out:{label:'Back outside',exit:true}};
   const DYN=[],cv=renderer.domElement,_f=V(),_p=V();
   const marker=mesh(new THREE.RingGeometry(.09,.13,40),new THREE.MeshBasicMaterial({color:'#70e9dd',transparent:true,opacity:.7,side:THREE.DoubleSide,depthWrite:false}),0,FL+.025,0,scene);marker.rotation.x=-PI/2;marker.castShadow=marker.receiveShadow=false;marker.visible=false;
   const doorById=id=>EXPL.doors.find(D=>D.id===id);
@@ -2830,7 +2987,10 @@ const Explore=(()=>{
     for(const D of EXPL.doors)DYN.push(...D.box());
     for(const c of allCarts){if(!c.mesh.visible)continue;const p=c.mesh.getWorldPosition(_p);if(!(p.x>-19&&p.x<16&&Math.abs(p.z)<1.95&&p.y>FL-.3&&p.y<FL+.5))continue;
       const y=yawOfObj(c.mesh),cs=Math.abs(Math.cos(y)),sn=Math.abs(Math.sin(y)),ex=cs*c.L/2+sn*c.W/2+.015,ez=sn*c.L/2+cs*c.W/2+.015;DYN.push({x0:p.x-ex,x1:p.x+ex,z0:p.z-ez,z1:p.z+ez,tag:'trolley'})}
-    for(const c of crew){const p=c.world(_p);if(!(p.x>-19&&p.x<16&&Math.abs(p.z)<1.95&&p.y>FL-.3&&p.y<FL+.6))continue;DYN.push({x0:p.x-.17,x1:p.x+.17,z0:p.z-.17,z1:p.z+.17,tag:c.role})}}
+    // Crew are deliberately not obstacles. Walking the aisle during a turnaround means meeting people in it, and
+    // a solid crew member in a 0.5 m aisle traps the viewer or shoves them into the seats. Trolleys and doors
+    // still block, because walking through a trolley reads as a modelling fault rather than as politeness.
+  }
   // Head height: standing in the aisle, a slight stoop under the overhead bins, seated eye height in a seat.
   function eyeAt(x,z){if(x>-16.62&&x<13.0)return FL+lerp(EYE,STOOP,smooth01((Math.abs(z)-.36)/.26));return FL+EYE}
   function spaceOf(x,z){const p=_p.set(x,FL,z);for(const D of EXPL.lavs)if(D.inside(p))return D;return x<-18.62?'deck':null}
@@ -2859,6 +3019,7 @@ const Explore=(()=>{
   function place(x,z,yaw,pitch){stopWalk();S.seat=null;S.pos.set(x,0,z);S.vx=S.vz=0;S.yaw=S.ly=yaw;S.pitch=S.lp=pitch;dynamics();rescue();S.eye=eyeAt(S.pos.x,S.pos.z);flash()}
   function goTo(key,arg){
     const d=DEST[key];if(!d)return;
+    if(d.exit){closeDest();exitTo();return}
     if(d.door!==undefined){const D=d.door==='deck'?doorById('deck'):EXPL.lavs[arg!==undefined?arg:d.door];D.target=1;D.open=1;D.apply(1);const v=D.inView;place(v.x,v.z,v.yaw,v.pitch);say(D.name==='Flight deck door'?'Flight deck · observer position':D.name)}
     else{place(d.x,d.z,d.yaw,d.pitch);say(d.label)}
     closeDest();refreshButtons()}
@@ -2874,11 +3035,11 @@ const Explore=(()=>{
   function sit(st){if(!st)return;stopWalk();S.stand=st.stand?{x:st.stand[0],z:st.stand[1]}:{x:st.x,z:0};S.seat=st;S.vx=S.vz=0;S.yaw=S.ly=PI;S.pitch=S.lp=-.1;S.eye=FL+st.y;flash();
     say(st.cls==='Flight deck'?st.label+"'s seat":'Seat '+st.label+' · '+st.cls);refreshButtons()}
   function stand(){if(!S.seat)return;const p=S.stand;S.seat=null;S.pos.set(p.x,0,p.z);dynamics();rescue();S.eye=eyeAt(S.pos.x,S.pos.z);flash();refreshButtons()}
-  function look(dx,dy){S.yaw=wrapA(S.yaw+dx);S.pitch=clamp(S.pitch-dy,-1.25,1.25)}
+  function look(dx,dy){S.levelling=false;S.yaw=wrapA(S.yaw+dx);S.pitch=clamp(S.pitch-dy,-1.25,1.25)}
   function openDest(){closeMenus();ui.dest.hidden=false;ui.destBtn.setAttribute('aria-expanded','true')}
   function closeDest(){ui.dest.hidden=true;ui.destBtn.setAttribute('aria-expanded','false')}
 
-  function stopWalk(){S.held.clear();S.path=[];S.vx=S.vz=0;S.stalled=0;marker.visible=false;document.querySelectorAll('[data-walk]').forEach(b=>b.setAttribute('aria-pressed','false'))}
+  function stopWalk(){S.held.clear();S.path=[];S.vx=S.vz=0;S.scroll.v=0;S.stalled=0;marker.visible=false;document.querySelectorAll('[data-walk]').forEach(b=>b.setAttribute('aria-pressed','false'))}
   function clearSegment(a,b){const n=Math.max(1,Math.ceil(Math.hypot(b.x-a.x,b.z-a.z)/.045));for(let i=1;i<=n;i++)if(!free(lerp(a.x,b.x,i/n),lerp(a.z,b.z,i/n)))return false;return true}
   function routeTo(x,z){
     if(S.seat){say('Use Stand up before walking');return}dynamics();const goal={x,z},start={x:S.pos.x,z:S.pos.z};
@@ -2938,12 +3099,14 @@ const Explore=(()=>{
   // ---------------- Per-frame update (runs while playing, paused or complete) ----------------
   function update(dt){
     dt=Math.min(dt,.1);
-    {const k=S.keys,turn=menusOpen()?0:(k.has('ArrowRight')||S.held.has('turnRight')?1:0)-(k.has('ArrowLeft')||S.held.has('turnLeft')?1:0);if(turn)S.yaw=wrapA(S.yaw+turn*1.7*dt)}
+    {const k=S.keys,busy=menusOpen(),turn=busy?0:(k.has('ArrowRight')||S.held.has('turnRight')?1:0)-(k.has('ArrowLeft')||S.held.has('turnLeft')?1:0);if(turn)S.yaw=wrapA(S.yaw+turn*1.7*dt);
+     const tilt=busy?0:(S.held.has('lookUp')?1:0)-(S.held.has('lookDown')?1:0);if(tilt)S.pitch=clamp(S.pitch+tilt*1.25*dt,-1.25,1.25);
+     if(S.levelling){S.pitch=toward(S.pitch,0,2.6*dt);if(Math.abs(S.pitch)<.004){S.pitch=0;S.levelling=false}}}
     for(const D of EXPL.doors){if(D.open!==D.target){D.open=D.target>D.open?Math.min(D.target,D.open+dt*1.5):Math.max(D.target,D.open-dt*1.5);D.apply(smooth01(D.open))}}
     dynamics();
     if(!S.seat){
       if(!free(S.pos.x,S.pos.z))rescue();
-      const k=S.keys,run=k.has('ShiftLeft')||k.has('ShiftRight'),busy=menusOpen();
+      const k=S.keys,run=S.run||k.has('ShiftLeft')||k.has('ShiftRight'),busy=menusOpen();
       let f=busy?0:(k.has('KeyW')||k.has('ArrowUp')||S.held.has('forward')?1:0)-(k.has('KeyS')||k.has('ArrowDown')||S.held.has('back')?1:0)+S.joy.y,
           r=busy?0:(k.has('KeyD')||S.held.has('right')?1:0)-(k.has('KeyA')||S.held.has('left')?1:0)+S.joy.x;
       const m=Math.hypot(f,r);if(m>1){f/=m;r/=m}
@@ -2955,10 +3118,18 @@ const Explore=(()=>{
       }
       const kk=1-Math.exp(-(m>.01||S.path.length?9:12)*dt);S.vx+=(tvx-S.vx)*kk;S.vz+=(tvz-S.vz)*kk;
       if(Math.hypot(S.vx,S.vz)<.004){S.vx=S.vz=0}
-      if(S.vx||S.vz){const [mx,mz]=move(S.vx*dt,S.vz*dt);if(dt>0){const want=Math.hypot(S.vx,S.vz)*dt,got=Math.hypot(mx,mz);if(got<want*.3){S.stalled+=dt;S.vx=mx/dt;S.vz=mz/dt}else S.stalled=0;if(S.stalled>.55&&S.path.length){stopWalk();say('The aisle is blocked here. Choose another spot or use Go to.')}}}
+      // Wheel throttle: decays towards zero so the view coasts to a stop instead of stopping dead, and is added
+      // outside the smoothing filter so the response to a roll is immediate rather than ramped.
+      if(busy)S.scroll.v=0;else if(S.scroll.v){S.scroll.v*=Math.exp(-dt/.38);if(Math.abs(S.scroll.v)<.03)S.scroll.v=0}
+      const wx=Math.cos(S.yaw)*S.scroll.v,wz=Math.sin(S.yaw)*S.scroll.v,ax=S.vx+wx,az=S.vz+wz;
+      if(ax||az){const [mx,mz]=move(ax*dt,az*dt);if(dt>0){const want=Math.hypot(ax,az)*dt,got=Math.hypot(mx,mz);
+        if(got<want*.3){S.stalled+=dt;S.vx=mx/dt-wx;S.vz=mz/dt-wz;if(Math.abs(S.scroll.v)>.05)S.scroll.v*=.25}else S.stalled=0;
+        if(S.stalled>.55&&S.path.length){stopWalk();say('The aisle is blocked here. Choose another spot or use Go to.')}}}
       S.eye+=(eyeAt(S.pos.x,S.pos.z)-S.eye)*(1-Math.exp(-7*dt));
     }else{
-      const k=S.keys;if(!menusOpen()&&(['KeyW','KeyS','KeyA','KeyD','ArrowUp','ArrowDown'].some(c=>k.has(c))||S.held.size||Math.hypot(S.joy.x,S.joy.y)>.35))stand();
+      // Looking around from a seat must not stand the viewer up; only an actual movement input does.
+      const k=S.keys,moveHeld=['forward','back','left','right'].some(h=>S.held.has(h));
+      if(!menusOpen()&&(['KeyW','KeyS','KeyA','KeyD','ArrowUp','ArrowDown'].some(c=>k.has(c))||moveHeld||Math.hypot(S.joy.x,S.joy.y)>.35))stand();
       S.eye+=(FL+(S.seat?S.seat.y:EYE)-S.eye)*(1-Math.exp(-9*dt));
     }
     const kl=1-Math.exp(-30*dt);S.ly+=wrapA(S.yaw-S.ly)*kl;S.lp+=(S.pitch-S.lp)*kl;
@@ -3004,18 +3175,33 @@ const Explore=(()=>{
   });
   cv.addEventListener('pointerup',e=>{const d=S.drag;if(!d||d.id!==e.pointerId)return;S.drag=null;if(S.on&&!d.moved&&d.button===0)floorClick(e)});
   const cancelDrag=()=>{S.drag=null};cv.addEventListener('pointercancel',cancelDrag);cv.addEventListener('lostpointercapture',cancelDrag);
-  cv.addEventListener('wheel',e=>{if(!S.on)return;e.preventDefault();if(S.seat){say('Use Stand up before walking');return}stopWalk();dynamics();
-    const dist=clamp(-e.deltaY*.007,-1.8,1.8),from={x:S.pos.x,z:S.pos.z};let target=null;
-    for(let t=.05;t<=Math.abs(dist);t+=.05){const d=t*Math.sign(dist),p={x:from.x+Math.cos(S.yaw)*d,z:from.z+Math.sin(S.yaw)*d};if(!free(p.x,p.z))break;target=p}
-    if(target){S.path=[target];marker.position.set(target.x,FL+.025,target.z)}
+  // The wheel is a throttle, not a teleport. Each notch adds to a forward speed that decays over about half a
+  // second, so a single click is a step, steady rolling is a walk and fast rolling breaks into a run: the harder
+  // you roll, the faster you go. deltaY is normalised across devices first, because a trackpad reports many small
+  // deltas where a mouse reports a few large ones, and lines or pages instead of pixels on some browsers.
+  cv.addEventListener('wheel',e=>{if(!S.on)return;e.preventDefault();if(S.seat){say('Use Stand up before walking');return}
+    if(S.path.length)stopWalk();
+    // One notch is about 0.75 m/s, which decays to a single step. Rolling steadily settles near walking pace
+    // and rolling hard settles near 2.7 m/s, so the whole useful range is reachable by how fast you turn the
+    // wheel. The ceiling is above the run speed on purpose: it is the fast end of the range, not a second gear.
+    const unit=e.deltaMode===1?16:e.deltaMode===2?400:1,d=clamp(-e.deltaY*unit,-200,200);
+    S.scroll.v=clamp(S.scroll.v+d*.0075,-3.2,3.2);S.scroll.t=0;
   },{passive:false});
   ui.door.addEventListener('click',()=>toggleDoor(nearestDoor(2.7)));
   document.querySelectorAll('[data-walk]').forEach(b=>{
     b.setAttribute('aria-pressed','false');
-    b.addEventListener('pointerdown',e=>{if(!S.on)return;e.preventDefault();S.path=[];marker.visible=false;S.held.add(b.dataset.walk);b.setAttribute('aria-pressed','true');b.setPointerCapture(e.pointerId)});
+    // Looking up or down is not a movement, so it neither cancels a walk in progress nor the wheel throttle.
+    const aim=b.dataset.walk==='lookUp'||b.dataset.walk==='lookDown';
+    b.addEventListener('pointerdown',e=>{if(!S.on)return;e.preventDefault();
+      if(aim)S.levelling=false;else{S.path=[];S.scroll.v=0;marker.visible=false}
+      S.held.add(b.dataset.walk);b.setAttribute('aria-pressed','true');b.setPointerCapture(e.pointerId)});
     const up=()=>{S.held.delete(b.dataset.walk);b.setAttribute('aria-pressed','false')};b.addEventListener('pointerup',up);b.addEventListener('pointercancel',up);b.addEventListener('lostpointercapture',up);
   });
   $id('navStop').addEventListener('click',()=>{stopWalk();say('Stopped')});
+  // Pace and view levelling, so neither running nor straightening the view needs a key or a precise drag.
+  $id('navPace').addEventListener('click',e=>{S.run=!S.run;const b=e.currentTarget;
+    b.setAttribute('aria-pressed',String(S.run));txt(b,S.run?'⇥ Pace: brisk':'⇥ Pace: walk');say(S.run?'Brisk pace':'Walking pace')});
+  $id('navLevel').addEventListener('click',()=>{S.levelling=true;say('Levelling the view')});
   addEventListener('blur',()=>{S.keys.clear();stopWalk();S.drag=null});
   document.addEventListener('visibilitychange',()=>{if(document.hidden){S.keys.clear();stopWalk();S.drag=null}});
   // Touch joystick: walk with the left thumb while the other thumb drags to look.
